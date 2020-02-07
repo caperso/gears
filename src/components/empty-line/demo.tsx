@@ -1,7 +1,7 @@
 import React from 'react';
-import { EmptyLine } from '.';
+import { EmptyLine } from '../empty-line';
 
-export const demo = () => {
+export const EmptyLineDemo = () => {
     return (
         <div>
             <h3>组件名称：空行（EmptyLine）</h3>

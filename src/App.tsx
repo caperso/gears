@@ -2,7 +2,7 @@ import { Icon, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
 import './App.scss';
-import { IRouteCfgProps, routeCfg } from './config';
+import { IRouteCfgProps, routeCfg } from './config/index';
 import { NotFound } from './pages/NotFound';
 
 const { Header, Sider, Content } = Layout;

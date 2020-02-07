@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Icon, Row, Statistic } from 'antd';
+import { Avatar, Card, Col, Row } from 'antd';
 import React from 'react';
 import img from './assets/panda.png';
 import './style.scss';
@@ -21,7 +21,7 @@ const Home = () => {
                     />
                 </Col>
                 <Col style={{ marginTop: -13 }} span={4}>
-                    <Statistic title="当前组件总数" value={routeCfg[1].routes?.length} prefix={<Icon type="like" />} />
+                    {/* <Statistic title="当前组件总数" value={routeCfg[1].routes?.length} prefix={<Icon type="like" />} /> */}
                 </Col>
             </Row>
             <div className="img-wrapper">
