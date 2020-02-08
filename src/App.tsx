@@ -1,10 +1,9 @@
 import { Icon, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
-import './App.scss';
+import './App.less';
 import { IRouteCfgProps, routeCfg } from './config/index';
 import { NotFound } from './pages/NotFound';
-
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
@@ -22,67 +21,58 @@ export function RouteWithSubRoutes(route: IRouteCfgProps) {
 
 const App: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const toggle = () => setCollapsed(!collapsed);
 
-    function toggle() {
-        setCollapsed(!collapsed);
-    }
+    const menuTitle = (routeItem: IRouteCfgProps) => (
+        <span>
+            {routeItem.icon && <Icon type={routeItem.icon} />}
+            <span>{routeItem.title}</span>
+        </span>
+    );
 
     return (
         <div className="App">
-                <Layout>
-                    <Sider trigger={null} collapsible collapsed={collapsed}>
-                        <div className="logo" />
-                        <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
-                            {routeCfg.map(routeItem => {
-                                if (routeItem.routes) {
-                                    return (
-                                        <SubMenu
-                                            key={routeItem.key}
-                                            title={
-                                                <span>
-                                                    {routeItem.icon && <Icon type={routeItem.icon} />}
-                                                    <span>{routeItem.title}</span>
-                                                </span>
-                                            }
-                                        >
-                                            {routeItem.routes.map(subItem => (
-                                                <Menu.Item key={subItem.key}>
-                                                    <NavLink to={subItem.path}>
-                                                        {subItem.icon && <Icon type={subItem.icon} />}
-                                                        <span>{subItem.title}</span>
-                                                    </NavLink>
-                                                </Menu.Item>
-                                            ))}
-                                        </SubMenu>
-                                    );
-                                } else if (routeItem.component) {
-                                    return (
-                                        <Menu.Item key={routeItem.key}>
-                                            <NavLink to={routeItem.path}>
-                                                {routeItem.icon && <Icon type={routeItem.icon} />}
-                                                <span>{routeItem.title}</span>
+            <Layout>
+                <Sider trigger={null} collapsible collapsed={collapsed}>
+                    <div className="logo" />
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
+                        {routeCfg.map(routeItem => {
+                            return routeItem.routes ? (
+                                <SubMenu key={routeItem.key} title={menuTitle(routeItem)}>
+                                    {routeItem.routes.map(subItem => (
+                                        <Menu.Item key={subItem.key}>
+                                            <NavLink to={subItem.path}>
+                                                {subItem.icon && <Icon type={subItem.icon} />}
+                                                <span>{subItem.title}</span>
                                             </NavLink>
                                         </Menu.Item>
-                                    );
-                                }
-                                return null;
-                            })}
-                        </Menu>
-                    </Sider>
-                    <Layout>
-                        <Header style={{ background: '#fff', padding: 0 }}>
-                            <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={toggle} />
-                        </Header>
-                        <Content className="App-content">
-                            <Switch>
-                                {routeCfg.map(route => (
-                                    <RouteWithSubRoutes key={route.key} {...route} />
-                                ))}
-                                <Route component={NotFound} />
-                            </Switch>
-                        </Content>
-                    </Layout>
+                                    ))}
+                                </SubMenu>
+                            ) : routeItem.component ? (
+                                <Menu.Item key={routeItem.key}>
+                                    <NavLink to={routeItem.path}>
+                                        {routeItem.icon && <Icon type={routeItem.icon} />}
+                                        <span>{routeItem.title}</span>
+                                    </NavLink>
+                                </Menu.Item>
+                            ) : null;
+                        })}
+                    </Menu>
+                </Sider>
+                <Layout>
+                    <Header style={{ background: '#fff', padding: 0 }}>
+                        <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={toggle} />
+                    </Header>
+                    <Content className="App-content">
+                        <Switch>
+                            {routeCfg.map(route => (
+                                <RouteWithSubRoutes key={route.key} {...route} />
+                            ))}
+                            <Route component={NotFound} />
+                        </Switch>
+                    </Content>
                 </Layout>
+            </Layout>
         </div>
     );
 };

@@ -3,7 +3,6 @@ import { EmptyLineDemo } from '../components/empty-line/demo';
 import { Component } from '../pages/Component';
 import Home from '../pages/Home';
 
-
 export interface IRouteSubProps {
   key: string;
   title: string;
