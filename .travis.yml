@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+    - 12.12.0
+before_script:
+    - npm install yarn
+
+script:
+    - yarn install
+    - yarn build
+
+cache: yarn
+
+branches:
+    only:
+        - master
+
+# after_success:
+#     - mkdir dist
+#     - cp -r build/ dist/
+#把 build 文件推送到 github production 分支下
+deploy:
+    provider: pages
+    skip_cleanup: true
+    github_token: $DEPLOY_REPO
+    keep_history: true
+    target_branch: production
+    committer_from_gh: true
+    on:
+        branch: master
+        local_dir: build
