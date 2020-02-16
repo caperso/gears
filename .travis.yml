@@ -14,9 +14,10 @@ branches:
     only:
         - master
 
-# after_success:
-#     - mkdir dist
-#     - cp -r build/ dist/
+after_success:
+#   - mkdir dist
+#   - cp -r build/ dist/
+    - rm -rf `ls | grep -v "^build$"`
 #把 build 文件推送到 github production 分支下
 deploy:
     provider: pages
