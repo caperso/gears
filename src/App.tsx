@@ -2,12 +2,12 @@ import { Icon, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
 import './App.less';
-import { IRouteCfgProps, routeCfg } from './config/index';
+import { IRouteConfigs, routeConfig } from './config/index';
 import { NotFound } from './pages/NotFound';
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
-export function RouteWithSubRoutes(route: IRouteCfgProps) {
+export function RouteWithSubRoutes(route: IRouteConfigs) {
     return (
         <Route
             path={route.path}
@@ -23,7 +23,7 @@ const App: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const toggle = () => setCollapsed(!collapsed);
 
-    const menuTitle = (routeItem: IRouteCfgProps) => (
+    const menuTitle = (routeItem: IRouteConfigs) => (
         <span>
             {routeItem.icon && <Icon type={routeItem.icon} />}
             <span>{routeItem.title}</span>
@@ -36,7 +36,7 @@ const App: React.FC = () => {
                 <Sider trigger={null} collapsible collapsed={collapsed}>
                     <div className="logo" />
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
-                        {routeCfg.map(routeItem => {
+                        {routeConfig.map(routeItem => {
                             return routeItem.routes ? (
                                 <SubMenu key={routeItem.key} title={menuTitle(routeItem)}>
                                     {routeItem.routes.map(subItem => (
@@ -65,7 +65,7 @@ const App: React.FC = () => {
                     </Header>
                     <Content className="App-content">
                         <Switch>
-                            {routeCfg.map(route => (
+                            {routeConfig.map(route => (
                                 <RouteWithSubRoutes key={route.key} {...route} />
                             ))}
                             <Route component={NotFound} />
