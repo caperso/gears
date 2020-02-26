@@ -12,8 +12,7 @@ const { SubMenu } = Menu;
  * @param {IRouteConfigs} route
  * @returns
  */
-function RouteWithSubRoutes(route: IRouteConfigs) {
-    console.log(route);
+export function RouteWithSubRoutes(route: IRouteConfigs) {
     return (
         <Route
             path={route.path}
@@ -59,7 +58,7 @@ const App: React.FC = () => {
             ) : null;
         });
     };
-    
+
     return (
         <div className="App">
             <Layout>
@@ -75,6 +74,7 @@ const App: React.FC = () => {
                     </Header>
                     <Content className="App-content">
                         <Switch>
+                            123
                             {routeConfig.map(route => (
                                 <RouteWithSubRoutes key={route.key} {...route} />
                             ))}

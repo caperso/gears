@@ -1,8 +1,7 @@
 // components
-import { EmptyLineDemo } from 'components/empty-line/demo';
 import { ImagePreviewDemo } from 'components/image-preview/demo';
 import { Levels } from 'components/levels/Levels';
-import { Component } from '../pages/Component';
+import Component from 'pages/Component';
 import Home from '../pages/Home';
 
 export interface IRouteSubs {
@@ -44,12 +43,6 @@ export const routeConfig: IRouteConfigs[] = [
     component: Component,
     path: '/comp',
     routes: [
-      {
-        key: 'image',
-        title: 'konghang',
-        component: EmptyLineDemo,
-        path: '/comp/empty',
-      },
       {
         key: 'image-preview',
         title: '图片预览 · ImagePreview',
