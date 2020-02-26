@@ -1,10 +1,11 @@
+import { Modal } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 interface IProps {
     url: string;
-    showPreviewModal: boolean;
-    closePreviewModal: () => void;
+    showPreview: boolean;
+    closePreview: () => void;
 }
 
 const initImageState = {
@@ -30,14 +31,14 @@ const initContainerState = {
 };
 
 export function ImagePreview(this: any, props: IProps) {
-    const { url, showPreviewModal, closePreviewModal } = props;
+    const { url, showPreview, closePreview } = props;
 
     const [imageState, setImageState] = useState(initImageState);
     const [containerState, setContainerState] = useState(initContainerState);
 
     // 设定图片的预设大小
-    let container: { current: HTMLDivElement | undefined } = useRef();
-    let image: { current: HTMLImageElement | undefined } = useRef();
+    let container = useRef<HTMLDivElement>(null);
+    let image = useRef<HTMLImageElement>(null);
 
     /* 初始化容器大小 */
     useEffect(() => {
@@ -75,7 +76,7 @@ export function ImagePreview(this: any, props: IProps) {
                 sizing(image.current);
             }
         }, 0);
-    }, [showPreviewModal]);
+    }, [showPreview]);
 
     // 放大
     const zoomIn = () => setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
@@ -105,15 +106,12 @@ export function ImagePreview(this: any, props: IProps) {
 
     /* 滚轮时缩放 */
     const toScale = (e: any) => {
-        if (!image || !image.current) {
-            return console.warn('图片元素未找到');
-        }
         e.stopPropagation();
         // 缩放差数
         let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05; // 放大*1.05/缩小*0.95
         console.log('缩放比例', scaleDelta);
         // 捕获元素盒子宽高属性
-        const rect = image.current.getBoundingClientRect();
+        const rect = image.current!.getBoundingClientRect();
         const imageOffWindowLeft = rect.left;
         const imageOffWindowTop = rect.top;
         let imageWidth = rect.width;
@@ -165,22 +163,16 @@ export function ImagePreview(this: any, props: IProps) {
 
     // 拖拽开关
     const drag = (e: any) => {
-        if (!image || !image.current) {
-            return console.warn('图片元素未找到');
-        }
         e.preventDefault();
         e.persist();
         console.log('drag');
         setDraggable(true);
-        setDisX(e.clientX - image.current.offsetLeft);
-        setDisY(e.clientY - image.current.offsetTop);
+        setDisX(e.clientX - image.current!.offsetLeft);
+        setDisY(e.clientY - image.current!.offsetTop);
     };
 
     // 拖拽移动
     const startMove = function(e: any) {
-        if (!container || !container.current) {
-            return console.warn('图片元素未找到');
-        }
         if (draggable) {
             let l = e.clientX - disX;
             let t = e.clientY - disY;
@@ -189,7 +181,7 @@ export function ImagePreview(this: any, props: IProps) {
                 const updateState = { ...s, l, t };
                 return updateState;
             });
-            container.current.onselectstart = function() {
+            container.current!.onselectstart = function() {
                 return false;
             };
         }
@@ -197,16 +189,13 @@ export function ImagePreview(this: any, props: IProps) {
 
     // 拖拽结束
     const endMove = function(e: any) {
-        if (!container || !container.current) {
-            return console.warn('图片元素未找到');
-        }
         setDraggable(false);
-        container.current.onselectstart = null;
+        container.current!.onselectstart = null;
     };
 
     // 关闭modal 复位图片
     const closeModal = () => {
-        closePreviewModal();
+        closePreview();
         setImageState(initImageState);
         setContainerState(initContainerState);
     };
@@ -232,11 +221,11 @@ export function ImagePreview(this: any, props: IProps) {
     `;
 
     return (
-        <Wrapper>
+        <ModalPreviewWrapper onCancel={closeModal} footer={null} visible={showPreview}>
             <div>图片预览</div>
             <Preview>
-                <div id="preview-container"  onMouseMove={startMove} onMouseUp={endMove}>
-                    <img id="preview-image" src={url} alt="图片" onWheel={toScale} onMouseDown={drag}  />
+                <div id="preview-container" ref={container} onMouseMove={startMove} onMouseUp={endMove}>
+                    <img id="preview-image" ref={image} src={url} alt="图片" onWheel={toScale} onMouseDown={drag} />
                 </div>
             </Preview>
             <div className="operation-bar">
@@ -245,15 +234,29 @@ export function ImagePreview(this: any, props: IProps) {
                 <i className="iconfont operator icon-rotate" onClick={rotateClockwise} />
                 <i className="iconfont operator icon-down-load" />
             </div>
-        </Wrapper>
+        </ModalPreviewWrapper>
     );
 }
 
-const Wrapper = styled.div`
+const ModalPreviewWrapper = styled(Modal)`
     display: flex;
     justify-content: center;
     top: 40px !important;
     padding-bottom: 0 !important;
+
+    /* hack */
+    && {
+        .ant-modal-content {
+            background: #f5f5f5;
+        }
+        .ant-modal-body {
+            padding: 12px;
+        }
+        .ant-modal-close-x {
+            line-height: 30px;
+            width: 37px;
+        }
+    }
 
     .operation-bar {
         width: 100%;
