@@ -7,7 +7,13 @@ import { NotFound } from './pages/NotFound';
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
-export function RouteWithSubRoutes(route: IRouteConfigs) {
+/**
+ * returns nested routes
+ * @param {IRouteConfigs} route
+ * @returns
+ */
+function RouteWithSubRoutes(route: IRouteConfigs) {
+    console.log(route);
     return (
         <Route
             path={route.path}
@@ -30,33 +36,37 @@ const App: React.FC = () => {
         </span>
     );
 
+    const renderItems = () => {
+        return routeConfig.map(routeItem => {
+            return routeItem.routes ? (
+                <SubMenu key={routeItem.key} title={menuTitle(routeItem)}>
+                    {routeItem.routes.map(subItem => (
+                        <Menu.Item key={subItem.key}>
+                            <NavLink to={subItem.path}>
+                                {subItem.icon && <Icon type={subItem.icon} />}
+                                <span>{subItem.title}</span>
+                            </NavLink>
+                        </Menu.Item>
+                    ))}
+                </SubMenu>
+            ) : routeItem.component ? (
+                <Menu.Item key={routeItem.key}>
+                    <NavLink to={routeItem.path}>
+                        {routeItem.icon && <Icon type={routeItem.icon} />}
+                        <span>{routeItem.title}</span>
+                    </NavLink>
+                </Menu.Item>
+            ) : null;
+        });
+    };
+    
     return (
         <div className="App">
             <Layout>
                 <Sider trigger={null} collapsible collapsed={collapsed}>
                     <div className="logo" />
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
-                        {routeConfig.map(routeItem => {
-                            return routeItem.routes ? (
-                                <SubMenu key={routeItem.key} title={menuTitle(routeItem)}>
-                                    {routeItem.routes.map(subItem => (
-                                        <Menu.Item key={subItem.key}>
-                                            <NavLink to={subItem.path}>
-                                                {subItem.icon && <Icon type={subItem.icon} />}
-                                                <span>{subItem.title}</span>
-                                            </NavLink>
-                                        </Menu.Item>
-                                    ))}
-                                </SubMenu>
-                            ) : routeItem.component ? (
-                                <Menu.Item key={routeItem.key}>
-                                    <NavLink to={routeItem.path}>
-                                        {routeItem.icon && <Icon type={routeItem.icon} />}
-                                        <span>{routeItem.title}</span>
-                                    </NavLink>
-                                </Menu.Item>
-                            ) : null;
-                        })}
+                        {renderItems()}
                     </Menu>
                 </Sider>
                 <Layout>
