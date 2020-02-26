@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import './index.scss';
 
 interface IProps {
     url: string;
@@ -200,86 +200,68 @@ export function ImagePreview(this: any, props: IProps) {
         setContainerState(initContainerState);
     };
 
-    const Preview = styled.div`
-        #preview-container {
-            overflow: hidden;
-            position: relative;
-            width: ${containerState.w}px;
-            height: ${containerState.h}px;
-            max-height: ${containerState.hMax}px;
-            max-width: ${containerState.wMax}px;
-        }
-        #preview-image {
-            cursor: move;
-            position: absolute;
-            left: ${imageState.l}px;
-            top: ${imageState.t}px;
-            width: ${imageState.w}px;
-            height: ${imageState.h}px;
-            transform: translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s});
-        }
-    `;
+    // doesn't work
+    // const containerStyle = {
+    //     overflow: 'hidden',
+    //     position: 'relative',
+    //     width: `${containerState.w}px`,
+    //     height: `${containerState.h}px`,
+    //     maxHeight: `${containerState.hMax}px`,
+    //     maxWidth: `${containerState.wMax}px`,
+    // };
+
+    // doesn't work
+    // const imageStyle = {
+    //     cursor: ` move`,
+    //     position: ` absolute`,
+    //     left: ` ${imageState.l}px`,
+    //     top: ` ${imageState.t}px`,
+    //     width: ` ${imageState.w}px`,
+    //     height: ` ${imageState.h}px`,
+    //     transform: ` translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
+    // };
 
     return (
-        <ModalPreviewWrapper onCancel={closeModal} footer={null} visible={showPreview}>
+        <Modal className="preview-modal" onCancel={closeModal} footer={null} visible={showPreview}>
             <div>图片预览</div>
-            <Preview>
-                <div id="preview-container" ref={container} onMouseMove={startMove} onMouseUp={endMove}>
-                    <img id="preview-image" ref={image} src={url} alt="图片" onWheel={toScale} onMouseDown={drag} />
-                </div>
-            </Preview>
+            <div
+                id="preview-container"
+                ref={container}
+                style={{
+                    overflow: 'hidden',
+                    position: 'relative',
+                    width: `${containerState.w}px`,
+                    height: `${containerState.h}px`,
+                    maxHeight: `${containerState.hMax}px`,
+                    maxWidth: `${containerState.wMax}px`,
+                }}
+                onMouseMove={startMove}
+                onMouseUp={endMove}
+            >
+                <img
+                    id="preview-image"
+                    style={{
+                        cursor: `move`,
+                        position: `absolute`,
+                        left: `${imageState.l}px`,
+                        top: `${imageState.t}px`,
+                        width: `${imageState.w}px`,
+                        height: `${imageState.h}px`,
+                        transform: `translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
+                    }}
+                    ref={image}
+                    src={url}
+                    alt="图片"
+                    onWheel={toScale}
+                    onMouseDown={drag}
+                />
+            </div>
             <div className="operation-bar">
                 <i className="iconfont operator icon-zoom-in" onClick={zoomIn} />
                 <i className="iconfont operator icon-zoom-out" onClick={zoomOut} />
                 <i className="iconfont operator icon-rotate" onClick={rotateClockwise} />
                 <i className="iconfont operator icon-down-load" />
             </div>
-        </ModalPreviewWrapper>
+        </Modal>
     );
 }
-
-const ModalPreviewWrapper = styled(Modal)`
-    display: flex;
-    justify-content: center;
-    top: 40px !important;
-    padding-bottom: 0 !important;
-
-    /* hack */
-    && {
-        .ant-modal-content {
-            background: #f5f5f5;
-        }
-        .ant-modal-body {
-            padding: 12px;
-        }
-        .ant-modal-close-x {
-            line-height: 30px;
-            width: 37px;
-        }
-    }
-
-    .operation-bar {
-        width: 100%;
-        height: 50px;
-        display: flex;
-        line-height: 50px;
-        align-items: center;
-        flex-flow: row nowrap;
-        justify-content: center;
-        .operator {
-            color: #9d9d96;
-            font-size: 26px;
-            cursor: pointer;
-            margin-left: 30px;
-            background: none;
-            border: none;
-            outline: none;
-            :hover {
-                color: rgba(0, 120, 215, 0.8);
-            }
-            &:first-child {
-                margin: 0;
-            }
-        }
-    }
-`;
