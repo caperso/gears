@@ -1,5 +1,6 @@
 // components
-import { EmptyLineDemo } from '../components/empty-line/demo';
+import { ImagePreview } from 'components/image-preview/ImagePreview';
+import { Levels } from 'components/levels/Levels';
 import { Component } from '../pages/Component';
 import Home from '../pages/Home';
 
@@ -42,23 +43,17 @@ export const routeConfig: IRouteConfigs[] = [
     component: Component,
     path: '/comp',
     routes: [
-      // {
-      //   key: 'card',
-      //   title: '卡片·Card',
-      //   component: Card,
-      //   path: '/comp/card',
-      // },
-    //   {
-    //     key: 'descriptions',
-    //     title: '简介·Descriptions',
-    //     component: Descriptions,
-    //     path: '/comp/descriptions',
-    //   },
       {
-        key: 'empty-line',
-        title: '空行·EmptyLine',
-        component: EmptyLineDemo,
-        path: '/comp/empty-line',
+        key: 'image-preview',
+        title: '图片预览 · ImagePreview',
+        component: ImagePreview,
+        path: '/comp/image-preview',
+      },
+      {
+        key: 'levels',
+        title: '阶级导航 · Levels',
+        component: Levels,
+        path: '/comp/levels',
       },
     ],
   },
