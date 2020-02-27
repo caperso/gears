@@ -1,10 +1,10 @@
 import { Modal } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './index.scss';
 
 interface IProps {
     url: string;
-    title?:string;
+    title?: string;
     showPreview: boolean;
     closePreview: () => void;
 }
@@ -32,7 +32,7 @@ const initContainerState = {
 };
 
 export function ImagePreview(this: any, props: IProps) {
-    const { url, showPreview, closePreview, title='图片预览' } = props;
+    const { url, showPreview, closePreview, title = '图片预览' } = props;
 
     const [imageState, setImageState] = useState(initImageState);
     const [containerState, setContainerState] = useState(initContainerState);
@@ -42,42 +42,39 @@ export function ImagePreview(this: any, props: IProps) {
     let image = useRef<HTMLImageElement>(null);
 
     /* 初始化容器大小 */
-    useEffect(() => {
-        /** 根据窗口比例调整内部Modal的限高/宽 */
-        const sizing = (node: HTMLImageElement) => {
-            const wMax = window.innerWidth * 0.9;
-            const hMax = window.innerHeight * 0.9 - 100; // 100为底部功能栏高度保留
+    const sizing = (node: HTMLImageElement) => {
+        const wMax = window.innerWidth * 0.9;
+        const hMax = window.innerHeight * 0.9 - 100; // 100为底部功能栏高度保留
 
-            const wOrigin = node.naturalWidth; // 初始的图片宽
-            const hOrigin = node.naturalHeight; // 初始的图片高度
+        const wOrigin = node.naturalWidth; // 初始的图片宽
+        const hOrigin = node.naturalHeight; // 初始的图片高度
 
-            const wRatio = wOrigin / wMax;
-            const hRatio = hOrigin / hMax;
+        const wRatio = wOrigin / wMax;
+        const hRatio = hOrigin / hMax;
 
-            const size =
-                wRatio < 1 && hRatio < 1
-                    ? { w: wOrigin, h: hOrigin }
-                    : wRatio > hRatio
-                    ? { w: wMax, h: hOrigin / wRatio }
-                    : { w: wOrigin / hRatio, h: hMax };
+        const size =
+            wRatio < 1 && hRatio < 1
+                ? { w: wOrigin, h: hOrigin }
+                : wRatio > hRatio
+                ? { w: wMax, h: hOrigin / wRatio }
+                : { w: wOrigin / hRatio, h: hMax };
 
-            setImageState(state => {
-                const updatedState = { w: size.w, h: size.h, wStatic: size.w, hStatic: size.h };
-                console.log('图片元素更新状态', updatedState);
-                return { ...state, ...updatedState };
-            });
+        setImageState(state => {
+            const updatedState = { w: size.w, h: size.h, wStatic: size.w, hStatic: size.h };
+            console.log('图片元素更新状态', updatedState);
+            return { ...state, ...updatedState };
+        });
 
-            setContainerState(state => {
-                return { ...state, wMax, hMax, w: size.w, h: size.h };
-            });
-        };
-        // 目前modal内无法直接通过ref.current 获得dom元素
-        setTimeout(() => {
-            if (image.current) {
-                sizing(image.current);
-            }
-        }, 0);
-    }, [showPreview]);
+        setContainerState(state => {
+            return { ...state, wMax, hMax, w: size.w, h: size.h };
+        });
+    };
+
+    const handleImageLoaded = () => {
+        if (image.current) {
+            sizing(image.current);
+        }
+    };
 
     // 放大
     const zoomIn = () => setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
@@ -248,6 +245,7 @@ export function ImagePreview(this: any, props: IProps) {
                         height: `${imageState.h}px`,
                         transform: `translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
                     }}
+                    onLoad={handleImageLoaded}
                     ref={image}
                     src={url}
                     alt="图片"
