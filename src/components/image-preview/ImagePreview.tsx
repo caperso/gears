@@ -4,6 +4,7 @@ import './index.scss';
 
 interface IProps {
     url: string;
+    title?:string;
     showPreview: boolean;
     closePreview: () => void;
 }
@@ -31,7 +32,7 @@ const initContainerState = {
 };
 
 export function ImagePreview(this: any, props: IProps) {
-    const { url, showPreview, closePreview } = props;
+    const { url, showPreview, closePreview, title='图片预览' } = props;
 
     const [imageState, setImageState] = useState(initImageState);
     const [containerState, setContainerState] = useState(initContainerState);
@@ -223,9 +224,8 @@ export function ImagePreview(this: any, props: IProps) {
 
     return (
         <Modal className="preview-modal" onCancel={closeModal} footer={null} visible={showPreview}>
-            <div>图片预览</div>
+            <div>{title}</div>
             <div
-                id="preview-container"
                 ref={container}
                 style={{
                     overflow: 'hidden',
@@ -239,7 +239,6 @@ export function ImagePreview(this: any, props: IProps) {
                 onMouseUp={endMove}
             >
                 <img
-                    id="preview-image"
                     style={{
                         cursor: `move`,
                         position: `absolute`,
@@ -257,10 +256,16 @@ export function ImagePreview(this: any, props: IProps) {
                 />
             </div>
             <div className="operation-bar">
-                <i className="iconfont operator icon-zoom-in" onClick={zoomIn} />
-                <i className="iconfont operator icon-zoom-out" onClick={zoomOut} />
-                <i className="iconfont operator icon-rotate" onClick={rotateClockwise} />
-                <i className="iconfont operator icon-down-load" />
+                <i className="iconfont operator" onClick={zoomIn}>
+                    +
+                </i>
+                <i className="iconfont operator" onClick={zoomOut}>
+                    -
+                </i>
+                <i className="iconfont operator" onClick={rotateClockwise}>
+                    R
+                </i>
+                <i className="iconfont operator">D</i>
             </div>
         </Modal>
     );
