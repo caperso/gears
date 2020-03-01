@@ -1,6 +1,6 @@
 // components
 import { ImagePreviewDemo } from 'components/image-preview/demo';
-import { Levels } from 'components/levels/Levels';
+import { LevelsDemo } from 'components/levels/demo';
 import Component from 'pages/Component';
 import Home from '../pages/Home';
 
@@ -52,7 +52,7 @@ export const routeConfig: IRouteConfigs[] = [
       {
         key: 'levels',
         title: '阶级导航 · Levels',
-        component: Levels,
+        component: LevelsDemo,
         path: '/comp/levels',
       },
     ],
