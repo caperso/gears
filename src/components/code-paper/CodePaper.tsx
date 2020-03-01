@@ -16,9 +16,7 @@ export const CodePaper = (props: Props) => {
     };
     return (
         <>
-            <textarea ref={textarea} className="paper" >
-                {props.text}
-            </textarea>
+            <textarea ref={textarea} className="paper" defaultValue={props.text} />
             <Button onClick={updateChanges}>更新数据</Button>
         </>
     );

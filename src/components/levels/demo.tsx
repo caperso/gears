@@ -18,7 +18,11 @@ export const LevelsDemo = () => {
     const [levelData, setLevelData] = useState(levels)
 
     const handleChange = (text:string)=>{
-        setLevelData(JSON.parse(text))
+        try{
+            setLevelData(JSON.parse(text))
+        }catch{
+            console.error('error: INVALID JSON ARRAY FORMAT');
+        }
     }
     return (
         <div className="demo-wrapper">

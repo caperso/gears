@@ -14,7 +14,6 @@ interface Props {
 
 export const Levels = (props: Props) => {
     const [active, setActive] = useState(false);
-    const [currentDepth, setCurrentDepth] = useState(0);
 
     const changeRoute = (url: string) => {
         if (active) {
@@ -27,16 +26,16 @@ export const Levels = (props: Props) => {
     };
 
     const replaceRoute = (url: string) => window.location.replace(url);
-    /**
-     * find url whether at current or root or not
-     * @param {string} param
-     * @returns
-     */
-    const findReg = (param: string) => {
-        // eslint-disable-next-line no-useless-escape
-        let reg = new RegExp(`^\/(${param})|(\/)$`, 'g');
-        return window.location.pathname.match(reg);
-    };
+    // /**
+    //  * find url whether at current or root or not
+    //  * @param {string} param
+    //  * @returns
+    //  */
+    // const findReg = (param: string) => {
+    //     // eslint-disable-next-line no-useless-escape
+    //     let reg = new RegExp(`^\/(${param})|(\/)$`, 'g');
+    //     return window.location.pathname.match(reg);
+    // };
 
     const activeLevel = (item: LevelProps) => {
         return item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url);
@@ -56,7 +55,6 @@ export const Levels = (props: Props) => {
 
         const oneLevel = (depth: number) => (
             <div
-                key={item.name}
                 className={classNameGenerator(depth)}
                 onClick={() => activeLevel(item)}
                 style={active ? { color: '#2dc6ad' } : undefined}
@@ -75,6 +73,12 @@ export const Levels = (props: Props) => {
         }
         return oneLevel(depth);
     };
-    return <div className="wrapper">{props.data.map((item: LevelProps) => recursiveRender(item))}</div>;
+    return (
+        <div className="wrapper">
+            {props.data.map((item: LevelProps) => (
+                <div key={item.name}>{recursiveRender(item)}</div>
+            ))}
+        </div>
+    );
     //  return <div className="wrapper">{props.data.map((item: LevelProps) => <OneLevel item={item} depth={}></OneLevel>)}</div>;
 };
