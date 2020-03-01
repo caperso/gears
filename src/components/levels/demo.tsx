@@ -1,4 +1,5 @@
-import React from 'react';
+import { CodePaper } from 'components/code-paper/CodePaper';
+import React, { useState } from 'react';
 import { Levels } from './Levels';
 
 interface LevelProps {
@@ -14,17 +15,16 @@ const levels: LevelProps[] = [
 ];
 
 export const LevelsDemo = () => {
-    // const location = useLocation();
-    // /**
-    //  * find url whether at current or root or not
-    //  * @param {string} param
-    //  * @returns
-    //  */
-    // const findReg = (param: string) => {
-    //     // eslint-disable-next-line no-useless-escape
-    //     let reg = new RegExp(`^\/(${param})|(\/)$`, 'g');
-    //     return location.pathname.match(reg);
-    // };
+    const [levelData, setLevelData] = useState(levels)
 
-    return <Levels data={levels}></Levels>;
+    const handleChange = (text:string)=>{
+        setLevelData(JSON.parse(text))
+    }
+    return (
+        <div className="demo-wrapper">
+            当前数据:
+            <CodePaper text={`${JSON.stringify(levels)}`} handleChange={handleChange} />
+            <Levels data={levelData}></Levels>
+        </div>
+    );
 };

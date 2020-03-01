@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import './index.scss';
 
-
-interface LevelProps {
+export interface LevelProps {
     name: string;
     url: string;
     static?: boolean;
@@ -16,14 +14,14 @@ interface Props {
 
 export const Levels = (props: Props) => {
     const [active, setActive] = useState(false);
-    const history = useHistory();
+    const [currentDepth, setCurrentDepth] = useState(0);
 
     const changeRoute = (url: string) => {
         if (active) {
             //TODO: change to sallower level url
-            history.push('/');
+            // history.push('/');
         } else {
-            history.push(url);
+            // history.push(url);
         }
         setActive(s => !s);
     };
@@ -40,18 +38,43 @@ export const Levels = (props: Props) => {
         return window.location.pathname.match(reg);
     };
 
-    return (
-        <div className="wrapper">
-            {props.data.map((item: LevelProps) => (
-                <div
-                    key={item.name}
-                    className="link"
-                    onClick={item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url)}
-                    style={active ? { color: '#2dc6ad' } : undefined}
-                >
-                    {item.name}
-                </div>
-            ))}
-        </div>
-    );
+    const activeLevel = (item: LevelProps) => {
+        return item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url);
+    };
+
+    /**
+     * 递归渲染层级菜单
+     * @param {LevelProps} item
+     * @param {number} [depth=0]
+     * @returns {React.ReactNode}
+     */
+    const recursiveRender = (item: LevelProps, depth: number = 0): React.ReactNode => {
+        const classNameGenerator = (depth: number) => {
+            return `link `;
+        };
+        console.log(item.name);
+
+        const oneLevel = (depth: number) => (
+            <div
+                key={item.name}
+                className={classNameGenerator(depth)}
+                onClick={() => activeLevel(item)}
+                style={active ? { color: '#2dc6ad' } : undefined}
+            >
+                <span style={{ paddingLeft: `${depth}em` }}></span>
+                {item.name}
+            </div>
+        );
+        if (item.deep) {
+            return (
+                <>
+                    {oneLevel(depth)}
+                    {recursiveRender(item.deep, depth + 1)}
+                </>
+            );
+        }
+        return oneLevel(depth);
+    };
+    return <div className="wrapper">{props.data.map((item: LevelProps) => recursiveRender(item))}</div>;
+    //  return <div className="wrapper">{props.data.map((item: LevelProps) => <OneLevel item={item} depth={}></OneLevel>)}</div>;
 };
