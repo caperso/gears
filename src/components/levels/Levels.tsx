@@ -49,7 +49,7 @@ export const Levels = (props: Props) => {
      */
     const recursiveRender = (item: LevelProps, depth: number = 0): React.ReactNode => {
         const classNameGenerator = (depth: number) => {
-            return `link `;
+            return `g-levels-link `;
         };
         console.log(item.name);
 
@@ -74,7 +74,7 @@ export const Levels = (props: Props) => {
         return oneLevel(depth);
     };
     return (
-        <div className="wrapper">
+        <div className="g-levels-wrapper">
             {props.data.map((item: LevelProps) => (
                 <div key={item.name}>{recursiveRender(item)}</div>
             ))}

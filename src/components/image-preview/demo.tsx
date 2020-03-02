@@ -1,13 +1,18 @@
 import { Button } from 'antd';
+import { CodePaper } from 'components/code-paper/CodePaper';
 import React, { useState } from 'react';
+import img from '../../assets/image/panda.png';
 import './demo.scss';
 import { ImagePreview } from './ImagePreview';
 
-const thumbUrl = 'https://cdn.pixabay.com/photo/2020/02/01/03/00/girl-4809434__480.jpg';
-const imageUrl = 'https://cdn.pixabay.com/photo/2020/02/01/03/00/girl-4809434_1280.jpg'
-
 export const ImagePreviewDemo = () => {
     const [show, setShow] = useState(false);
+
+    const [webImageUrl, setWebImageUrl] = useState();
+
+    const handleChangeUrl=(text: string)=>{
+        setWebImageUrl(text)
+    }
 
     const showPreview = () => {
         setShow(true);
@@ -19,11 +24,15 @@ export const ImagePreviewDemo = () => {
     return (
         <div>
             <h3>组件名称：图片预览（ImagePreview）</h3>
-            <ImagePreview url={imageUrl} showPreview={show} closePreview={closePreview} />
-            <img src={thumbUrl} alt="图片" onClick={showPreview}></img>
+            <h4>示例图片</h4>
+            <img src={img} alt="图片" onClick={showPreview}></img>
+            <h4>网络图片</h4>
+            <p>将想要测试图片地址输入(空白使用默认图片)</p>
+            <CodePaper text="" handleChange={handleChangeUrl}/>
             <div className="buttons">
                 <Button onClick={showPreview}>显示预览 </Button>
             </div>
+            <ImagePreview url={webImageUrl ? webImageUrl : img} showPreview={show} closePreview={closePreview} />
         </div>
     );
 };
