@@ -15,7 +15,7 @@ export const CodePaper = (props: Props) => {
         }
     };
     return (
-        <div className="g-codepaper-wrapper">
+        <div className="g-code-paper-wrapper">
             <textarea ref={textarea}  defaultValue={props.text} />
             {props.handleChange && <Button onClick={updateChanges}>更新数据</Button>}
         </div>

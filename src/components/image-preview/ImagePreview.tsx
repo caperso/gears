@@ -1,12 +1,8 @@
-import { Modal } from 'antd';
 import React, { useRef, useState } from 'react';
 import './index.scss';
 
 interface IProps {
     url: string;
-    title?: string;
-    showPreview: boolean;
-    closePreview: () => void;
 }
 
 const initImageState = {
@@ -32,7 +28,7 @@ const initContainerState = {
 };
 
 export function ImagePreview(this: any, props: IProps) {
-    const { url, showPreview, closePreview, title = '图片预览' } = props;
+    const { url } = props;
 
     const [imageState, setImageState] = useState(initImageState);
     const [containerState, setContainerState] = useState(initContainerState);
@@ -191,9 +187,7 @@ export function ImagePreview(this: any, props: IProps) {
         container.current!.onselectstart = null;
     };
 
-    // 关闭modal 复位图片
-    const closeModal = () => {
-        closePreview();
+    const reset = function(e: any) {
         setImageState(initImageState);
         setContainerState(initContainerState);
     };
@@ -220,8 +214,7 @@ export function ImagePreview(this: any, props: IProps) {
     // };
 
     return (
-        <Modal className="preview-modal" onCancel={closeModal} footer={null} visible={showPreview}>
-            <div>{title}</div>
+        <div className="g-image-preview-wrapper">
             <div
                 ref={container}
                 style={{
@@ -236,6 +229,7 @@ export function ImagePreview(this: any, props: IProps) {
                 onMouseUp={endMove}
             >
                 <img
+                    className="g-image-preview-image"
                     style={{
                         cursor: `move`,
                         position: `absolute`,
@@ -253,7 +247,7 @@ export function ImagePreview(this: any, props: IProps) {
                     onMouseDown={drag}
                 />
             </div>
-            <div className="operation-bar">
+            <div className="g-image-preview-operation-bar">
                 <i className="iconfont operator" onClick={zoomIn}>
                     +
                 </i>
@@ -261,10 +255,12 @@ export function ImagePreview(this: any, props: IProps) {
                     -
                 </i>
                 <i className="iconfont operator" onClick={rotateClockwise}>
-                    R
+                    ROTATE
                 </i>
-                <i className="iconfont operator">D</i>
+                <i className="iconfont operator" onClick={reset}>
+                    RESET
+                </i>
             </div>
-        </Modal>
+        </div>
     );
 }

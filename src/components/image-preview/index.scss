@@ -1,11 +1,14 @@
-.preview-modal {
+.g-image-preview-wrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     top: 40px !important;
     padding-bottom: 0 !important;
 }
-
-.operation-bar {
+.g-image-preview-image {
+}
+.g-image-preview-operation-bar {
     width: 100%;
     height: 50px;
     display: flex;
