@@ -27,7 +27,7 @@ export const LevelsDemo = () => {
     return (
         <div className="demo-levels-wrapper">
             当前数据:
-            <CodePaper text={`${JSON.stringify(levels)}`} handleChange={handleChange} />
+            <CodePaper text={`${JSON.stringify(levels)}`} handleClick={handleChange} />
             <Levels data={levelData}></Levels>
         </div>
     );

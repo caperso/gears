@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { CodePaper } from 'components/code-paper/CodePaper';
 import React, { useState } from 'react';
 import img from '../../assets/image/panda.png';
@@ -8,13 +8,16 @@ import { ImagePreview } from './ImagePreview';
 export const ImagePreviewDemo = () => {
     const [show, setShow] = useState(false);
 
-    const [webImageUrl, setWebImageUrl] = useState();
-
-    const handleChangeUrl = (text: string) => {
-        setWebImageUrl(text);
+    const [webImageUrl, setWebImageUrl] = useState('');
+    
+    const showDefaultModal = () => {
+        setWebImageUrl('');
+        setShow(true);
     };
 
-    const showModal = () => {
+    const showModal = (text: string) => {
+        console.log(text);
+        setWebImageUrl(text);
         setShow(true);
     };
 
@@ -27,13 +30,10 @@ export const ImagePreviewDemo = () => {
         <div>
             <h3>组件名称：图片预览（ImagePreview）</h3>
             <h4>示例图片</h4>
-            <img src={img} alt="图片" onClick={showModal}></img>
+            <img src={img} alt="图片" onClick={showDefaultModal}></img>
             <h4>网络图片</h4>
             <p>将想要测试图片地址输入(空白使用默认图片)</p>
-            <CodePaper text="" handleChange={handleChangeUrl} />
-            <div className="buttons">
-                <Button onClick={showModal}>显示预览 </Button>
-            </div>
+            <CodePaper text="" handleClick={showModal} buttonText="显示预览" />
             <Modal className="preview-modal" onCancel={closeModal} footer={null} visible={show}>
                 <h3>图片预览</h3>
                 <ImagePreview url={webImageUrl ? webImageUrl : img} />
