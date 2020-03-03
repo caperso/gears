@@ -1,29 +1,37 @@
 import { CodePaper } from 'components/code-paper/CodePaper';
 import React, { useState } from 'react';
-import { Levels } from './Levels';
+import { LevelProps, Levels } from './Levels';
 
-interface LevelProps {
-    name: string;
-    url: string;
-    static?: boolean;
-    deep?: LevelProps;
-}
 const levels: LevelProps[] = [
     { name: 'Pipeline', url: 'pipeline' },
-    { name: 'Ground', url: 'ground', deep: { name: 'Solid', url: 'solid', deep: { name: 'Dust', url: 'dust' } } },
     { name: 'Github', url: 'https://github.com/', static: true },
+    {
+        name: 'Ground',
+        url: 'ground',
+        deep: [
+            {
+                name: 'Solid',
+                url: 'solid',
+                deep: [
+                    { name: 'Dust', url: 'dust' },
+                    { name: 'Germ', url: 'germ' },
+                ],
+            },
+            { name: 'Liquid', url: 'liquid' },
+        ],
+    },
 ];
 
 export const LevelsDemo = () => {
-    const [levelData, setLevelData] = useState(levels)
+    const [levelData, setLevelData] = useState(levels);
 
-    const handleChange = (text:string)=>{
-        try{
-            setLevelData(JSON.parse(text))
-        }catch{
+    const handleChange = (text: string) => {
+        try {
+            setLevelData(JSON.parse(text));
+        } catch {
             console.error('error: INVALID JSON ARRAY FORMAT');
         }
-    }
+    };
     return (
         <div className="demo-levels-wrapper">
             当前数据:

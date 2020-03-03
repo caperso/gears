@@ -1,40 +1,34 @@
 import React from 'react';
-import './index.scss';
-import { LevelProps } from './Levels';
+import { LevelProps } from "./Levels";
+
+const activeLevel = (item: LevelProps) => {
+    return item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url);
+};
+
+const replaceRoute = (url: string) => window.location.replace(url);
+
+const changeRoute = (url: string) => {
+    // if (active) {
+    //     //TODO: change to sallower level url
+    //     // history.push('/');
+    // } else {
+    //     // history.push(url);
+    // }
+    // setActive(s => !s);
+};
+
+const classNameGenerator = (depth: number) => {
+    return `g-levels-link `;
+};
+
 
 export const OneLevel = (item: LevelProps, depth: number) => {
-    const classNameGenerator = (depth: number) => {
-        return `link `;
-    };
-
-
-    const changeRoute = (url: string) => {
-        // if (active) {
-        //     //TODO: change to sallower level url
-        //     // history.push('/');
-        // } else {
-        //     // history.push(url);
-        // }
-        // setActive(s => !s);
-    };
-
-    const replaceRoute = (url: string) => window.location.replace(url);
-    /**
-     * find url whether at current or root or not
-     * @param {string} param
-     * @returns
-     */
-
-    const activeLevel = (item: LevelProps) => {
-        return item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url);
-    };
-
+    console.log('key', item.name);
 
     return (
         <div
             key={item.name}
             className={classNameGenerator(depth)}
-            data-item={item}
             onClick={() => activeLevel(item)}
             // style={active ? { color: '#2dc6ad' } : undefined}
         >

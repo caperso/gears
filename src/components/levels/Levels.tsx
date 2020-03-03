@@ -5,7 +5,7 @@ export interface LevelProps {
     name: string;
     url: string;
     static?: boolean;
-    deep?: LevelProps;
+    deep?: LevelProps[];
 }
 
 interface Props {
@@ -41,20 +41,16 @@ export const Levels = (props: Props) => {
         return item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url);
     };
 
-    /**
-     * 递归渲染层级菜单
-     * @param {LevelProps} item
-     * @param {number} [depth=0]
-     * @returns {React.ReactNode}
-     */
-    const recursiveRender = (item: LevelProps, depth: number = 0): React.ReactNode => {
-        const classNameGenerator = (depth: number) => {
-            return `g-levels-link `;
-        };
-        console.log(item.name);
+    const classNameGenerator = (depth: number) => {
+        return `g-levels-link `;
+    };
 
-        const oneLevel = (depth: number) => (
+    const oneLevel = (item: LevelProps, depth: number) => {
+        console.log('key', item.name);
+
+        return (
             <div
+                key={item.name}
                 className={classNameGenerator(depth)}
                 onClick={() => activeLevel(item)}
                 style={active ? { color: '#2dc6ad' } : undefined}
@@ -63,21 +59,32 @@ export const Levels = (props: Props) => {
                 {item.name}
             </div>
         );
+    };
+
+    /**
+     * 递归渲染层级菜单
+     * @param {LevelProps} item
+     * @param {number} [depth=0]
+     * @returns {React.ReactNode}
+     */
+    const recursiveRender = (item: LevelProps, depth: number = 0): React.ReactNode => {
         if (item.deep) {
             return (
-                <>
-                    {oneLevel(depth)}
-                    {recursiveRender(item.deep, depth + 1)}
-                </>
+                <div key={item.name}>
+                    {oneLevel(item, depth)}
+                    {item.deep.map(deepItem => recursiveRender(deepItem, depth + 1))}
+                </div>
             );
         }
-        return oneLevel(depth);
+        return <div key={item.name}>{oneLevel(item, depth)}</div>;
     };
+
     return (
         <div className="g-levels-wrapper">
-            {props.data.map((item: LevelProps) => (
-                <div key={item.name}>{recursiveRender(item)}</div>
-            ))}
+            {props.data.map((item: LevelProps) =>
+                // <div key={item.name}>{recursiveRender(item)}</div>
+                recursiveRender(item),
+            )}
         </div>
     );
     //  return <div className="wrapper">{props.data.map((item: LevelProps) => <OneLevel item={item} depth={}></OneLevel>)}</div>;
