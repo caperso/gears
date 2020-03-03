@@ -1,39 +1,32 @@
-import React from 'react';
-import { LevelProps } from "./Levels";
+import React, { useState } from 'react';
+import { Level } from './Levels';
 
-const activeLevel = (item: LevelProps) => {
-    return item.static ? () => replaceRoute(item.url) : () => changeRoute(item.url);
-};
+export const OneLevel = (props: { level: Level; depth: number; url: string }) => {
+    const { level, depth, url } = props;
+    const [active, setActive] = useState(false);
 
-const replaceRoute = (url: string) => window.location.replace(url);
+    const activeLevel = (item: Level, url: string) => {
+        setActive(true);
+        return item.static ? () => replaceRoute(url) : () => changeRoute(item.url);
+    };
 
-const changeRoute = (url: string) => {
-    // if (active) {
-    //     //TODO: change to sallower level url
-    //     // history.push('/');
-    // } else {
-    //     // history.push(url);
-    // }
-    // setActive(s => !s);
-};
+    const replaceRoute = (url: string) => window.location.replace(url);
 
-const classNameGenerator = (depth: number) => {
-    return `g-levels-link `;
-};
+    const changeRoute = (url: string) => {};
 
-
-export const OneLevel = (item: LevelProps, depth: number) => {
-    console.log('key', item.name);
+    const classNameGenerator = (depth: number) => {
+        return `g-levels-link `;
+    };
 
     return (
         <div
-            key={item.name}
+            key={level.name}
             className={classNameGenerator(depth)}
-            onClick={() => activeLevel(item)}
-            // style={active ? { color: '#2dc6ad' } : undefined}
+            onClick={() => activeLevel(level, url)}
+            style={active ? { color: '#2dc6ad' } : undefined}
         >
             <span style={{ paddingLeft: `${depth}em` }}></span>
-            {item.name}
+            {level.name}
         </div>
     );
 };

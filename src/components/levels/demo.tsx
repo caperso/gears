@@ -1,8 +1,8 @@
 import { CodePaper } from 'components/code-paper/CodePaper';
 import React, { useState } from 'react';
-import { LevelProps, Levels } from './Levels';
+import { Level, Levels } from './Levels';
 
-const levels: LevelProps[] = [
+const levels: Level[] = [
     { name: 'Pipeline', url: 'pipeline' },
     { name: 'Github', url: 'https://github.com/', static: true },
     {
