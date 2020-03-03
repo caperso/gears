@@ -68,24 +68,14 @@ export const Levels = (props: Props) => {
      * @returns {React.ReactNode}
      */
     const recursiveRender = (item: LevelProps, depth: number = 0): React.ReactNode => {
-        if (item.deep) {
-            return (
-                <div key={item.name}>
-                    {oneLevel(item, depth)}
-                    {item.deep.map(deepItem => recursiveRender(deepItem, depth + 1))}
-                </div>
-            );
-        }
-        return <div key={item.name}>{oneLevel(item, depth)}</div>;
+        return (
+            <div key={item.name} data-url={item.url}>
+                {oneLevel(item, depth)}
+                {item.deep && item.deep.map(deepItem => recursiveRender(deepItem, depth + 1))}
+            </div>
+        );
     };
 
-    return (
-        <div className="g-levels-wrapper">
-            {props.data.map((item: LevelProps) =>
-                // <div key={item.name}>{recursiveRender(item)}</div>
-                recursiveRender(item),
-            )}
-        </div>
-    );
+    return <div className="g-levels-wrapper">{props.data.map((item: LevelProps) => recursiveRender(item))}</div>;
     //  return <div className="wrapper">{props.data.map((item: LevelProps) => <OneLevel item={item} depth={}></OneLevel>)}</div>;
 };
