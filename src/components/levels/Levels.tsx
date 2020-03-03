@@ -23,9 +23,11 @@ export type Level = StaticLevel | LayerLevel;
 
 interface Props {
     data: Level[];
+    fontSize?: number;
 }
 
 export const Levels = (props: Props) => {
+    const { data, fontSize = 45 } = props;
     // const [activeUrl, setActiveUrl] = useState('');
 
     /**
@@ -39,12 +41,12 @@ export const Levels = (props: Props) => {
         const url = lastUrl ? `${lastUrl}/${item.url}` : item.url;
         return (
             <div key={item.name}>
-                <OneLevel level={item} depth={depth} url={url} />
+                <OneLevel level={item} depth={depth} url={url} fontSize={fontSize} />
                 {item.deep && item.deep.map((deepItem: Level) => recursiveRender(deepItem, depth + 1, item.url))}
             </div>
         );
     };
 
-    return <div className="g-levels-wrapper">{props.data.map((item: Level) => recursiveRender(item))}</div>;
+    return <div className="g-levels-wrapper">{data.map((item: Level) => recursiveRender(item))}</div>;
     //  return <div className="wrapper">{props.data.map((item: LevelProps) => <OneLevel item={item} depth={}></OneLevel>)}</div>;
 };

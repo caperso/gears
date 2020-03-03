@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import './index.scss';
 import { Level } from './Levels';
 
-export const OneLevel = (props: { level: Level; depth: number; url: string }) => {
+interface Props {
+    level: Level;
+    depth: number;
+    url: string;
+    fontSize: number;
+}
+
+export const OneLevel = (props: Props) => {
     const { level, depth, url } = props;
     const [active, setActive] = useState(false);
 
@@ -15,7 +23,7 @@ export const OneLevel = (props: { level: Level; depth: number; url: string }) =>
     const changeRoute = (url: string) => {};
 
     const classNameGenerator = (depth: number) => {
-        return `g-levels-link `;
+        return `g-levels-link ${depth ? 'g-small-font' : ''}`;
     };
 
     return (
