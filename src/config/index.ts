@@ -4,6 +4,7 @@ import { ImagePreviewDemo } from 'components/image-preview/demo';
 import { LevelsDemo } from 'components/levels/demo';
 import { LoadingDemo } from 'components/loading/demo';
 import Component from 'pages/Component';
+import { Lib } from 'pages/Lib';
 import Home from '../pages/Home';
 
 export interface IRouteSubs {
@@ -36,6 +37,15 @@ export const routeConfig: IRouteConfigs[] = [
         component: Home,
         inMenu: true,
         path: '/',
+    },
+    {
+        key: 'lib',
+        icon: 'gold',
+        title: '代码库',
+        exact: true,
+        component: Lib,
+        inMenu: true,
+        path: '/lib',
     },
     {
         key: 'comp',
