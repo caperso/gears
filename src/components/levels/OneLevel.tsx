@@ -14,13 +14,13 @@ export const OneLevel = (props: Props) => {
     const [active, setActive] = useState(false);
 
     const activeLevel = (item: Level, url: string) => {
-        setActive(true);
-        return item.static ? () => replaceRoute(url) : () => changeRoute(item.url);
+        setActive(s => !s);
+        return item.static ? replaceRoute(item.url) : changeRoute(url);
     };
 
     const replaceRoute = (url: string) => window.location.replace(url);
 
-    const changeRoute = (url: string) => {};
+    const changeRoute = (url: string) => console.log(url);
 
     const classNameGenerator = (depth: number) => {
         return `g-levels-link ${depth ? 'g-small-font' : ''}`;

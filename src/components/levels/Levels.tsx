@@ -42,7 +42,7 @@ export const Levels = (props: Props) => {
         return (
             <div key={item.name}>
                 <OneLevel level={item} depth={depth} url={url} fontSize={fontSize} />
-                {item.deep && item.deep.map((deepItem: Level) => recursiveRender(deepItem, depth + 1, item.url))}
+                {item.deep && item.deep.map((deepItem: Level) => recursiveRender(deepItem, depth + 1, url))}
             </div>
         );
     };
