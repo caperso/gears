@@ -3,21 +3,21 @@ import React, { useState } from 'react';
 import { Level, Levels } from './Levels';
 
 const levels: Level[] = [
-    { name: 'Pipeline', url: 'pipeline' },
-    { name: 'Github', url: 'https://github.com/', static: true },
+    { name: 'Pipeline', route: 'pipeline' },
+    { name: 'Github', route: 'https://github.com/', static: true },
     {
         name: 'Ground',
-        url: 'ground',
+        route: 'ground',
         deep: [
             {
                 name: 'Solid',
-                url: 'solid',
+                route: 'solid',
                 deep: [
-                    { name: 'Dust', url: 'dust' },
-                    { name: 'Germ', url: 'germ' },
+                    { name: 'Dust', route: 'dust' },
+                    { name: 'Germ', route: 'germ' },
                 ],
             },
-            { name: 'Liquid', url: 'liquid' },
+            { name: 'Liquid', route: 'liquid' },
         ],
     },
 ];

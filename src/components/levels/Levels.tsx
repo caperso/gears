@@ -4,7 +4,7 @@ import { OneLevel } from './OneLevel';
 
 export type LevelProps = {
     name: string;
-    url: string;
+    route: string;
 };
 
 // 静态url-Level
@@ -37,12 +37,12 @@ export const Levels = (props: Props) => {
      * @param {string} [lastUrl]
      * @returns {React.ReactNode}
      */
-    const recursiveRender = (item: Level, depth: number = 0, lastUrl?: string): React.ReactNode => {
-        const url = lastUrl ? `${lastUrl}/${item.url}` : item.url;
+    const recursiveRender = (item: Level, depth: number = 0, lastRoute?: string): React.ReactNode => {
+        const route = lastRoute ? `${lastRoute}/${item.route}` : item.route;
         return (
             <div key={item.name}>
-                <OneLevel level={item} depth={depth} url={url} fontSize={fontSize} />
-                {item.deep && item.deep.map((deepItem: Level) => recursiveRender(deepItem, depth + 1, url))}
+                <OneLevel level={item} depth={depth} route={route} fontSize={fontSize} />
+                {item.deep && item.deep.map((deepItem: Level) => recursiveRender(deepItem, depth + 1, route))}
             </div>
         );
     };
