@@ -1,7 +1,7 @@
-::before {
+.wrapper::before {
     transition: 3s all;
 }
-&:hover {
+.wrapper:hover {
     ::before {
         color: #5394dd;
         /* transform: translate3d(-5px,0,0); */
