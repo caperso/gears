@@ -1,4 +1,5 @@
 // components
+import { CodePaperDemo } from 'components/code-paper/demo';
 import { ImagePreviewDemo } from 'components/image-preview/demo';
 import { LevelsDemo } from 'components/levels/demo';
 import Component from 'pages/Component';
@@ -54,6 +55,12 @@ export const routeConfig: IRouteConfigs[] = [
         title: '阶级导航 · Levels',
         component: LevelsDemo,
         path: '/comp/levels',
+      },
+      {
+        key: 'code-paper',
+        title: '代码块 · CodePaper',
+        component: CodePaperDemo,
+        path: '/comp/code-paper',
       },
     ],
   },
