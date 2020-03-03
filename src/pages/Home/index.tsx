@@ -1,8 +1,8 @@
 import { Avatar, Card, Col, Row, Statistic } from 'antd';
-import { routeCfg } from 'config';
+import { routeConfig } from 'config';
 import React from 'react';
 import img from '../../assets/image/panda.png';
-import './style.less';
+import './style.scss';
 
 const { Meta } = Card;
 
@@ -22,7 +22,7 @@ const Home = () => {
                     />
                 </Col>
                 <Col style={{ marginTop: -13 }} span={4}>
-                    <Statistic title="当前组件总数" value={routeCfg[1].routes?.length} />
+                    <Statistic title="当前组件总数" value={routeConfig[1].routes?.length} />
                 </Col>
             </Row>
         </div>

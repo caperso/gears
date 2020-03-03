@@ -1,0 +1,13 @@
+.g-code-paper-wrapper {
+    margin: 10px auto;
+    textarea {
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 1em;
+        border-radius: 0.25em;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        overflow-y: auto;
+        resize: vertical;
+    }
+}

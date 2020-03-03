@@ -1,0 +1,22 @@
+.g-levels-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2rem;
+}
+
+.g-levels-link {
+    padding: 0.5rem 0;
+    font-size: 45px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: grey;
+    filter: hue-rotate();
+    animation: hue-trans 300s infinite;
+
+    &:hover {
+        color: #2dc6ad;
+        filter: hue-rotate();
+        animation: hue-trans 7s infinite;
+    }
+}

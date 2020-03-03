@@ -1,9 +1,11 @@
 // components
-import { EmptyLineDemo } from '../components/empty-line/demo';
-import { Component } from '../pages/Component';
+import { CodePaperDemo } from 'components/code-paper/demo';
+import { ImagePreviewDemo } from 'components/image-preview/demo';
+import { LevelsDemo } from 'components/levels/demo';
+import Component from 'pages/Component';
 import Home from '../pages/Home';
 
-export interface IRouteSubProps {
+export interface IRouteSubs {
   key: string;
   title: string;
   path: string;
@@ -12,7 +14,7 @@ export interface IRouteSubProps {
   component: React.ComponentType<any>;
 }
 
-export interface IRouteCfgProps {
+export interface IRouteConfigs {
   key: string;
   title: string;
   path: string;
@@ -21,10 +23,10 @@ export interface IRouteCfgProps {
   component: React.ComponentType<any>;
   inMenu?: boolean;
   hide?: boolean;
-  routes?: Array<IRouteSubProps>;
+  routes?: Array<IRouteSubs>;
 }
 
-export const routeCfg: IRouteCfgProps[] = [
+export const routeConfig: IRouteConfigs[] = [
   {
     key: 'home',
     icon: 'home',
@@ -42,23 +44,23 @@ export const routeCfg: IRouteCfgProps[] = [
     component: Component,
     path: '/comp',
     routes: [
-    //   {
-    //     key: 'card',
-    //     title: '卡片·Card',
-    //     component: Card,
-    //     path: '/comp/card',
-    //   },
-    //   {
-    //     key: 'descriptions',
-    //     title: '简介·Descriptions',
-    //     component: Descriptions,
-    //     path: '/comp/descriptions',
-    //   },
       {
-        key: 'empty-line',
-        title: '空行·EmptyLine',
-        component: EmptyLineDemo,
-        path: '/comp/empty-line',
+        key: 'image-preview',
+        title: '图片预览 · ImagePreview',
+        component: ImagePreviewDemo,
+        path: '/comp/image-preview',
+      },
+      {
+        key: 'levels',
+        title: '阶级导航 · Levels',
+        component: LevelsDemo,
+        path: '/comp/levels',
+      },
+      {
+        key: 'code-paper',
+        title: '代码块 · CodePaper',
+        component: CodePaperDemo,
+        path: '/comp/code-paper',
       },
     ],
   },
