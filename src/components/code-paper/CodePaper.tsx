@@ -4,6 +4,7 @@ import './index.scss';
 interface Props {
     text: string;
     buttonText?: string;
+    className?: string;
     handleClick?: (text: string) => void;
 }
 
@@ -17,7 +18,7 @@ export const CodePaper = (props: Props) => {
     };
     return (
         <div className="g-code-paper-wrapper">
-            <textarea ref={textarea} defaultValue={props.text} />
+            <textarea ref={textarea} defaultValue={props.text} className={`g-code-paper-textarea ${props.className}`} />
             {props.handleClick && <Button onClick={updateChanges}>{props.buttonText ? props.buttonText : '更新数据'}</Button>}
         </div>
     );

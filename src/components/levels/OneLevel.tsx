@@ -11,11 +11,14 @@ interface Props {
 
 export const OneLevel = (props: Props) => {
     const { level, depth, route } = props;
-    const [active, setActive] = useState(false);
 
-    const renderRouteCheck=()=>{
+    const renderRouteCheck = () => {
+        const path = window.location.pathname;
+        const result = !!path.match(route);
+        return result;
+    };
 
-    }
+    const [active, setActive] = useState<boolean>(renderRouteCheck());
 
     const activeLevel = (item: Level, route: string) => {
         setActive(s => !s);

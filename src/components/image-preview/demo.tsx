@@ -33,7 +33,7 @@ export const ImagePreviewDemo = () => {
             <img src={img} alt="图片" onClick={showDefaultModal}></img>
             <h4>网络图片</h4>
             <p>将想要测试图片地址输入(空白使用默认图片)</p>
-            <CodePaper text="" handleClick={showModal} buttonText="显示预览" />
+            <CodePaper text="" handleClick={showModal} buttonText="显示预览" className="small-size"/>
             <Modal className="preview-modal" onCancel={closeModal} footer={null} visible={show}>
                 <h3>图片预览</h3>
                 <ImagePreview url={webImageUrl ? webImageUrl : img} />
