@@ -37,7 +37,6 @@ export const routeConfig: IRouteConfigs[] = [
         inMenu: true,
         path: '/',
     },
-
     {
         key: 'comp',
         icon: 'gold',

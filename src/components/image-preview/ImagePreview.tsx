@@ -1,10 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './index.scss';
 
 interface IProps {
     url: string;
+    fixed?: boolean;
+    visible?: boolean;
+    children?: React.ReactNode;
 }
 
+type ActionTypes = 'zoomIn' | 'zoomOut' | 'rotate' | 'reset';
 const initImageState = {
     w: 0, // width
     h: 0, // height
@@ -28,9 +32,10 @@ const initContainerState = {
 };
 
 export function ImagePreview(this: any, props: IProps) {
-    const { url } = props;
+    const { url, children = null, fixed = true } = props;
 
     const [imageState, setImageState] = useState(initImageState);
+    const [visible, setVisible] = useState(props.visible || false);
     const [containerState, setContainerState] = useState(initContainerState);
 
     // 设定图片的预设大小
@@ -79,7 +84,7 @@ export function ImagePreview(this: any, props: IProps) {
     const zoomOut = () => setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
 
     // 顺时针旋转
-    const rotateClockwise = () => {
+    const rotate = () => {
         setImageState(s => {
             const updateState = { ...s };
             updateState.l = 0;
@@ -101,6 +106,9 @@ export function ImagePreview(this: any, props: IProps) {
     /* 滚轮时缩放 */
     const toScale = (e: any) => {
         e.stopPropagation();
+        // e.preventDefault();
+        e.stopImmediatePropagation();
+
         // 缩放差数
         let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05; // 放大*1.05/缩小*0.95
         console.log('缩放比例', scaleDelta);
@@ -213,8 +221,39 @@ export function ImagePreview(this: any, props: IProps) {
     //     transform: ` translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
     // };
 
+    useEffect(() => setVisible(!!props.visible), [props.visible]);
+
+    const close = () => setVisible(false);
+
+    // const renderWrapper = (children: React.ReactNode) => {
+    //     <div
+    //         className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`}
+    //         style={{ display: visible ? 'block' : 'none' }}
+    //         onClick={fixed ? close : void 0}
+    //     >
+    //         {children}
+    //     </div>;
+    // };
+
+    const action = (e: Event, type: ActionTypes) => {
+        const actions = {
+            zoomIn,
+            zoomOut,
+            reset,
+            rotate,
+        };
+        e.preventDefault();
+        e.stopPropagation();
+        actions[type](e);
+    };
+
     return (
-        <div className="g-image-preview-wrapper">
+        <div
+            className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`}
+            style={{ display: visible ? 'block' : 'none' }}
+            onClick={fixed ? close : void 0}
+        >
+            {children}
             <div
                 ref={container}
                 style={{
@@ -247,17 +286,18 @@ export function ImagePreview(this: any, props: IProps) {
                     onMouseDown={drag}
                 />
             </div>
-            <div className="g-image-preview-operation-bar">
-                <i className="iconfont operator" onClick={zoomIn}>
+            <div className="g-image-preview-action-bar">
+                {/* <i className="g-action" onClick={(e: any) => action(e, 'zoomIn')}> */}
+                <i className="g-action" onClick={(e: any) => action(e, 'zoomIn')}>
                     +
                 </i>
-                <i className="iconfont operator" onClick={zoomOut}>
+                <i className="g-action" onClick={(e: any) => action(e, 'zoomOut')}>
                     -
                 </i>
-                <i className="iconfont operator" onClick={rotateClockwise}>
+                <i className="g-action" onClick={(e: any) => action(e, 'rotate')}>
                     ROTATE
                 </i>
-                <i className="iconfont operator" onClick={reset}>
+                <i className="g-action" onClick={(e: any) => action(e, 'reset')}>
                     RESET
                 </i>
             </div>
