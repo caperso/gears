@@ -68,18 +68,16 @@ export function ImagePreview(this: any, props: IProps) {
 
     // 放大
     const zoomIn = (e: React.SyntheticEvent) => {
-        e.stopPropagation();
         setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
     // 缩小
     const zoomOut = (e: React.SyntheticEvent) => {
-        e.stopPropagation();
         setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
     };
 
     // 顺时针旋转
-    const rotate = () => {
+    const rotate = (e: React.SyntheticEvent) => {
         setImageState(s => {
             const updateState = { ...s };
             updateState.l = 0;
@@ -88,12 +86,11 @@ export function ImagePreview(this: any, props: IProps) {
             updateState.rotateTime = ++s.rotateTime;
             return updateState;
         });
+        e.stopPropagation();
     };
 
     /* 滚轮时缩放 */
     const toScale = (e: any) => {
-        e.stopPropagation();
-
         // 缩放差数
         let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05; // 放大*1.05/缩小*0.95
         console.log('缩放比例', scaleDelta);
@@ -148,16 +145,6 @@ export function ImagePreview(this: any, props: IProps) {
     const [disY, setDisY] = useState(0);
     const [draggable, setDraggable] = useState(false);
 
-    // 拖拽开关
-    const drag = (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        console.log('drag');
-        setDraggable(true);
-        setDisX(e.clientX - image.current!.offsetLeft);
-        setDisY(e.clientY - image.current!.offsetTop);
-    };
-
     // 拖拽移动
     const startMove = function(e: any) {
         if (draggable) {
@@ -174,13 +161,21 @@ export function ImagePreview(this: any, props: IProps) {
         }
     };
 
+    // 拖拽开关
+    const drag = (e: any) => {
+        e.preventDefault();
+        setDraggable(true);
+        setDisX(e.clientX - image.current!.offsetLeft);
+        setDisY(e.clientY - image.current!.offsetTop);
+    };
+
     // 拖拽结束
-    const endMove = function(e: any) {
+    const endMove = function(e: React.SyntheticEvent) {
         setDraggable(false);
         image.current!.onselectstart = null;
     };
 
-    const reset = function(e: any) {
+    const reset = function(e: React.SyntheticEvent) {
         setImageState(imageLoadedState);
     };
 
@@ -188,13 +183,6 @@ export function ImagePreview(this: any, props: IProps) {
         if (onClose) {
             onClose();
         }
-    };
-
-    const action = (e: React.SyntheticEvent, handler: (e: React.SyntheticEvent) => void) => {
-        e.isPropagationStopped();
-        e.persist();
-        e.preventDefault();
-        handler(e);
     };
 
     const imageStyle: React.CSSProperties = {
@@ -221,7 +209,8 @@ export function ImagePreview(this: any, props: IProps) {
                 className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
                 onMouseDown={drag}
                 onMouseMove={startMove}
-                onMouseUp={(event: React.SyntheticEvent) => action(event, endMove)}
+                onMouseUp={endMove}
+                onClick={e => e.stopPropagation()} // 遗漏了这里阻止冒泡
                 style={imageStyle}
                 onLoad={handleImageLoaded}
                 ref={image}
@@ -229,17 +218,17 @@ export function ImagePreview(this: any, props: IProps) {
                 alt="图片"
                 onWheel={toScale}
             />
-            <div className="g-image-preview-action-bar">
-                <i className="g-action" onClick={(e: any) => action(e, zoomIn)}>
+            <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
+                <i className="g-action" onClick={zoomIn}>
                     +
                 </i>
-                <i className="g-action" onClick={(e: any) => action(e, zoomOut)}>
+                <i className="g-action" onClick={zoomOut}>
                     -
                 </i>
-                <i className="g-action" onClick={(e: any) => action(e, rotate)}>
+                <i className="g-action" onClick={rotate}>
                     ROTATE
                 </i>
-                <i className="g-action" onClick={(e: any) => action(e, reset)}>
+                <i className="g-action" onClick={reset}>
                     RESET
                 </i>
             </div>
