@@ -9,7 +9,7 @@ interface IProps {
 }
 
 type ActionTypes = 'zoomIn' | 'zoomOut' | 'rotate' | 'reset';
-const initImageState = {
+const emptyImageProps = {
     w: 0, // width
     h: 0, // height
     r: 0, // rotate
@@ -21,13 +21,14 @@ const initImageState = {
     wStatic: 0,
     hStatic: 0,
     rotateTime: 0, // 旋转的次数
-    everRotated: false, // 之前是否经历过旋转
 };
 
 export function ImagePreview(this: any, props: IProps) {
     const { url, children = null, fixed = true } = props;
 
-    const [imageState, setImageState] = useState(initImageState);
+    const [imageState, setImageState] = useState(emptyImageProps);
+    const [imageLoadedState, setImageLoadedState] = useState();
+
     const [visible, setVisible] = useState(props.visible || false);
 
     // 设定图片的预设大小
@@ -35,6 +36,8 @@ export function ImagePreview(this: any, props: IProps) {
 
     /* 初始化容器大小 */
     const sizing = (node: HTMLImageElement) => {
+        const l = window.innerWidth / 2;
+        const t = window.innerHeight / 2;
         const wMax = window.innerWidth * 0.9;
         const hMax = window.innerHeight * 0.9 - 100; // 100为底部功能栏高度保留
 
@@ -51,16 +54,16 @@ export function ImagePreview(this: any, props: IProps) {
                 ? { w: wMax, h: hOrigin / wRatio }
                 : { w: wOrigin / hRatio, h: hMax };
 
-        setImageState(state => {
-            const updatedState = { w: size.w, h: size.h, wStatic: size.w, hStatic: size.h };
-            console.log('图片元素更新状态', updatedState);
-            return { ...state, ...updatedState };
-        });
+        const changedState = { t, l, w: size.w, h: size.h, wStatic: size.w, hStatic: size.h };
+        const finalState = { ...imageState, ...changedState };
+        setImageState(finalState);
+        return finalState;
     };
 
     const handleImageLoaded = () => {
         if (image.current) {
-            sizing(image.current);
+            const changedState = sizing(image.current);
+            setImageLoadedState(changedState);
         }
     };
 
@@ -82,7 +85,6 @@ export function ImagePreview(this: any, props: IProps) {
             const updateState = { ...s };
             updateState.l = 0;
             updateState.t = 0;
-            updateState.everRotated = true;
             updateState.r = s.r + 90;
             updateState.rotateTime = ++s.rotateTime;
             return updateState;
@@ -181,7 +183,7 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     const reset = function(e: any) {
-        setImageState(initImageState);
+        setImageState(imageLoadedState);
     };
 
     useEffect(() => {
@@ -189,40 +191,43 @@ export function ImagePreview(this: any, props: IProps) {
         setVisible(!!props.visible);
     }, [props.visible]);
 
-    const close = (e: MouseEvent) => {
+    const close = () => {
         console.log('ra');
-        
         // setVisible(false);
     };
 
     const action = (e: any, handler: (e: MouseEvent) => void) => {
         e.preventDefault();
-        e.persist();
         e.stopPropagation();
         handler(e);
+    };
+
+    const imageStyle: React.CSSProperties = {
+        cursor: `move`,
+        position: `absolute`,
+        left: `${imageState.l}px`,
+        top: `${imageState.t}px`,
+        width: `${imageState.w}px`,
+        height: `${imageState.h}px`,
+        transform: `translate(-50%, -50%) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
     };
 
     return (
         <div
             className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`}
             style={{ display: visible ? 'block' : 'none' }}
-            onClick={fixed ? (e:any)=> close(e) : void 0}
+            onClick={fixed ? close : void 0}
         >
             {children}
+            <div className="g-image-preview-close" onClick={close}>
+                X
+            </div>
             <img
                 className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
                 onMouseDown={(event: any) => action(event, drag)}
                 onMouseMove={(event: any) => action(event, startMove)}
                 onMouseUp={(event: any) => action(event, endMove)}
-                style={{
-                    cursor: `move`,
-                    position: `absolute`,
-                    left: `${imageState.l}px`,
-                    top: `${imageState.t}px`,
-                    width: `${imageState.w}px`,
-                    height: `${imageState.h}px`,
-                    transform: `translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
-                }}
+                style={imageStyle}
                 onLoad={handleImageLoaded}
                 ref={image}
                 src={url}
