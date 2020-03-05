@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './index.scss';
 
 interface IProps {
@@ -6,6 +6,7 @@ interface IProps {
     fixed?: boolean;
     visible?: boolean;
     children?: React.ReactNode;
+    onClose?: () => void;
 }
 
 type ActionTypes = 'zoomIn' | 'zoomOut' | 'rotate' | 'reset';
@@ -24,12 +25,10 @@ const emptyImageProps = {
 };
 
 export function ImagePreview(this: any, props: IProps) {
-    const { url, children = null, fixed = true } = props;
+    const { url, children = null, fixed = true, visible, onClose } = props;
 
     const [imageState, setImageState] = useState(emptyImageProps);
     const [imageLoadedState, setImageLoadedState] = useState();
-
-    const [visible, setVisible] = useState(props.visible || false);
 
     // 设定图片的预设大小
     let image = useRef<HTMLImageElement>(null);
@@ -68,13 +67,13 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     // 放大
-    const zoomIn = (e: MouseEvent) => {
+    const zoomIn = (e: React.SyntheticEvent) => {
         e.stopPropagation();
         setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
     // 缩小
-    const zoomOut = (e: MouseEvent) => {
+    const zoomOut = (e: React.SyntheticEvent) => {
         e.stopPropagation();
         setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
     };
@@ -151,7 +150,6 @@ export function ImagePreview(this: any, props: IProps) {
 
     // 拖拽开关
     const drag = (e: any) => {
-        e.persist();
         e.stopPropagation();
         e.preventDefault();
         console.log('drag');
@@ -186,19 +184,16 @@ export function ImagePreview(this: any, props: IProps) {
         setImageState(imageLoadedState);
     };
 
-    useEffect(() => {
-        console.log(props.visible);
-        setVisible(!!props.visible);
-    }, [props.visible]);
-
-    const close = () => {
-        console.log('ra');
-        // setVisible(false);
+    const close = (e: React.SyntheticEvent) => {
+        if (onClose) {
+            onClose();
+        }
     };
 
-    const action = (e: any, handler: (e: MouseEvent) => void) => {
+    const action = (e: React.SyntheticEvent, handler: (e: React.SyntheticEvent) => void) => {
+        e.isPropagationStopped();
+        e.persist();
         e.preventDefault();
-        e.stopPropagation();
         handler(e);
     };
 
@@ -212,21 +207,21 @@ export function ImagePreview(this: any, props: IProps) {
         transform: `translate(-50%, -50%) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
     };
 
+    if (!visible) {
+        return <></>;
+    }
+
     return (
-        <div
-            className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`}
-            style={{ display: visible ? 'block' : 'none' }}
-            onClick={fixed ? close : void 0}
-        >
+        <div className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`} onClick={fixed ? close : void 0}>
             {children}
             <div className="g-image-preview-close" onClick={close}>
                 X
             </div>
             <img
                 className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
-                onMouseDown={(event: any) => action(event, drag)}
-                onMouseMove={(event: any) => action(event, startMove)}
-                onMouseUp={(event: any) => action(event, endMove)}
+                onMouseDown={drag}
+                onMouseMove={startMove}
+                onMouseUp={(event: React.SyntheticEvent) => action(event, endMove)}
                 style={imageStyle}
                 onLoad={handleImageLoaded}
                 ref={image}

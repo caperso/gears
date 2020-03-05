@@ -22,10 +22,9 @@ export const ImagePreviewDemo = () => {
         setShow(true);
     };
 
-    // 关闭modal 复位图片
-    // const closeModal = () => {
-    //     setShow(false);
-    // };
+    const closePreview = () => {
+        setShow(false);
+    };
 
     // 本地缓存url
     useEffect(() => {
@@ -40,11 +39,11 @@ export const ImagePreviewDemo = () => {
             <h3>组件名称：图片预览（ImagePreview）</h3>
             <h4>示例图片</h4>
             <img src={img} alt="图片" onClick={showDefaultModal}></img>
-            <ImagePreview url={img} fixed={true} visible={showDefault} />
+            {/* <ImagePreview url={img} fixed={true} visible={showDefault} /> */}
             <h4>网络图片</h4>
             <p>将想要测试图片地址输入(空白使用默认图片)</p>
             <CodePaper text={webImageUrl} handleClick={showModal} buttonText="显示预览" className="small-size" />
-            <ImagePreview url={webImageUrl} fixed={true} visible={show} />
+            <ImagePreview url={webImageUrl} fixed={true} visible={show} onClose={closePreview}/>
         </div>
     );
 };
