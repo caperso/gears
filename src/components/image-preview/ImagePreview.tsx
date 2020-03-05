@@ -1,4 +1,6 @@
+import { ContextMenu } from 'components/ContextMenu';
 import React, { useRef, useState } from 'react';
+import { AxisPoint, ImageControlMode } from 'typings/types';
 import './index.scss';
 
 interface IProps {
@@ -8,8 +10,6 @@ interface IProps {
     children?: React.ReactNode;
     onClose?: () => void;
 }
-type AxisPoint = { x: number; y: number };
-type ActionTypes = 'zoomIn' | 'zoomOut' | 'rotate' | 'reset';
 const emptyImageProps = {
     w: 0, // width
     h: 0, // height
@@ -33,6 +33,21 @@ export function ImagePreview(this: any, props: IProps) {
 
     let image = useRef<HTMLImageElement>(null);
 
+    const imageStyle: React.CSSProperties = {
+        cursor: `move`,
+        position: `absolute`,
+        left: `${imageState.l}px`,
+        top: `${imageState.t}px`,
+        width: `${imageState.w}px`,
+        height: `${imageState.h}px`,
+        transform: `translate(-50%, -50%) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
+    };
+
+    /**
+     * 调整图片至遮罩的中心, 等比缩放图片, 避免屏幕裁剪
+     * @param {HTMLImageElement} node
+     * @returns
+     */
     const sizing = (node: HTMLImageElement) => {
         const l = window.innerWidth / 2;
         const t = window.innerHeight / 2;
@@ -68,27 +83,34 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     /* 放大 */
-    const zoomIn = (e: React.SyntheticEvent) => {
+    const zoomIn = (e: React.MouseEvent) => {
         setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
     /* 缩小 */
-    const zoomOut = (e: React.SyntheticEvent) => {
+    const zoomOut = (e: React.MouseEvent) => {
         setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
     };
 
     /* 旋转 */
-    const rotate = (e: React.SyntheticEvent) => {
-        setImageState(s => {
-            const updateState = { ...s };
-            updateState.l = 0;
-            updateState.t = 0;
-            updateState.r = s.r + 90;
-            updateState.rotateTime = ++s.rotateTime;
-            return updateState;
-        });
-        e.stopPropagation();
+    const rotate = (e: React.MouseEvent) => {
+        setImageState(s => ({ ...s, r: s.r + 90, rotateTime: ++s.rotateTime }));
     };
+
+    /* 重置 */
+    const reset = () => {
+        setImageState(imageLoadedState);
+    };
+
+    /* 关闭预览 */
+    const close = (e: React.MouseEvent) => {
+        reset();
+        if (onClose) {
+            onClose();
+        }
+    };
+
+    /* 特殊行为 */
 
     /* 滚轮缩放 */
     const toScale = (e: any) => {
@@ -97,41 +119,13 @@ export function ImagePreview(this: any, props: IProps) {
         // 捕获鼠标在图片位置
         const relativePoint: AxisPoint = { x: e.clientX - imageState.l, y: e.clientY - imageState.t };
 
-        // 捕获元素盒子宽高属性
-        const rect = image.current!.getBoundingClientRect();
-        let imageWidth = rect.width;
-        let imageHeight = rect.height;
-        console.log('图片对窗口左偏移量', rect.left, '光标对窗口左偏移量', e.clientX);
-        // // 当图片是奇数次旋转时宽高对调
-        // const needExchange = imageState.rotateTime % 2 === 1;
-        // if (needExchange) {
-        //     [imageWidth, imageHeight] = [imageHeight, imageWidth];
-        // }
         // 缩放宽高
         let w = imageState.w * (1 + scaleDelta);
         let h = imageState.h * (1 + scaleDelta);
+
         // 原有的偏移量
         let lastLeft = imageState.l;
         let lastTop = imageState.t;
-        /*
-         * 本行为目的:
-         * 之前经历过旋转,在下一次缩放时, 即刻调整其l,t参考点到旋转后的左上角,在计算其缩放后的偏移值
-         * 解释:翻转后,state内的l,t参考点仍是翻转前的左上角,css翻转不会改变state内参数
-         * 在此将参考点偏移到目前左上角, 计算最终图片l, t偏移量, 并且关闭everRotated
-         */
-        // if (needExchange && imageState.everRotated) {
-        //     const deltaW = Math.abs(0.5 * (rect.width - rect.height))
-        //     const deltaH = Math.abs(0.5 * (rect.height - rect.width))
-        //     if (imageWidth / imageHeight >= 1) {
-        //         // 超高图=>超宽图
-        //         lastTop += deltaH
-        //         lastLeft -= deltaW
-        //     } else {
-        //         // 超高图=>超宽图
-        //         lastTop -= deltaH
-        //         lastLeft += deltaW
-        //     }
-        // }
 
         // 保持缩放后坐标点与鼠标坐标点重合
         let l = lastLeft - scaleDelta * relativePoint.x;
@@ -148,7 +142,7 @@ export function ImagePreview(this: any, props: IProps) {
     const [draggable, setDraggable] = useState(false);
 
     // 拖拽移动
-    const dragging = function(e: any) {
+    const drag = function(e: React.MouseEvent) {
         if (!draggable) {
             return;
         }
@@ -158,61 +152,69 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     // 拖拽开始
-    const startMove = (e: any) => {
+    const startMove = (e: React.MouseEvent) => {
         e.preventDefault();
         setDraggable(true);
         setDistToImageBoundary({ x: e.clientX - image.current!.offsetLeft, y: e.clientY - image.current!.offsetTop });
     };
 
     // 拖拽结束
-    const endMove = function(e: React.SyntheticEvent) {
+    const endMove = function(e: React.MouseEvent) {
         setDraggable(false);
     };
 
-    /* 重置 */
-    const reset = function(e: React.SyntheticEvent) {
-        setImageState(imageLoadedState);
+    const changeMode = (mode: ImageControlMode) => {
+        setControlMode(mode);
     };
 
-    const close = (e: React.SyntheticEvent) => {
-        if (onClose) {
-            onClose();
-        }
+    const [controlMode, setControlMode] = useState<ImageControlMode>('drag');
+    const menu = (
+        <div>
+            <p onClick={() => changeMode('rotate')}>自由旋转</p>
+            <p onClick={() => changeMode('rotate')}>自由拖拽</p>
+            <p onClick={void 0}>下载图片</p>
+        </div>
+    );
+
+    const startRotate = function(e: React.MouseEvent) {};
+    const freeRotate = function(e: React.MouseEvent) {};
+    const endRotate = function(e: React.MouseEvent) {};
+    const handleMouseDown = (e: React.MouseEvent) => {
+        controlMode === 'drag' ? startMove(e) : startRotate(e);
     };
 
-    const imageStyle: React.CSSProperties = {
-        cursor: `move`,
-        position: `absolute`,
-        left: `${imageState.l}px`,
-        top: `${imageState.t}px`,
-        width: `${imageState.w}px`,
-        height: `${imageState.h}px`,
-        transform: `translate(-50%, -50%) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
+    const handleMouseMove = (e: React.MouseEvent) => {
+        controlMode === 'drag' ? drag(e) : freeRotate(e);
+    };
+
+    const handleMouseUp = (e: React.MouseEvent) => {
+        controlMode === 'drag' ? endMove(e) : endRotate(e);
     };
 
     if (!visible) {
         return <></>;
     }
-
     return (
         <div className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`} onClick={fixed ? close : void 0}>
             {children}
             <div className="g-image-preview-close" onClick={close}>
                 X
             </div>
-            <img
-                className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
-                onMouseDown={startMove}
-                onMouseMove={dragging}
-                onMouseUp={endMove}
-                onClick={e => e.stopPropagation()} // 遗漏了这里阻止冒泡
-                style={imageStyle}
-                onLoad={handleImageLoaded}
-                ref={image}
-                src={url}
-                alt="图片"
-                onWheel={toScale}
-            />
+            <ContextMenu menu={menu}>
+                <img
+                    className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onClick={e => e.stopPropagation()} // 遗漏了这里阻止冒泡
+                    style={imageStyle}
+                    onLoad={handleImageLoaded}
+                    ref={image}
+                    src={url}
+                    alt="图片"
+                    onWheel={toScale}
+                />
+            </ContextMenu>
             <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
                 <i className="g-action" onClick={zoomIn}>
                     +
