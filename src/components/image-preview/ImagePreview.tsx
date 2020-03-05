@@ -8,7 +8,7 @@ interface IProps {
     children?: React.ReactNode;
     onClose?: () => void;
 }
-
+type AxisPoint = { x: number; y: number };
 type ActionTypes = 'zoomIn' | 'zoomOut' | 'rotate' | 'reset';
 const emptyImageProps = {
     w: 0, // width
@@ -28,15 +28,15 @@ export function ImagePreview(this: any, props: IProps) {
     const { url, children = null, fixed = true, visible, onClose } = props;
 
     const [imageState, setImageState] = useState(emptyImageProps);
+
     const [imageLoadedState, setImageLoadedState] = useState();
 
-    // 设定图片的预设大小
     let image = useRef<HTMLImageElement>(null);
 
-    /* 初始化容器大小 */
     const sizing = (node: HTMLImageElement) => {
         const l = window.innerWidth / 2;
         const t = window.innerHeight / 2;
+
         const wMax = window.innerWidth * 0.9;
         const hMax = window.innerHeight * 0.9 - 100; // 100为底部功能栏高度保留
 
@@ -59,6 +59,7 @@ export function ImagePreview(this: any, props: IProps) {
         return finalState;
     };
 
+    /* 初始化容器大小 */
     const handleImageLoaded = () => {
         if (image.current) {
             const changedState = sizing(image.current);
@@ -66,17 +67,17 @@ export function ImagePreview(this: any, props: IProps) {
         }
     };
 
-    // 放大
+    /* 放大 */
     const zoomIn = (e: React.SyntheticEvent) => {
         setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
-    // 缩小
+    /* 缩小 */
     const zoomOut = (e: React.SyntheticEvent) => {
         setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
     };
 
-    // 顺时针旋转
+    /* 旋转 */
     const rotate = (e: React.SyntheticEvent) => {
         setImageState(s => {
             const updateState = { ...s };
@@ -89,26 +90,26 @@ export function ImagePreview(this: any, props: IProps) {
         e.stopPropagation();
     };
 
-    /* 滚轮时缩放 */
+    /* 滚轮缩放 */
     const toScale = (e: any) => {
-        // 缩放差数
-        let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05; // 放大*1.05/缩小*0.95
-        console.log('缩放比例', scaleDelta);
+        let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05;
+
+        // 捕获鼠标在图片位置
+        const relativePoint: AxisPoint = { x: e.clientX - imageState.l, y: e.clientY - imageState.t };
+
         // 捕获元素盒子宽高属性
         const rect = image.current!.getBoundingClientRect();
-        const imageOffWindowLeft = rect.left;
-        const imageOffWindowTop = rect.top;
         let imageWidth = rect.width;
         let imageHeight = rect.height;
         console.log('图片对窗口左偏移量', rect.left, '光标对窗口左偏移量', e.clientX);
-        // 当图片是奇数次旋转时宽高对调
-        const needExchange = imageState.rotateTime % 2 === 1;
-        if (needExchange) {
-            [imageWidth, imageHeight] = [imageHeight, imageWidth];
-        }
+        // // 当图片是奇数次旋转时宽高对调
+        // const needExchange = imageState.rotateTime % 2 === 1;
+        // if (needExchange) {
+        //     [imageWidth, imageHeight] = [imageHeight, imageWidth];
+        // }
         // 缩放宽高
-        let w = imageWidth * (1 + scaleDelta);
-        let h = imageHeight * (1 + scaleDelta);
+        let w = imageState.w * (1 + scaleDelta);
+        let h = imageState.h * (1 + scaleDelta);
         // 原有的偏移量
         let lastLeft = imageState.l;
         let lastTop = imageState.t;
@@ -131,9 +132,10 @@ export function ImagePreview(this: any, props: IProps) {
         //         lastLeft += deltaW
         //     }
         // }
-        // 保持缩放坐标点与鼠标坐标点重合
-        let l = lastLeft - scaleDelta * (e.clientX - imageOffWindowLeft);
-        let t = lastTop - scaleDelta * (e.clientY - imageOffWindowTop);
+
+        // 保持缩放后坐标点与鼠标坐标点重合
+        let l = lastLeft - scaleDelta * relativePoint.x;
+        let t = lastTop - scaleDelta * relativePoint.y;
         setImageState(s => {
             const updateState = { ...s, w, h, l, t, everRotated: false };
             console.log('origin', s, 'current', updateState);
@@ -141,8 +143,8 @@ export function ImagePreview(this: any, props: IProps) {
         });
     };
 
-    // 拖拽功能
-    const [distToImageBoundary, setDistToImageBoundary] = useState({ x: 0, y: 0 });
+    /* 拖拽 */
+    const [distToImageBoundary, setDistToImageBoundary] = useState<AxisPoint>({ x: 0, y: 0 });
     const [draggable, setDraggable] = useState(false);
 
     // 拖拽移动
@@ -167,6 +169,7 @@ export function ImagePreview(this: any, props: IProps) {
         setDraggable(false);
     };
 
+    /* 重置 */
     const reset = function(e: React.SyntheticEvent) {
         setImageState(imageLoadedState);
     };
