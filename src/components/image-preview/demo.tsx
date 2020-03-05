@@ -40,7 +40,10 @@ export const ImagePreviewDemo = () => {
     return (
         <div>
             <h3>组件名称：图片预览（ImagePreview）</h3>
+            <h4>基础操作: 滚轮缩放 旋转 重置</h4>
+            <br/>
             <h4>示例图片</h4>
+
             <img src={img} alt="图片" onClick={showDefaultModal}></img>
             <ImagePreview url={img} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
             <br />

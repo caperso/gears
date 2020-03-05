@@ -8,7 +8,14 @@ const { Meta } = Card;
 
 const Home = () => {
     const hour = new Date().getHours();
-    let hello = hour >= 12 && hour <= 17 ? '下午好' : hour >= 17 && hour <= 24 ? '晚上好' : '早上好';
+    let hello =
+        hour >= 12 && hour <= 17
+            ? '下午好, 记得多起来动动'
+            : hour >= 17 && hour <= 23
+            ? '晚上好, 要多多玩耍~'
+            : hour > 23 || hour < 5
+            ? '深夜了, 快休息吧'
+            : '早上好, 迎接一天最好的阳光';
 
     return (
         <div className="p-home">

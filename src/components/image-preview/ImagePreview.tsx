@@ -141,38 +141,30 @@ export function ImagePreview(this: any, props: IProps) {
         });
     };
 
-    const [disX, setDisX] = useState(0);
-    const [disY, setDisY] = useState(0);
+    // 拖拽功能
+    const [distToImageBoundary, setDistToImageBoundary] = useState({ x: 0, y: 0 });
     const [draggable, setDraggable] = useState(false);
 
     // 拖拽移动
-    const startMove = function(e: any) {
-        if (draggable) {
-            let l = e.clientX - disX;
-            let t = e.clientY - disY;
-
-            setImageState(s => {
-                const updateState = { ...s, l, t };
-                return updateState;
-            });
-            image.current!.onselectstart = function() {
-                return false;
-            };
+    const dragging = function(e: any) {
+        if (!draggable) {
+            return;
         }
+        let l = e.clientX - distToImageBoundary.x;
+        let t = e.clientY - distToImageBoundary.y;
+        setImageState(s => ({ ...s, l, t }));
     };
 
-    // 拖拽开关
-    const drag = (e: any) => {
+    // 拖拽开始
+    const startMove = (e: any) => {
         e.preventDefault();
         setDraggable(true);
-        setDisX(e.clientX - image.current!.offsetLeft);
-        setDisY(e.clientY - image.current!.offsetTop);
+        setDistToImageBoundary({ x: e.clientX - image.current!.offsetLeft, y: e.clientY - image.current!.offsetTop });
     };
 
     // 拖拽结束
     const endMove = function(e: React.SyntheticEvent) {
         setDraggable(false);
-        image.current!.onselectstart = null;
     };
 
     const reset = function(e: React.SyntheticEvent) {
@@ -207,8 +199,8 @@ export function ImagePreview(this: any, props: IProps) {
             </div>
             <img
                 className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
-                onMouseDown={drag}
-                onMouseMove={startMove}
+                onMouseDown={startMove}
+                onMouseMove={dragging}
                 onMouseUp={endMove}
                 onClick={e => e.stopPropagation()} // 遗漏了这里阻止冒泡
                 style={imageStyle}
