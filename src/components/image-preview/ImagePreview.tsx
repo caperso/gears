@@ -24,22 +24,13 @@ const initImageState = {
     everRotated: false, // 之前是否经历过旋转
 };
 
-const initContainerState = {
-    w: 0, // width
-    h: 0, // height
-    wMax: 0,
-    hMax: 0,
-};
-
 export function ImagePreview(this: any, props: IProps) {
     const { url, children = null, fixed = true } = props;
 
     const [imageState, setImageState] = useState(initImageState);
     const [visible, setVisible] = useState(props.visible || false);
-    const [containerState, setContainerState] = useState(initContainerState);
 
     // 设定图片的预设大小
-    let container = useRef<HTMLDivElement>(null);
     let image = useRef<HTMLImageElement>(null);
 
     /* 初始化容器大小 */
@@ -65,10 +56,6 @@ export function ImagePreview(this: any, props: IProps) {
             console.log('图片元素更新状态', updatedState);
             return { ...state, ...updatedState };
         });
-
-        setContainerState(state => {
-            return { ...state, wMax, hMax, w: size.w, h: size.h };
-        });
     };
 
     const handleImageLoaded = () => {
@@ -78,10 +65,16 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     // 放大
-    const zoomIn = () => setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
+    const zoomIn = (e: MouseEvent) => {
+        e.stopPropagation();
+        setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
+    };
 
     // 缩小
-    const zoomOut = () => setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
+    const zoomOut = (e: MouseEvent) => {
+        e.stopPropagation();
+        setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
+    };
 
     // 顺时针旋转
     const rotate = () => {
@@ -94,20 +87,11 @@ export function ImagePreview(this: any, props: IProps) {
             updateState.rotateTime = ++s.rotateTime;
             return updateState;
         });
-        setContainerState(s => {
-            const updatedState = { ...s };
-            // 宽图扩展高,长图扩展宽
-            const ratio = imageState.wStatic / imageState.hStatic;
-            ratio > 1 ? (updatedState.h = s.w) : (updatedState.w = s.h);
-            return updatedState;
-        });
     };
 
     /* 滚轮时缩放 */
     const toScale = (e: any) => {
         e.stopPropagation();
-        // e.preventDefault();
-        e.stopImmediatePropagation();
 
         // 缩放差数
         let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05; // 放大*1.05/缩小*0.95
@@ -165,8 +149,9 @@ export function ImagePreview(this: any, props: IProps) {
 
     // 拖拽开关
     const drag = (e: any) => {
-        e.preventDefault();
         e.persist();
+        e.stopPropagation();
+        e.preventDefault();
         console.log('drag');
         setDraggable(true);
         setDisX(e.clientX - image.current!.offsetLeft);
@@ -183,7 +168,7 @@ export function ImagePreview(this: any, props: IProps) {
                 const updateState = { ...s, l, t };
                 return updateState;
             });
-            container.current!.onselectstart = function() {
+            image.current!.onselectstart = function() {
                 return false;
             };
         }
@@ -192,112 +177,69 @@ export function ImagePreview(this: any, props: IProps) {
     // 拖拽结束
     const endMove = function(e: any) {
         setDraggable(false);
-        container.current!.onselectstart = null;
+        image.current!.onselectstart = null;
     };
 
     const reset = function(e: any) {
         setImageState(initImageState);
-        setContainerState(initContainerState);
     };
 
-    // doesn't work
-    // const containerStyle = {
-    //     overflow: 'hidden',
-    //     position: 'relative',
-    //     width: `${containerState.w}px`,
-    //     height: `${containerState.h}px`,
-    //     maxHeight: `${containerState.hMax}px`,
-    //     maxWidth: `${containerState.wMax}px`,
-    // };
+    useEffect(() => {
+        console.log(props.visible);
+        setVisible(!!props.visible);
+    }, [props.visible]);
 
-    // doesn't work
-    // const imageStyle = {
-    //     cursor: ` move`,
-    //     position: ` absolute`,
-    //     left: ` ${imageState.l}px`,
-    //     top: ` ${imageState.t}px`,
-    //     width: ` ${imageState.w}px`,
-    //     height: ` ${imageState.h}px`,
-    //     transform: ` translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
-    // };
+    const close = (e: MouseEvent) => {
+        console.log('ra');
+        
+        // setVisible(false);
+    };
 
-    useEffect(() => setVisible(!!props.visible), [props.visible]);
-
-    const close = () => setVisible(false);
-
-    // const renderWrapper = (children: React.ReactNode) => {
-    //     <div
-    //         className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`}
-    //         style={{ display: visible ? 'block' : 'none' }}
-    //         onClick={fixed ? close : void 0}
-    //     >
-    //         {children}
-    //     </div>;
-    // };
-
-    const action = (e: Event, type: ActionTypes) => {
-        const actions = {
-            zoomIn,
-            zoomOut,
-            reset,
-            rotate,
-        };
+    const action = (e: any, handler: (e: MouseEvent) => void) => {
         e.preventDefault();
+        e.persist();
         e.stopPropagation();
-        actions[type](e);
+        handler(e);
     };
 
     return (
         <div
             className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`}
             style={{ display: visible ? 'block' : 'none' }}
-            onClick={fixed ? close : void 0}
+            onClick={fixed ? (e:any)=> close(e) : void 0}
         >
             {children}
-            <div
-                ref={container}
+            <img
+                className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
+                onMouseDown={(event: any) => action(event, drag)}
+                onMouseMove={(event: any) => action(event, startMove)}
+                onMouseUp={(event: any) => action(event, endMove)}
                 style={{
-                    overflow: 'hidden',
-                    position: 'relative',
-                    width: `${containerState.w}px`,
-                    height: `${containerState.h}px`,
-                    maxHeight: `${containerState.hMax}px`,
-                    maxWidth: `${containerState.wMax}px`,
+                    cursor: `move`,
+                    position: `absolute`,
+                    left: `${imageState.l}px`,
+                    top: `${imageState.t}px`,
+                    width: `${imageState.w}px`,
+                    height: `${imageState.h}px`,
+                    transform: `translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
                 }}
-                onMouseMove={startMove}
-                onMouseUp={endMove}
-            >
-                <img
-                    className="g-image-preview-image"
-                    style={{
-                        cursor: `move`,
-                        position: `absolute`,
-                        left: `${imageState.l}px`,
-                        top: `${imageState.t}px`,
-                        width: `${imageState.w}px`,
-                        height: `${imageState.h}px`,
-                        transform: `translate3d(0, 0, 0) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
-                    }}
-                    onLoad={handleImageLoaded}
-                    ref={image}
-                    src={url}
-                    alt="图片"
-                    onWheel={toScale}
-                    onMouseDown={drag}
-                />
-            </div>
+                onLoad={handleImageLoaded}
+                ref={image}
+                src={url}
+                alt="图片"
+                onWheel={toScale}
+            />
             <div className="g-image-preview-action-bar">
-                {/* <i className="g-action" onClick={(e: any) => action(e, 'zoomIn')}> */}
-                <i className="g-action" onClick={(e: any) => action(e, 'zoomIn')}>
+                <i className="g-action" onClick={(e: any) => action(e, zoomIn)}>
                     +
                 </i>
-                <i className="g-action" onClick={(e: any) => action(e, 'zoomOut')}>
+                <i className="g-action" onClick={(e: any) => action(e, zoomOut)}>
                     -
                 </i>
-                <i className="g-action" onClick={(e: any) => action(e, 'rotate')}>
+                <i className="g-action" onClick={(e: any) => action(e, rotate)}>
                     ROTATE
                 </i>
-                <i className="g-action" onClick={(e: any) => action(e, 'reset')}>
+                <i className="g-action" onClick={(e: any) => action(e, reset)}>
                     RESET
                 </i>
             </div>
