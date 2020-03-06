@@ -10,9 +10,9 @@ script:
 
 cache: yarn
 
-branches:
-    only:
-        - master
+# branches:
+#     only:
+#         - master
 
 after_success:
 #   - mkdir dist
@@ -27,5 +27,8 @@ deploy:
     target_branch: production
     committer_from_gh: true
     on:
-        branch: master
+        branch: production
         local_dir: build
+    # on:
+    #     branch: master
+    #     local_dir: build
