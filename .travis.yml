@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - 12.12.0
+    - 13.6.0
 before_script:
     - npm install yarn
 
@@ -10,9 +10,9 @@ script:
 
 cache: yarn
 
-# branches:
-#     only:
-#         - master
+branches:
+    only:
+        - master
 
 after_success:
 #   - mkdir dist
