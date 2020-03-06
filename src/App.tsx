@@ -1,4 +1,4 @@
-import { CheckCircleTwoTone, SettingTwoTone } from '@ant-design/icons';
+import { CheckCircleTwoTone, MenuFoldOutlined, MenuUnfoldOutlined, SettingTwoTone } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
@@ -64,7 +64,7 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <Layout>
-                <Sider trigger={null} collapsible collapsed={collapsed}>
+                <Sider width={250} trigger={null} reverseArrow collapsible collapsed={collapsed}>
                     <div className="logo" />
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
                         {renderItems()}
@@ -72,7 +72,11 @@ const App: React.FC = () => {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
-                        <CheckCircleTwoTone className="trigger" onClick={toggle} />
+                        {collapsed ? (
+                            <MenuUnfoldOutlined onClick={toggle} className="trigger" />
+                        ) : (
+                            <MenuFoldOutlined onClick={toggle} className="trigger" />
+                        )}折叠
                     </Header>
                     <Content className="App-content">
                         <Switch>

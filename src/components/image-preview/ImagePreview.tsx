@@ -99,6 +99,8 @@ export function ImagePreview(this: any, props: IProps) {
 
     /* 重置 */
     const reset = () => {
+        setRotatable(false);
+        setDraggable(false);
         setImageState(imageLoadedState);
     };
 
@@ -137,19 +139,22 @@ export function ImagePreview(this: any, props: IProps) {
         });
     };
 
+    // 右键菜单: 模式切换
+    const menu = (
+        <div>
+            <p onClick={() => changeMode('rotate')}>自由旋转</p>
+            <p onClick={() => changeMode('drag')}>自由拖拽</p>
+            <p onClick={void 0}>下载图片</p>
+        </div>
+    );
+
+    const [controlMode, setControlMode] = useState<ImageControlMode>('drag');
+
+    const changeMode = (mode: ImageControlMode) => setControlMode(mode);
+
     /* 拖拽 */
     const [distToImageBoundary, setDistToImageBoundary] = useState<AxisPoint>({ x: 0, y: 0 });
     const [draggable, setDraggable] = useState(false);
-
-    // 拖拽移动
-    const drag = function(e: React.MouseEvent) {
-        if (!draggable) {
-            return;
-        }
-        let l = e.clientX - distToImageBoundary.x;
-        let t = e.clientY - distToImageBoundary.y;
-        setImageState(s => ({ ...s, l, t }));
-    };
 
     // 拖拽开始
     const startMove = (e: React.MouseEvent) => {
@@ -158,33 +163,68 @@ export function ImagePreview(this: any, props: IProps) {
         setDistToImageBoundary({ x: e.clientX - image.current!.offsetLeft, y: e.clientY - image.current!.offsetTop });
     };
 
+    // 拖拽移动
+    const dragging = function(e: React.MouseEvent) {
+        if (!draggable) {
+            return;
+        }
+        let l = e.clientX - distToImageBoundary.x;
+        let t = e.clientY - distToImageBoundary.y;
+        setImageState(s => ({ ...s, l, t }));
+    };
+
     // 拖拽结束
     const endMove = function(e: React.MouseEvent) {
         setDraggable(false);
     };
 
-    const changeMode = (mode: ImageControlMode) => {
-        setControlMode(mode);
+    /* 自由旋转 */
+    const [lastCursorPoint, setLastCursorPoint] = useState<AxisPoint>({ x: 0, y: 0 });
+    const [rotatable, setRotatable] = useState(false);
+    const startRotate = function(e: React.MouseEvent) {
+        e.preventDefault();
+        setLastCursorPoint({ x: e.clientX, y: e.clientY });
+        setRotatable(true);
     };
 
-    const [controlMode, setControlMode] = useState<ImageControlMode>('drag');
-    const menu = (
-        <div>
-            <p onClick={() => changeMode('rotate')}>自由旋转</p>
-            <p onClick={() => changeMode('rotate')}>自由拖拽</p>
-            <p onClick={void 0}>下载图片</p>
-        </div>
-    );
+    const rotating = function(e: React.MouseEvent) {
+        if (!rotatable) {
+            return;
+        }
 
-    const startRotate = function(e: React.MouseEvent) {};
-    const freeRotate = function(e: React.MouseEvent) {};
-    const endRotate = function(e: React.MouseEvent) {};
+        const currentPoint = { x: e.clientX, y: e.clientY };
+
+        const getLine = (point1: AxisPoint, point2: AxisPoint): number =>
+            Math.sqrt(Math.pow(Math.abs(point1.x - point2.x), 2) + Math.pow(Math.abs(point1.y - point2.y), 2));
+
+        const { left, right, top, bottom } = image.current!.getBoundingClientRect();
+        const centerPoint = { x: (left + right) / 2, y: (top + bottom) / 2 };
+        const a = getLine(currentPoint, lastCursorPoint);
+        const b = getLine(currentPoint, centerPoint);
+        const c = getLine(lastCursorPoint, centerPoint);
+
+        let cosA = (b * b + c * c - a * a) / (2 * b * c);
+        let α = Math.acos(cosA);
+
+        let deltaY = currentPoint.y - lastCursorPoint.y;
+        let deltaX = currentPoint.x - lastCursorPoint.x;
+        if (deltaY >= 0 && deltaX < 0) {
+        }
+
+        setImageState(s => ({ ...s, r: s.r + α }));
+    };
+
+    const endRotate = function(e: React.MouseEvent) {
+        setLastCursorPoint({ x: e.clientX, y: e.clientY });
+        setRotatable(false);
+    };
+
     const handleMouseDown = (e: React.MouseEvent) => {
         controlMode === 'drag' ? startMove(e) : startRotate(e);
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        controlMode === 'drag' ? drag(e) : freeRotate(e);
+        controlMode === 'drag' ? dragging(e) : rotating(e);
     };
 
     const handleMouseUp = (e: React.MouseEvent) => {
@@ -194,6 +234,7 @@ export function ImagePreview(this: any, props: IProps) {
     if (!visible) {
         return <></>;
     }
+
     return (
         <div className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`} onClick={fixed ? close : void 0}>
             {children}
