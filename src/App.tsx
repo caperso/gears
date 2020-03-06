@@ -1,4 +1,5 @@
-import { Icon, Layout, Menu } from 'antd';
+import { CheckCircleTwoTone, SettingTwoTone } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
 import './App.scss';
@@ -30,7 +31,8 @@ const App: React.FC = () => {
 
     const menuTitle = (routeItem: IRouteConfigs) => (
         <span>
-            {routeItem.icon && <Icon type={routeItem.icon} />}
+            <SettingTwoTone />
+            {/* {routeItem.icon && <SmileTwoTone />} */}
             <span>{routeItem.title}</span>
         </span>
     );
@@ -42,7 +44,7 @@ const App: React.FC = () => {
                     {routeItem.routes.map(subItem => (
                         <Menu.Item key={subItem.key}>
                             <NavLink to={subItem.path}>
-                                {subItem.icon && <Icon type={subItem.icon} />}
+                                {subItem.icon && <CheckCircleTwoTone />}
                                 <span>{subItem.title}</span>
                             </NavLink>
                         </Menu.Item>
@@ -51,7 +53,7 @@ const App: React.FC = () => {
             ) : routeItem.component ? (
                 <Menu.Item key={routeItem.key}>
                     <NavLink to={routeItem.path}>
-                        {routeItem.icon && <Icon type={routeItem.icon} />}
+                        {routeItem.icon && <CheckCircleTwoTone />}
                         <span>{routeItem.title}</span>
                     </NavLink>
                 </Menu.Item>
@@ -70,7 +72,7 @@ const App: React.FC = () => {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
-                        <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={toggle} />
+                        <CheckCircleTwoTone className="trigger" onClick={toggle} />
                     </Header>
                     <Content className="App-content">
                         <Switch>

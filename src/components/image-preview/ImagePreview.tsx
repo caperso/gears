@@ -29,7 +29,7 @@ export function ImagePreview(this: any, props: IProps) {
 
     const [imageState, setImageState] = useState(emptyImageProps);
 
-    const [imageLoadedState, setImageLoadedState] = useState();
+    const [imageLoadedState, setImageLoadedState] = useState(emptyImageProps);
 
     let image = useRef<HTMLImageElement>(null);
 
