@@ -235,13 +235,17 @@ export function ImagePreview(this: any, props: IProps) {
         return <></>;
     }
 
+    const handleContextMenu = () =>{
+        setDraggable(false)
+        setRotatable(false)
+    }
     return (
         <div className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`} onClick={fixed ? close : void 0}>
             {children}
             <div className="g-image-preview-close" onClick={close}>
                 X
             </div>
-            <ContextMenu menu={menu}>
+            <ContextMenu menu={menu} onContextMenuCallback={handleContextMenu}>
                 <img
                     className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
                     onMouseDown={handleMouseDown}
