@@ -99,6 +99,7 @@ export function ImagePreview(this: any, props: IProps) {
 
     /* 重置 */
     const reset = () => {
+        setControlMode('drag')
         setRotatable(false);
         setDraggable(false);
         setImageState(imageLoadedState);
@@ -191,7 +192,6 @@ export function ImagePreview(this: any, props: IProps) {
             return;
         }
 
-        //
         const pointB = { x: e.clientX, y: e.clientY };
 
         const getLine = (point1: AxisPoint, point2: AxisPoint): number =>
@@ -204,9 +204,7 @@ export function ImagePreview(this: any, props: IProps) {
         const c = getLine(pointA, pointO);
 
         let cosO = (b * b + c * c - a * a) / (2 * b * c);
-
-        let α = Math.acos(cosO);
-        let degree = (α * 180) / Math.PI;
+        let degree = (Math.acos(cosO) * 180) / 3.1415;
 
         // 求向量积
         let matrix = [
@@ -215,8 +213,8 @@ export function ImagePreview(this: any, props: IProps) {
         ];
         let direct = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0] >= 0 ? +1 : -1;
 
-        setPointA(pointB);
         setImageState(s => ({ ...s, r: s.r + direct * degree }));
+        setPointA(pointB);
     };
 
     const endRotate = function(e: React.MouseEvent) {
