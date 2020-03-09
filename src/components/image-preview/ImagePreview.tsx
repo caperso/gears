@@ -191,7 +191,7 @@ export function ImagePreview(this: any, props: IProps) {
             return;
         }
 
-        // 
+        //
         const pointB = { x: e.clientX, y: e.clientY };
 
         const getLine = (point1: AxisPoint, point2: AxisPoint): number =>
@@ -204,11 +204,9 @@ export function ImagePreview(this: any, props: IProps) {
         const c = getLine(pointA, pointO);
 
         let cosO = (b * b + c * c - a * a) / (2 * b * c);
-        console.log(cosO);
-        
+
         let α = Math.acos(cosO);
-        console.log(α*2*3.14);
-        
+        let degree = (α * 180) / Math.PI;
 
         // 求向量积
         let matrix = [
@@ -217,8 +215,8 @@ export function ImagePreview(this: any, props: IProps) {
         ];
         let direct = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0] >= 0 ? +1 : -1;
 
-        setPointA(pointB)
-        setImageState(s => ({ ...s, r: s.r + direct * α }));
+        setPointA(pointB);
+        setImageState(s => ({ ...s, r: s.r + direct * degree }));
     };
 
     const endRotate = function(e: React.MouseEvent) {
