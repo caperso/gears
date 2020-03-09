@@ -134,7 +134,6 @@ export function ImagePreview(this: any, props: IProps) {
         let t = lastTop - scaleDelta * relativePoint.y;
         setImageState(s => {
             const updateState = { ...s, w, h, l, t, everRotated: false };
-            console.log('origin', s, 'current', updateState);
             return updateState;
         });
     };
@@ -179,11 +178,11 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     /* 自由旋转 */
-    const [lastCursorPoint, setLastCursorPoint] = useState<AxisPoint>({ x: 0, y: 0 });
     const [rotatable, setRotatable] = useState(false);
+    const [pointA, setPointA] = useState<AxisPoint>({ x: 0, y: 0 });
     const startRotate = function(e: React.MouseEvent) {
         e.preventDefault();
-        setLastCursorPoint({ x: e.clientX, y: e.clientY });
+        setPointA({ x: e.clientX, y: e.clientY });
         setRotatable(true);
     };
 
@@ -192,30 +191,38 @@ export function ImagePreview(this: any, props: IProps) {
             return;
         }
 
-        const currentPoint = { x: e.clientX, y: e.clientY };
+        // 
+        const pointB = { x: e.clientX, y: e.clientY };
 
         const getLine = (point1: AxisPoint, point2: AxisPoint): number =>
             Math.sqrt(Math.pow(Math.abs(point1.x - point2.x), 2) + Math.pow(Math.abs(point1.y - point2.y), 2));
 
         const { left, right, top, bottom } = image.current!.getBoundingClientRect();
-        const centerPoint = { x: (left + right) / 2, y: (top + bottom) / 2 };
-        const a = getLine(currentPoint, lastCursorPoint);
-        const b = getLine(currentPoint, centerPoint);
-        const c = getLine(lastCursorPoint, centerPoint);
+        const pointO = { x: (left + right) / 2, y: (top + bottom) / 2 };
+        const a = getLine(pointB, pointA);
+        const b = getLine(pointB, pointO);
+        const c = getLine(pointA, pointO);
 
-        let cosA = (b * b + c * c - a * a) / (2 * b * c);
-        let α = Math.acos(cosA);
+        let cosO = (b * b + c * c - a * a) / (2 * b * c);
+        console.log(cosO);
+        
+        let α = Math.acos(cosO);
+        console.log(α*2*3.14);
+        
 
-        let deltaY = currentPoint.y - lastCursorPoint.y;
-        let deltaX = currentPoint.x - lastCursorPoint.x;
-        if (deltaY >= 0 && deltaX < 0) {
-        }
+        // 求向量积
+        let matrix = [
+            [pointA.x - pointO.x, pointB.x - pointO.x],
+            [pointA.y - pointO.y, pointB.y - pointO.y],
+        ];
+        let direct = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0] >= 0 ? +1 : -1;
 
-        setImageState(s => ({ ...s, r: s.r + α }));
+        setPointA(pointB)
+        setImageState(s => ({ ...s, r: s.r + direct * α }));
     };
 
     const endRotate = function(e: React.MouseEvent) {
-        setLastCursorPoint({ x: e.clientX, y: e.clientY });
+        setPointA({ x: e.clientX, y: e.clientY });
         setRotatable(false);
     };
 
