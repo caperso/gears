@@ -1,5 +1,5 @@
 import { ContextMenu } from 'components/ContextMenu';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AxisPoint, ImageControlMode } from 'typings/types';
 import './index.scss';
 
@@ -42,6 +42,25 @@ export function ImagePreview(this: any, props: IProps) {
         height: `${imageState.h}px`,
         transform: `translate(-50%, -50%) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
     };
+
+    // 禁用document滚轮防止意外滚动
+    useEffect(() => {
+        const disablePassiveWheelEvent = () =>
+            document.addEventListener(
+                'wheel',
+                function(e) {
+                    e.preventDefault();
+                },
+                { passive: false },
+            );
+        const enablePassiveWheelEvent = () => document.removeEventListener<'wheel'>('wheel', disablePassiveWheelEvent);
+        if (visible) {
+            disablePassiveWheelEvent();
+        } else {
+            enablePassiveWheelEvent();
+        }
+        return enablePassiveWheelEvent;
+    }, [visible]);
 
     /**
      * 调整图片至遮罩的中心, 等比缩放图片, 避免屏幕裁剪
@@ -99,7 +118,7 @@ export function ImagePreview(this: any, props: IProps) {
 
     /* 重置 */
     const reset = () => {
-        setControlMode('drag')
+        setControlMode('drag');
         setRotatable(false);
         setDraggable(false);
         setImageState(imageLoadedState);
@@ -116,7 +135,7 @@ export function ImagePreview(this: any, props: IProps) {
     /* 特殊行为 */
 
     /* 滚轮缩放 */
-    const toScale = (e: any) => {
+    const toScale = (e: React.WheelEvent) => {
         let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05;
 
         // 捕获鼠标在图片位置

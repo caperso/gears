@@ -33,7 +33,7 @@ export const ContextMenu = (props: Props) => {
     return (
         <div onClick={handleClick} onContextMenu={openMenu}>
             {children}
-            {showContextMenu && <div style={style}>{menu}</div>};
+            {showContextMenu && <div style={style}>{menu}</div>}
         </div>
     );
 };
