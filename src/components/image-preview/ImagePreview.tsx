@@ -41,14 +41,7 @@ export function ImagePreview(this: any, props: IProps) {
 
     // 禁用document滚轮防止意外滚动
     useEffect(() => {
-        const disablePassiveWheelEvent = () =>
-            document.addEventListener(
-                'wheel',
-                function(e) {
-                    e.preventDefault();
-                },
-                { passive: false },
-            );
+        const disablePassiveWheelEvent = () => document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
         const enablePassiveWheelEvent = () => document.removeEventListener<'wheel'>('wheel', disablePassiveWheelEvent);
         if (visible) {
             disablePassiveWheelEvent();
@@ -159,6 +152,7 @@ export function ImagePreview(this: any, props: IProps) {
         <div>
             <p onClick={() => changeMode('rotate')}>自由旋转</p>
             <p onClick={() => changeMode('drag')}>自由拖拽</p>
+            <p onClick={() => changeMode('ratio-scale')}>(开发中)比例缩放</p>
             <p onClick={void 0}>下载图片</p>
         </div>
     );
