@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AxisPoint } from 'typings/types';
+import './index.scss';
 
 interface Props {
     menu: React.ReactNode;
@@ -17,6 +18,7 @@ export const ContextMenu = (props: Props) => {
         top: cursorPoint.y,
         backgroundColor: 'white',
         borderRadius: '4px',
+        padding: '4px',
     };
     /* 右键菜单 */
 
@@ -33,7 +35,11 @@ export const ContextMenu = (props: Props) => {
     return (
         <div onClick={handleClick} onContextMenu={openMenu}>
             {children}
-            {showContextMenu && <div style={style}>{menu}</div>}
+            {showContextMenu && (
+                <div className="g-context-menu-default" style={style}>
+                    {menu}
+                </div>
+            )}
         </div>
     );
 };

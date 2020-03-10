@@ -10,26 +10,22 @@ interface IProps {
     children?: React.ReactNode;
     onClose?: () => void;
 }
-const emptyImageProps = {
-    w: 0, // width
-    h: 0, // height
-    r: 0, // rotate
-    s: 1, // scale
-    l: 0, // left
-    t: 0, // top
-    centerX: 0,
-    centerY: 0,
-    wStatic: 0,
-    hStatic: 0,
-    rotateTime: 0, // 旋转的次数
-};
+interface BaseImageProps {
+    w: number; // width
+    h: number; // height
+    r: number; // rotate
+    l: number; // left
+    t: number; // top
+}
+
+const emptyImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
 
 export function ImagePreview(this: any, props: IProps) {
     const { url, children = null, fixed = true, visible, onClose } = props;
 
-    const [imageState, setImageState] = useState(emptyImageProps);
+    const [imageState, setImageState] = useState<BaseImageProps>(emptyImageProps);
 
-    const [imageLoadedState, setImageLoadedState] = useState(emptyImageProps);
+    const [imageLoadedState, setImageLoadedState] = useState<BaseImageProps>(emptyImageProps);
 
     let image = useRef<HTMLImageElement>(null);
 
@@ -40,7 +36,7 @@ export function ImagePreview(this: any, props: IProps) {
         top: `${imageState.t}px`,
         width: `${imageState.w}px`,
         height: `${imageState.h}px`,
-        transform: `translate(-50%, -50%) rotate(${imageState.r}deg) scale(${imageState.s}, ${imageState.s})`,
+        transform: `translate(-50%, -50%) rotate(${imageState.r}deg)`,
     };
 
     // 禁用document滚轮防止意外滚动
@@ -87,7 +83,7 @@ export function ImagePreview(this: any, props: IProps) {
                 ? { w: wMax, h: hOrigin / wRatio }
                 : { w: wOrigin / hRatio, h: hMax };
 
-        const changedState = { t, l, w: size.w, h: size.h, wStatic: size.w, hStatic: size.h };
+        const changedState = { t, l, w: size.w, h: size.h };
         const finalState = { ...imageState, ...changedState };
         setImageState(finalState);
         return finalState;
@@ -113,7 +109,7 @@ export function ImagePreview(this: any, props: IProps) {
 
     /* 旋转 */
     const rotate = (e: React.MouseEvent) => {
-        setImageState(s => ({ ...s, r: s.r + 90, rotateTime: ++s.rotateTime }));
+        setImageState(s => ({ ...s, r: s.r + 90 }));
     };
 
     /* 重置 */
@@ -153,7 +149,7 @@ export function ImagePreview(this: any, props: IProps) {
         let l = lastLeft - scaleDelta * relativePoint.x;
         let t = lastTop - scaleDelta * relativePoint.y;
         setImageState(s => {
-            const updateState = { ...s, w, h, l, t, everRotated: false };
+            const updateState = { ...s, w, h, l, t };
             return updateState;
         });
     };
