@@ -1,5 +1,6 @@
 import Collapse from 'antd/lib/collapse/Collapse';
 import { CodePaper } from 'components/code-paper/CodePaper';
+import { IsolateBlock } from 'components/isolate-block/IsolateBlock';
 import { WebFrame } from 'components/web-frame';
 import React, { useEffect, useState } from 'react';
 import img from '../../../assets/image/panda.png';
@@ -47,23 +48,39 @@ export const ImagePreviewDemo = () => {
 
     return (
         <div>
-            <h3>组件名称：图片预览（ImagePreview）</h3>
-            <h4>基础操作: 滚轮缩放 旋转 重置</h4>
-            <br />
-
+            <h2>组件名称：图片预览（ImagePreview）</h2>
             <div className="g-table">
-                <>
-                    <h4>示例图片</h4>
+                <IsolateBlock>
+                    <h4>基本示例</h4>
+                    <p>基础操作: 滚轮缩放 拖拽</p>
+                    <p>菜单操作: 旋转 重置</p>
                     <img src={img} alt="图片" onClick={showDefaultModal} />
                     <ImagePreview url={img} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
+                </IsolateBlock>
+
+                <IsolateBlock>
+                    <h4>功能菜单</h4>
+                    <p>右键菜单: </p>
+                    <img
+                        src={img}
+                        alt="https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg"
+                        onClick={showDefaultModal}
+                    />
+                    <ImagePreview
+                        url="https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg"
+                        fixed={true}
+                        visible={showDefault}
+                        onClose={closeDefaultPreview}
+                    />
                     <br />
-                </>
-                <>
+                </IsolateBlock>
+
+                <IsolateBlock>
                     <h4>网络图片</h4>
                     <p>将想要测试图片地址输入(空白使用默认图片)</p>
                     <CodePaper text={webImageUrl} handleClick={showModal} buttonText="显示预览" className="small-size" />
                     <ImagePreview url={webImageUrl} fixed={true} visible={showWebImage} onClose={closePreview} />
-                </>
+                </IsolateBlock>
             </div>
 
             <Collapse defaultActiveKey={['0']} onChange={callback}>
