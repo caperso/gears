@@ -1,0 +1,7 @@
+.g-context-menu-default {
+    padding: 4px;
+    & > div:hover {
+        cursor: pointer;
+        color: 'red';
+    }
+}
