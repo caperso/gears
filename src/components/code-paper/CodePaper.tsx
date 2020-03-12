@@ -1,6 +1,5 @@
-import { Button } from 'antd';
 import React, { useRef } from 'react';
-import './index.scss';
+import './CodePaper.scss';
 interface Props {
     text: string;
     buttonText?: string;
@@ -19,7 +18,7 @@ export const CodePaper = (props: Props) => {
     return (
         <div className="g-code-paper-wrapper">
             <textarea ref={textarea} defaultValue={props.text} className={`g-code-paper-textarea ${props.className}`} />
-            {props.handleClick && <Button onClick={updateChanges}>{props.buttonText ? props.buttonText : '更新数据'}</Button>}
+            {props.handleClick && <button onClick={updateChanges}>{props.buttonText ? props.buttonText : '更新数据'}</button>}
         </div>
     );
 };

@@ -1,9 +1,9 @@
 import Collapse from 'antd/lib/collapse/Collapse';
 import { CodePaper } from 'components/code-paper/CodePaper';
 import { WebFrame } from 'components/web-frame';
-import { ImagePreview } from 'gas-pedal';
 import React, { useEffect, useState } from 'react';
-import img from '../../assets/image/panda.png';
+import img from '../../../assets/image/panda.png';
+import { ImagePreview } from '../ImagePreview';
 import './demo.scss';
 
 const { Panel } = Collapse;
@@ -60,7 +60,6 @@ export const ImagePreviewDemo = () => {
                 </>
                 <>
                     <h4>网络图片</h4>
-
                     <p>将想要测试图片地址输入(空白使用默认图片)</p>
                     <CodePaper text={webImageUrl} handleClick={showModal} buttonText="显示预览" className="small-size" />
                     <ImagePreview url={webImageUrl} fixed={true} visible={showWebImage} onClose={closePreview} />

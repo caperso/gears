@@ -72,7 +72,7 @@ const App: React.FC = () => {
         <div className="App">
             <Layout>
                 <Sider width={250} trigger={null} reverseArrow collapsible collapsed={collapsed}>
-                    <div className="logo" />
+                    <div className="logo">Gears 组件开发平台</div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
                         {renderItems()}
                     </Menu>
