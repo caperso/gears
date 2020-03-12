@@ -1,6 +1,6 @@
 // components
-import { CodePaperDemo } from 'components/code-paper/demo';
-import { ImagePreviewDemo } from 'components/image-preview/demo';
+import { CodePaperDemo } from 'components/code-paper/demo/demo';
+import { ImagePreviewDemo } from 'components/image-preview/demo/demo';
 import { LevelsDemo } from 'components/levels/demo';
 import { LoadingDemo } from 'components/loading/demo';
 import Component from 'pages/Component';

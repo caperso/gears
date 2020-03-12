@@ -1,6 +1,6 @@
 import { CheckCircleTwoTone, MenuFoldOutlined, MenuUnfoldOutlined, SettingTwoTone } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
 import './App.scss';
 import { IRouteConfigs, routeConfig } from './config/index';
@@ -27,12 +27,19 @@ export function RouteWithSubRoutes(route: IRouteConfigs) {
 
 const App: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+
     const toggle = () => setCollapsed(!collapsed);
+
+    useEffect(() => {
+        let isMobile = /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i.test(
+            navigator.userAgent,
+        );
+        setCollapsed(!!isMobile);
+    }, []);
 
     const menuTitle = (routeItem: IRouteConfigs) => (
         <span>
             <SettingTwoTone />
-            {/* {routeItem.icon && <SmileTwoTone />} */}
             <span>{routeItem.title}</span>
         </span>
     );
@@ -65,7 +72,7 @@ const App: React.FC = () => {
         <div className="App">
             <Layout>
                 <Sider width={250} trigger={null} reverseArrow collapsible collapsed={collapsed}>
-                    <div className="logo" />
+                    <div className="logo">Gears 组件开发平台</div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} defaultOpenKeys={['comp']}>
                         {renderItems()}
                     </Menu>
@@ -76,7 +83,8 @@ const App: React.FC = () => {
                             <MenuUnfoldOutlined onClick={toggle} className="trigger" />
                         ) : (
                             <MenuFoldOutlined onClick={toggle} className="trigger" />
-                        )}折叠
+                        )}
+                        折叠
                     </Header>
                     <Content className="App-content">
                         <Switch>
