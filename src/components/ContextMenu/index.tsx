@@ -33,8 +33,7 @@ export const ContextMenu = (props: Props) => {
     };
 
     const wrapperStyle:React.CSSProperties={
-        width:'fit-content',
-        height:'fit-content'
+        clear:'both'
     }
 
     return (
