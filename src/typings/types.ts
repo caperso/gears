@@ -6,4 +6,4 @@ export interface DefaultHTMLElementProps {
     className?: string;
 }
 
-export type ContextMenuProps = 'default-context-menu' | React.ReactNode | null;
+export type ContextMenuProps = 'default-context-menu' | React.ReactElement | null;

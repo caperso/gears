@@ -276,7 +276,6 @@ export function ImagePreview(this: any, props: IProps) {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
-                    onClick={e => e.stopPropagation()} // 遗漏了这里阻止冒泡
                     style={imageStyle}
                     onLoad={handleImageLoaded}
                     ref={image}
