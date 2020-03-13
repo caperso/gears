@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { AxisPoint, ContextMenuProps, DefaultHTMLElementProps } from 'typings/types';
+import { AxisPoint, DefaultHTMLElementProps, MenuItem } from 'typings/types';
 import './ContextMenu.scss';
-interface MenuItem {
-    name: string;
-    method: (props?: any) => void;
-}
 
 interface Props extends DefaultHTMLElementProps {
-    menu?: ContextMenuProps | MenuItem[] | undefined;
+    menu?: MenuItem[] | React.ReactElement | null;
     children: React.ReactElement;
 }
 

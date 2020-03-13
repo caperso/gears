@@ -51,11 +51,11 @@ export const ImagePreviewDemo = () => {
     return (
         <div>
             <h2>组件名称：图片预览（ImagePreview）</h2>
+            <p>基础操作: 滚轮缩放 拖拽</p>
+            <p>菜单操作: 旋转 重置</p>
             <div className="g-table">
                 <IsolateBlock>
                     <h4>基本示例</h4>
-                    <p>基础操作: 滚轮缩放 拖拽</p>
-                    <p>菜单操作: 旋转 重置</p>
                     <img src={img} alt="图片" className="g-sample-image" onClick={showDefaultModal} />
                     <ImagePreview url={img} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
                 </IsolateBlock>

@@ -1,20 +1,21 @@
 // import { ContextMenu } from 'components/ContextMenu';
 import ContextMenu from 'components/context-menu/ContextMenu';
 import React, { useEffect, useRef, useState } from 'react';
-import { AxisPoint, ContextMenuProps, ImageControlMode, ImageOperations } from 'typings/types';
+import { AxisPoint, ImageControlMode, ImageOperations, MenuItem } from 'typings/types';
 import './ImagePreview.scss';
 
 type Operator = {
-    bar: 'default-bar' | React.ReactNode | null;
-    contextMenu: ContextMenuProps;
+    bar: ImageOperations[] | React.ReactElement | null;
+    contextMenu: ImageOperations[] | React.ReactElement | null;
 };
 
+
 interface Props {
-    url: string;
-    visible: boolean;
-    onClose: () => void;
-    fixed?: boolean;
-    operator?: Operator;
+    url: string; // 图片地址
+    visible: boolean; // 组件可视状态
+    onClose: () => void; // 组件关闭回调
+    fixed?: boolean; // 组件是否固定
+    operator?: Operator; // 组件控制项接口
 }
 
 interface BaseImageProps {
@@ -27,8 +28,10 @@ interface BaseImageProps {
 
 const emptyImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
 
+const defaultOperator = { bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag'], contextMenu: ['rotate', 'free-rotate', 'free-drag'] };
+
 export function ImagePreview(this: any, props: Props) {
-    const { url, fixed = true, visible, onClose, operator = { bar: 'default-bar', contextMenu: 'default-context-menu' } } = props;
+    const { url, fixed = true, visible, onClose, operator = defaultOperator } = props;
 
     const [imageState, setImageState] = useState<BaseImageProps>(emptyImageProps);
 
@@ -241,58 +244,72 @@ export function ImagePreview(this: any, props: Props) {
         controlMode === 'drag' ? endMove() : endRotate(e);
     };
 
+    /* 图片操作 */
+    const [imageOperationsMap] = useState(
+        new Map<string, (props?: any) => void>([
+            ['zoom-in', zoomIn],
+            ['zoom-out', zoomOut],
+            ['rotate', rotate],
+            ['free-drag', () => changeMode('drag')],
+            ['free-rotate', () => changeMode('rotate')],
+            ['reset', reset],
+        ]),
+    );
+
     /* 渲染 */
 
     /* 右键菜单渲染 */
-    const renderContextMenu = (): Operator['contextMenu'] => {
-        if (!operator.contextMenu) {
+    const renderContextMenu = (): MenuItem[] | React.ReactElement | null => {
+        // 不渲染右键菜单
+        if (!operator || !operator.contextMenu) {
             return null;
         }
-        if (operator.contextMenu === 'default-context-menu') {
-            const defaultMenu = (
-                <div>
-                    <p onClick={() => changeMode('rotate')}>自由旋转</p>
-                    <p onClick={() => changeMode('drag')}>自由拖拽</p>
-                    <p onClick={() => changeMode('ratio-scale')}>(开发中)比例缩放</p>
-                    <a href={url}>下载图片</a>
-                </div>
-            );
-            return defaultMenu;
+
+        // 字符串数组
+        if (operator.contextMenu instanceof Array) {
+            let menuList: MenuItem[] = [];
+            for (let name of operator.contextMenu) {
+                const method = imageOperationsMap.get(name);
+                if (method) {
+                    const newItem: MenuItem = { name, method };
+                    menuList = [...menuList, newItem];
+                }
+            }
+            return menuList;
         }
 
-        return operator.contextMenu;
+        // 组件
+        return operator.contextMenu as React.ReactElement;
     };
 
     /* 操作栏渲染 */
     const renderBar = (): Operator['bar'] => {
-        if (!operator.bar) {
+        if (!operator || !operator.bar) {
             return null;
         }
+        if (operator.bar instanceof Array) {
+            let barOperations: MenuItem[] = [];
+            for (let name of operator.bar) {
+                const method = imageOperationsMap.get(name);
+                if (method) {
+                    const newItem: MenuItem = { name, method };
+                    barOperations = [...barOperations, newItem];
+                } else {
+                    console.warn(`can't find method which refers ${name}`);
+                }
+            }
 
-        if (operator.bar === 'default-bar') {
-            const imageOperations: ImageOperations[] = [];
-            const imageOperationsMap = new Map([
-                ['zoom-in', zoomIn],
-                ['zoom-out', zoomOut],
-                ['rotate', rotate],
-                ['free-drag', () => changeMode('drag')],
-                ['free-rotate', () => changeMode('rotate')],
-                ['reset', reset],
-            ]);
-
-            const defaultMenu = (
+            const menu = (
                 <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
-                    <i onClick={zoomIn}>+</i>
-                    <i onClick={zoomOut}>-</i>
-                    <i onClick={rotate}>ROTATE</i>
-                    <i onClick={() => changeMode('drag')}>FREE DRAG</i>
-                    <i onClick={() => changeMode('rotate')}>FREE ROTATE</i>
-                    <i onClick={reset}>RESET</i>
+                    {barOperations.map(item => (
+                        <i key={item.name} onClick={item.method}>
+                            {item.name}
+                        </i>
+                    ))}
                 </div>
             );
-            return defaultMenu;
+            return menu;
         }
-
         return operator.bar;
     };
 
