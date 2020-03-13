@@ -1,7 +1,7 @@
 // import { ContextMenu } from 'components/ContextMenu';
 import ContextMenu from 'components/context-menu/ContextMenu';
 import React, { useEffect, useRef, useState } from 'react';
-import { AxisPoint, ContextMenuProps, ImageControlMode } from 'typings/types';
+import { AxisPoint, ContextMenuProps, ImageControlMode, ImageOperations } from 'typings/types';
 import './ImagePreview.scss';
 
 type Operator = {
@@ -9,13 +9,14 @@ type Operator = {
     contextMenu: ContextMenuProps;
 };
 
-interface IProps {
+interface Props {
     url: string;
     visible: boolean;
     onClose: () => void;
     fixed?: boolean;
     operator?: Operator;
 }
+
 interface BaseImageProps {
     w: number; // width
     h: number; // height
@@ -26,7 +27,7 @@ interface BaseImageProps {
 
 const emptyImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
 
-export function ImagePreview(this: any, props: IProps) {
+export function ImagePreview(this: any, props: Props) {
     const { url, fixed = true, visible, onClose, operator = { bar: 'default-bar', contextMenu: 'default-context-menu' } } = props;
 
     const [imageState, setImageState] = useState<BaseImageProps>(emptyImageProps);
@@ -241,8 +242,9 @@ export function ImagePreview(this: any, props: IProps) {
     };
 
     /* 渲染 */
-    /* 操作栏渲染 */
-    const renderContextMenu = (): ContextMenuProps => {
+
+    /* 右键菜单渲染 */
+    const renderContextMenu = (): Operator['contextMenu'] => {
         if (!operator.contextMenu) {
             return null;
         }
@@ -259,6 +261,39 @@ export function ImagePreview(this: any, props: IProps) {
         }
 
         return operator.contextMenu;
+    };
+
+    /* 操作栏渲染 */
+    const renderBar = (): Operator['bar'] => {
+        if (!operator.bar) {
+            return null;
+        }
+
+        if (operator.bar === 'default-bar') {
+            const imageOperations: ImageOperations[] = [];
+            const imageOperationsMap = new Map([
+                ['zoom-in', zoomIn],
+                ['zoom-out', zoomOut],
+                ['rotate', rotate],
+                ['free-drag', () => changeMode('drag')],
+                ['free-rotate', () => changeMode('rotate')],
+                ['reset', reset],
+            ]);
+
+            const defaultMenu = (
+                <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
+                    <i onClick={zoomIn}>+</i>
+                    <i onClick={zoomOut}>-</i>
+                    <i onClick={rotate}>ROTATE</i>
+                    <i onClick={() => changeMode('drag')}>FREE DRAG</i>
+                    <i onClick={() => changeMode('rotate')}>FREE ROTATE</i>
+                    <i onClick={reset}>RESET</i>
+                </div>
+            );
+            return defaultMenu;
+        }
+
+        return operator.bar;
     };
 
     if (!visible) {
@@ -284,26 +319,7 @@ export function ImagePreview(this: any, props: IProps) {
                     onWheel={toScale}
                 />
             </ContextMenu>
-            <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
-                <i className="g-action" onClick={zoomIn}>
-                    +
-                </i>
-                <i className="g-action" onClick={zoomOut}>
-                    -
-                </i>
-                <i className="g-action" onClick={rotate}>
-                    ROTATE
-                </i>
-                <i className="g-action" onClick={() => changeMode('drag')}>
-                    FREE DRAG
-                </i>
-                <i className="g-action" onClick={() => changeMode('rotate')}>
-                    FREE ROTATE
-                </i>
-                <i className="g-action" onClick={reset}>
-                    RESET
-                </i>
-            </div>
+            {renderBar}
         </div>
     );
 }

@@ -39,7 +39,7 @@
     align-items: center;
     flex-flow: row nowrap;
     justify-content: center;
-    .g-action {
+    & > i {
         color: white;
         font-size: 26px;
         cursor: pointer;
