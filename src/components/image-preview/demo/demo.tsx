@@ -12,28 +12,28 @@ const { Panel } = Collapse;
 const largeSample = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
 
 export const ImagePreviewDemo = () => {
-    const [showDefault, setShowDefault] = useState(false);
-    const [showWebImage, setShowWebImage] = useState(false);
+    const [show, setShow] = useState<number | null>(-1);
+
     const [webImageUrl, setWebImageUrl] = useState('');
 
-    const showDefaultModal = () => {
-        setShowDefault(true);
+    const close = () => {
+        setShow(null);
     };
 
-    const showModal = (text: string) => {
+    const showDefault = () => {
+        setShow(0);
+    };
+
+    const showDefaultLarge = () => {
+        setShow(1);
+    };
+
+    const showWebImage = (text: string) => {
         if (text) {
             setWebImageUrl(text);
             localStorage.setItem('image-preview-url', text);
         }
-        setShowWebImage(true);
-    };
-
-    const closeDefaultPreview = () => {
-        setShowDefault(false);
-    };
-
-    const closePreview = () => {
-        setShowWebImage(false);
+        setShow(2);
     };
 
     // 加载本地缓存url
@@ -56,23 +56,25 @@ export const ImagePreviewDemo = () => {
             <div className="g-table">
                 <IsolateBlock>
                     <h4>基本示例</h4>
-                    <img src={img} alt="图片" className="g-sample-image" onClick={showDefaultModal} />
-                    <ImagePreview url={img} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
+                    <p>无菜单</p>
+                    <img src={img} alt="图片" className="g-sample-image" onClick={showDefault} />
+                    <ImagePreview url={img} fixed={true} visible={show === 0} onClose={close} operator={{ bar: null, contextMenu: null }} />
                 </IsolateBlock>
 
                 <IsolateBlock>
                     <h4>功能菜单</h4>
-                    <p>右键菜单: </p>
-                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultModal} />
-                    <ImagePreview url={largeSample} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
+                    <p>含默认右键菜单</p>
+                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
+                    <ImagePreview url={largeSample} fixed={true} visible={show === 1} onClose={close} />
                     <br />
                 </IsolateBlock>
 
                 <IsolateBlock>
                     <h4>网络图片</h4>
+                    <p>默认菜单</p>
                     <p>将想要测试图片地址输入(空白使用默认图片)</p>
-                    <CodePaper text={webImageUrl} handleClick={showModal} buttonText="显示预览" className="small-size" />
-                    <ImagePreview url={webImageUrl} fixed={true} visible={showWebImage} onClose={closePreview} />
+                    <CodePaper text={webImageUrl} handleClick={showWebImage} buttonText="显示预览" className="small-size" />
+                    <ImagePreview url={webImageUrl} fixed={true} visible={show === 2} onClose={close} />
                 </IsolateBlock>
             </div>
 

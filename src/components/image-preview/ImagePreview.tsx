@@ -97,12 +97,18 @@ export function ImagePreview(this: any, props: Props) {
     const handleImageLoaded = () => {
         if (image.current) {
             const changedState = sizing(image.current);
+            console.log(changedState);
             setImageLoadedState(changedState);
         }
     };
 
+    console.log('wwww',imageState);
+
+
     /* 放大 */
     const zoomIn = () => {
+      console.log({...imageState});
+      
         setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
@@ -336,7 +342,7 @@ export function ImagePreview(this: any, props: Props) {
                     onWheel={toScale}
                 />
             </ContextMenu>
-            {renderBar}
+            {renderBar()}
         </div>
     );
 }

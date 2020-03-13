@@ -52,7 +52,7 @@ const ContextMenu = (props: Props) => {
     };
 
     if (!menu) {
-        return children;
+        return <div onClick={handleClick}>{children}</div>;
     }
 
     return (
