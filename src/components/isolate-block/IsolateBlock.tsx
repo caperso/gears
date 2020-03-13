@@ -1,10 +1,16 @@
 import React from 'react';
+import { DefaultHTMLElementProps } from 'typings/types';
 import './IsolateBlock.scss';
 
-interface Props {
+interface Props extends DefaultHTMLElementProps {
     children: React.ReactNode;
 }
 
 export const IsolateBlock = (props: Props) => {
-    return <div className="g-isolate-block-wrapper">{props.children}</div>;
+    const { style, className, children } = props;
+    return (
+        <div className={`g-isolate-block-wrapper ${className}`} style={style}>
+            {children}
+        </div>
+    );
 };

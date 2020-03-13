@@ -58,14 +58,28 @@ export const ImagePreviewDemo = () => {
                     <h4>基本示例</h4>
                     <p>无菜单</p>
                     <img src={img} alt="图片" className="g-sample-image" onClick={showDefault} />
-                    <ImagePreview url={img} fixed={true} visible={show === 0} onClose={close} operator={{ bar: null, contextMenu: null }} />
+                    <ImagePreview
+                        url={img}
+                        fixedOnScreen={true}
+                        visible={show === 0}
+                        onClose={close}
+                        operator={{ bar: null, contextMenu: null }}
+                    />
+                </IsolateBlock>
+
+                <IsolateBlock>
+                    <h4>包含在其他组件窗口内</h4>
+                    <p>含默认右键菜单</p>
+                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
+                    <ImagePreview url={largeSample} fixedOnScreen={false} visible={show === 1} onClose={close} />
+                    <br />
                 </IsolateBlock>
 
                 <IsolateBlock>
                     <h4>功能菜单</h4>
                     <p>含默认右键菜单</p>
                     <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
-                    <ImagePreview url={largeSample} fixed={true} visible={show === 1} onClose={close} />
+                    <ImagePreview url={largeSample} fixedOnScreen={true} visible={show === 1} onClose={close} />
                     <br />
                 </IsolateBlock>
 
@@ -73,8 +87,15 @@ export const ImagePreviewDemo = () => {
                     <h4>网络图片</h4>
                     <p>默认菜单</p>
                     <p>将想要测试图片地址输入(空白使用默认图片)</p>
+
                     <CodePaper text={webImageUrl} handleClick={showWebImage} buttonText="显示预览" className="small-size" />
-                    <ImagePreview url={webImageUrl} fixed={true} visible={show === 2} onClose={close} />
+                    <ImagePreview
+                        url={webImageUrl}
+                        operator={{ bar: null, contextMenu: ['zoom-in', 'zoom-out'] }}
+                        fixedOnScreen={true}
+                        visible={show === 2}
+                        onClose={close}
+                    />
                 </IsolateBlock>
             </div>
 

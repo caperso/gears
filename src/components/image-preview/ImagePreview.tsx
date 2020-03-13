@@ -9,12 +9,11 @@ type Operator = {
     contextMenu: ImageOperations[] | React.ReactElement | null;
 };
 
-
 interface Props {
     url: string; // 图片地址
     visible: boolean; // 组件可视状态
     onClose: () => void; // 组件关闭回调
-    fixed?: boolean; // 组件是否固定
+    fixedOnScreen?: boolean; // 组件是否固定
     operator?: Operator; // 组件控制项接口
 }
 
@@ -28,10 +27,15 @@ interface BaseImageProps {
 
 const emptyImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
 
-const defaultOperator = { bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag'], contextMenu: ['rotate', 'free-rotate', 'free-drag'] };
+const defaultOperator = {
+    bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
+    contextMenu: ['rotate', 'free-rotate', 'free-drag'],
+};
 
 export function ImagePreview(this: any, props: Props) {
-    const { url, fixed = true, visible, onClose, operator = defaultOperator } = props;
+    const { url, fixedOnScreen = true, onClose, operator = defaultOperator } = props;
+
+    let visible = fixedOnScreen ? props.visible : true; // 一旦非固定在屏幕, 则常亮
 
     const [imageState, setImageState] = useState<BaseImageProps>(emptyImageProps);
 
@@ -95,20 +99,17 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 初始化容器大小 */
     const handleImageLoaded = () => {
+        console.log('image-loaded');
         if (image.current) {
             const changedState = sizing(image.current);
-            console.log(changedState);
             setImageLoadedState(changedState);
         }
     };
 
-    console.log('wwww',imageState);
-
+    console.log('imageLoadedState', imageLoadedState);
 
     /* 放大 */
     const zoomIn = () => {
-      console.log({...imageState});
-      
         setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
@@ -324,13 +325,15 @@ export function ImagePreview(this: any, props: Props) {
     }
 
     return (
-        <div className={`g-image-preview-wrapper ${fixed ? 'g-fixed-wrapper' : ''}`} onClick={fixed ? close : void 0}>
-            <div className="g-image-preview-close" onClick={close}>
+        // <div className={`g-image-preview-wrapper ${fixedOnScreen ? 'g-fixed-wrapper' : ''}`} onClick={fixedOnScreen ? close : void 0}>
+        <div className={`g-image-preview-wrapper g-fixed-wrapper`} onClick={close}>
+            <div className="g-image-preview-icon-close" onClick={close}>
                 X
             </div>
             <ContextMenu menu={renderContextMenu()}>
                 <img
-                    className={`g-image-preview-image ${fixed ? 'g-image-preview-image-fixed' : ''}`}
+                    // className={`g-image-preview-image ${fixedOnScreen ? 'g-image-preview-image-fixed' : 'g-image-preview-image-relative'}`}
+                    className={`g-image-preview-image g-image-preview-image-fixed`}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}

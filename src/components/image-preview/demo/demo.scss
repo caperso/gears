@@ -4,13 +4,10 @@
 
 .g-table{
     display: flex;
-    flex-basis: 50%;
-    justify-content: space-between;
-    align-items:  center;
     flex-flow:  row wrap;
 }
 
 .g-sample-image{
-    max-width: 500px;
-    max-height: 500px;
+    max-width: 300px;
+    max-height: 300px;
 }
