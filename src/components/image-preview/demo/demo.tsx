@@ -9,6 +9,8 @@ import './demo.scss';
 
 const { Panel } = Collapse;
 
+const largeSample = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
+
 export const ImagePreviewDemo = () => {
     const [showDefault, setShowDefault] = useState(false);
     const [showWebImage, setShowWebImage] = useState(false);
@@ -54,24 +56,15 @@ export const ImagePreviewDemo = () => {
                     <h4>基本示例</h4>
                     <p>基础操作: 滚轮缩放 拖拽</p>
                     <p>菜单操作: 旋转 重置</p>
-                    <img src={img} alt="图片" onClick={showDefaultModal} />
+                    <img src={img} alt="图片" className="g-sample-image" onClick={showDefaultModal} />
                     <ImagePreview url={img} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
                 </IsolateBlock>
 
                 <IsolateBlock>
                     <h4>功能菜单</h4>
                     <p>右键菜单: </p>
-                    <img
-                        src={img}
-                        alt="https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg"
-                        onClick={showDefaultModal}
-                    />
-                    <ImagePreview
-                        url="https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg"
-                        fixed={true}
-                        visible={showDefault}
-                        onClose={closeDefaultPreview}
-                    />
+                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultModal} />
+                    <ImagePreview url={largeSample} fixed={true} visible={showDefault} onClose={closeDefaultPreview} />
                     <br />
                 </IsolateBlock>
 
