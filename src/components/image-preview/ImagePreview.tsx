@@ -110,7 +110,10 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 放大 */
     const zoomIn = () => {
-        setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
+        // setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
+        setImageState(imageLoadedState);
+        console.log(imageLoadedState,imageState);
+        
     };
 
     /* 缩小 */

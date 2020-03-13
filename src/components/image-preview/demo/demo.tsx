@@ -67,13 +67,6 @@ export const ImagePreviewDemo = () => {
                     />
                 </IsolateBlock>
 
-                <IsolateBlock>
-                    <h4>包含在其他组件窗口内</h4>
-                    <p>含默认右键菜单</p>
-                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
-                    <ImagePreview url={largeSample} fixedOnScreen={false} visible={show === 1} onClose={close} />
-                    <br />
-                </IsolateBlock>
 
                 <IsolateBlock>
                     <h4>功能菜单</h4>
