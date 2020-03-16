@@ -112,8 +112,7 @@ export function ImagePreview(this: any, props: Props) {
     const zoomIn = () => {
         // setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
         setImageState(imageLoadedState);
-        console.log(imageLoadedState,imageState);
-        
+        console.log(imageLoadedState, imageState);
     };
 
     /* 缩小 */
@@ -266,6 +265,13 @@ export function ImagePreview(this: any, props: Props) {
         ]),
     );
 
+    /* 右键菜单: 终止当前进行的行为 */
+    const disableActions = () => {
+        setControlMode('drag');
+        setDraggable(false);
+        setRotatable(false);
+    };
+
     /* 渲染 */
 
     /* 右键菜单渲染 */
@@ -340,6 +346,7 @@ export function ImagePreview(this: any, props: Props) {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
+                    onContextMenu={disableActions}
                     style={imageStyle}
                     onLoad={handleImageLoaded}
                     ref={image}

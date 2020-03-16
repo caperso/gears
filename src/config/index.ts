@@ -3,6 +3,7 @@ import { CodePaperDemo } from 'components/code-paper/demo/demo';
 import { ImagePreviewDemo } from 'components/image-preview/demo/demo';
 import { LevelsDemo } from 'components/levels/demo';
 import { LoadingDemo } from 'components/loading/demo';
+import { WaterfallDemo } from 'components/waterfall/demo/demo';
 import Component from 'pages/Component';
 import Home from '../pages/Home';
 
@@ -64,10 +65,16 @@ export const routeConfig: IRouteConfigs[] = [
                 path: '/comp/code-paper',
             },
             {
-                key: 'loading',
-                title: '加载 · Loading',
+                key: 'rolling-banner',
+                title: '滚动幅 · RollingBanner',
                 component: LoadingDemo,
-                path: '/comp/loading',
+                path: '/comp/rolling-banner',
+            },
+            {
+                key: 'waterfall',
+                title: '加载 · Waterfall',
+                component: WaterfallDemo,
+                path: '/comp/waterfall',
             },
         ],
     },
