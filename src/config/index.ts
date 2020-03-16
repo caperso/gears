@@ -3,6 +3,7 @@ import { CodePaperDemo } from 'components/code-paper/demo/demo';
 import { ImagePreviewDemo } from 'components/image-preview/demo/demo';
 import { LevelsDemo } from 'components/levels/demo';
 import { LoadingDemo } from 'components/loading/demo';
+import { WaterfallDemo } from 'components/waterfall/demo/demo';
 import Component from 'pages/Component';
 import Home from '../pages/Home';
 
@@ -68,6 +69,12 @@ export const routeConfig: IRouteConfigs[] = [
                 title: '加载 · Loading',
                 component: LoadingDemo,
                 path: '/comp/loading',
+            },
+            {
+                key: 'waterfall',
+                title: '瀑布图 · Waterfall',
+                component: WaterfallDemo,
+                path: '/comp/waterfall',
             },
         ],
     },
