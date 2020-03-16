@@ -1,4 +1,7 @@
-.g-waterfall-wrapper{
+.g-waterfall-wrapper {
     display: grid;
-    
+    grid-template-columns: 50vw;
+    justify-content: center;
+    overflow-x: hidden;
+    margin-bottom: 3em;
 }

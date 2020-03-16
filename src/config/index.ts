@@ -76,6 +76,12 @@ export const routeConfig: IRouteConfigs[] = [
                 component: WaterfallDemo,
                 path: '/comp/waterfall',
             },
+            {
+                key: 'waterfall',
+                title: '瀑布图 · Waterfall',
+                component: WaterfallDemo,
+                path: '/comp/waterfall',
+            },
         ],
     },
 ];

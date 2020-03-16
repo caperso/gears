@@ -1,13 +1,12 @@
-import Collapse from 'antd/lib/collapse/Collapse';
 import { CodePaper } from 'components/code-paper/CodePaper';
 import { IsolateBlock } from 'components/isolate-block/IsolateBlock';
-import { WebFrame } from 'components/web-frame';
 import React, { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import toc from 'remark-toc';
 import img from '../../../assets/image/panda.png';
+import markdown from '../doc/image-preview.md';
 import { ImagePreview } from '../ImagePreview';
 import './demo.scss';
-
-const { Panel } = Collapse;
 
 const largeSample = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
 
@@ -15,6 +14,14 @@ export const ImagePreviewDemo = () => {
     const [show, setShow] = useState<number | null>(-1);
 
     const [webImageUrl, setWebImageUrl] = useState('');
+
+    const [doc, setDoc] = useState('');
+
+    useEffect(() => {
+        fetch(markdown)
+            .then(res => res.text())
+            .then(text => setDoc(text));
+    }, []);
 
     const close = () => {
         setShow(null);
@@ -44,10 +51,6 @@ export const ImagePreviewDemo = () => {
         }
     }, []);
 
-    function callback(key: any) {
-        console.log(key);
-    }
-
     return (
         <div>
             <h2>组件名称：图片预览（ImagePreview）</h2>
@@ -66,7 +69,6 @@ export const ImagePreviewDemo = () => {
                         operator={{ bar: null, contextMenu: null }}
                     />
                 </IsolateBlock>
-
 
                 <IsolateBlock>
                     <h4>功能菜单</h4>
@@ -91,12 +93,7 @@ export const ImagePreviewDemo = () => {
                     />
                 </IsolateBlock>
             </div>
-
-            <Collapse defaultActiveKey={['0']} onChange={callback}>
-                <Panel header="文档" key="1">
-                    <WebFrame url="https://caperso.github.io/gas-pedal/image-preview"></WebFrame>
-                </Panel>
-            </Collapse>
+            <ReactMarkdown source={doc} plugins={[toc]}></ReactMarkdown>
         </div>
     );
 };
