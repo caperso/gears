@@ -1,4 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
+import './Waterfall.scss';
 
 interface Props {
     children: React.ReactElement[];
@@ -26,7 +27,6 @@ export const Waterfall = (props: Props) => {
         const gridColumn = { gridTemplateColumns: generateColumn(column) };
         setStyle(gridColumn);
         console.log(gridColumn);
-        
     },[column]);
 
     return (
