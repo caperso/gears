@@ -51,10 +51,6 @@ export const ImagePreviewDemo = () => {
         }
     }, []);
 
-    function callback(key: any) {
-        console.log(key);
-    }
-
     return (
         <div>
             <h2>组件名称：图片预览（ImagePreview）</h2>
@@ -97,9 +93,7 @@ export const ImagePreviewDemo = () => {
                     />
                 </IsolateBlock>
             </div>
-            <ReactMarkdown source={doc}
-            plugins={[toc]}
-            ></ReactMarkdown>
+            <ReactMarkdown source={doc} plugins={[toc]}></ReactMarkdown>
         </div>
     );
 };
