@@ -70,12 +70,7 @@ export const routeConfig: IRouteConfigs[] = [
                 component: LoadingDemo,
                 path: '/comp/rolling-banner',
             },
-            {
-                key: 'waterfall',
-                title: '加载 · Waterfall',
-                component: WaterfallDemo,
-                path: '/comp/waterfall',
-            },
+
             {
                 key: 'waterfall',
                 title: '瀑布图 · Waterfall',

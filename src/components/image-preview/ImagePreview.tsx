@@ -1,12 +1,12 @@
 // import { ContextMenu } from 'components/ContextMenu';
 import ContextMenu from 'components/context-menu/ContextMenu';
 import React, { useEffect, useRef, useState } from 'react';
-import { AxisPoint, ImageControlMode, ImageOperations, MenuItem } from 'typings/types';
+import { AxisPoint, ImageControlMode, ImageOperation, ImageOperationMap, MenuItem } from 'typings/types';
 import './ImagePreview.scss';
 
 type Operator = {
-    bar: ImageOperations[] | React.ReactElement | null;
-    contextMenu: ImageOperations[] | React.ReactElement | null;
+    bar: ImageOperation[] | React.ReactElement | null;
+    contextMenu: ImageOperation[] | React.ReactElement | null;
 };
 
 interface Props {
@@ -27,7 +27,7 @@ interface BaseImageProps {
 
 const emptyImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
 
-const defaultOperator = {
+const defaultOperator: Operator = {
     bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
     contextMenu: ['rotate', 'free-rotate', 'free-drag'],
 };
@@ -110,9 +110,7 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 放大 */
     const zoomIn = () => {
-        // setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
-        setImageState(imageLoadedState);
-        console.log(imageLoadedState, imageState);
+        setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
     };
 
     /* 缩小 */
@@ -127,7 +125,7 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 重置 */
     const reset = () => {
-        setControlMode('drag');
+        setControlMode('free-drag');
         setRotatable(false);
         setDraggable(false);
         setImageState(imageLoadedState);
@@ -167,7 +165,7 @@ export function ImagePreview(this: any, props: Props) {
         });
     };
 
-    const [controlMode, setControlMode] = useState<ImageControlMode>('drag');
+    const [controlMode, setControlMode] = useState<ImageControlMode>('free-drag');
 
     const changeMode = (mode: ImageControlMode) => setControlMode(mode);
 
@@ -242,32 +240,30 @@ export function ImagePreview(this: any, props: Props) {
     };
 
     const handleMouseDown = (e: React.MouseEvent) => {
-        controlMode === 'drag' ? startMove(e) : startRotate(e);
+        controlMode === 'free-drag' ? startMove(e) : startRotate(e);
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        controlMode === 'drag' ? dragging(e) : rotating(e);
+        controlMode === 'free-drag' ? dragging(e) : rotating(e);
     };
 
     const handleMouseUp = (e: React.MouseEvent) => {
-        controlMode === 'drag' ? endMove() : endRotate(e);
+        controlMode === 'free-drag' ? endMove() : endRotate(e);
     };
 
     /* 图片操作 */
-    const [imageOperationsMap] = useState(
-        new Map<string, (props?: any) => void>([
-            ['zoom-in', zoomIn],
-            ['zoom-out', zoomOut],
-            ['rotate', rotate],
-            ['free-drag', () => changeMode('drag')],
-            ['free-rotate', () => changeMode('rotate')],
-            ['reset', reset],
-        ]),
-    );
+    const imageOperations: ImageOperationMap = {
+        'zoom-in': zoomIn,
+        'zoom-out': zoomOut,
+        rotate: rotate,
+        'free-drag': () => changeMode('free-drag'),
+        'free-rotate': () => changeMode('free-rotate'),
+        reset: reset,
+    };
 
     /* 右键菜单: 终止当前进行的行为 */
     const disableActions = () => {
-        setControlMode('drag');
+        setControlMode('free-drag');
         setDraggable(false);
         setRotatable(false);
     };
@@ -285,7 +281,7 @@ export function ImagePreview(this: any, props: Props) {
         if (operator.contextMenu instanceof Array) {
             let menuList: MenuItem[] = [];
             for (let name of operator.contextMenu) {
-                const method = imageOperationsMap.get(name);
+                const method = imageOperations[name];
                 if (method) {
                     const newItem: MenuItem = { name, method };
                     menuList = [...menuList, newItem];
@@ -306,7 +302,7 @@ export function ImagePreview(this: any, props: Props) {
         if (operator.bar instanceof Array) {
             let barOperations: MenuItem[] = [];
             for (let name of operator.bar) {
-                const method = imageOperationsMap.get(name);
+                const method = imageOperations[name];
                 if (method) {
                     const newItem: MenuItem = { name, method };
                     barOperations = [...barOperations, newItem];
