@@ -44,6 +44,10 @@ export const ImagePreviewDemo = () => {
         setShow(2);
     };
 
+    const showModalImage = () => {
+        setShow(3);
+    };
+
     // 加载本地缓存url
     useEffect(() => {
         const text = localStorage.getItem('image-preview-url');
@@ -81,8 +85,14 @@ export const ImagePreviewDemo = () => {
                 <IsolateBlock>
                     <h4>非全屏遮罩</h4>
                     <p>可包含在特定组件, 元素内</p>
-                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
-                    <Modal>
+                    <ImagePreview url={largeSample} fixedOnScreen={false} visible={true} onClose={close} />
+                </IsolateBlock>
+
+                <IsolateBlock>
+                    <h4>包含于Modal内</h4>
+                    <p>可包含在特定组件, 元素内</p>
+                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showModalImage} />
+                    <Modal visible={show === 3} onCancel={close} style={{ width: '780px', height: '520px' }}>
                         <ImagePreview url={largeSample} fixedOnScreen={false} visible={show === 3} onClose={close} />
                     </Modal>
                 </IsolateBlock>

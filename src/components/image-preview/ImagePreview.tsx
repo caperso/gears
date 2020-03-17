@@ -23,6 +23,7 @@ interface BaseImageProps {
     r: number; // rotate
     l: number; // left
     t: number; // top
+    translate: string;
 }
 
 interface Props {
@@ -35,7 +36,7 @@ interface Props {
 
 /* Component */
 
-const emptyImageProps: BaseImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
+const emptyImageProps: BaseImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0, translate: '-50%' };
 
 const defaultOperator: Operator = {
     bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
@@ -54,13 +55,19 @@ export function ImagePreview(this: any, props: Props) {
     let image = useRef<HTMLImageElement>(null);
 
     const imageStyle: React.CSSProperties = {
-        cursor: `move`,
-        position: `absolute`,
         left: `${imageState.l}px`,
         top: `${imageState.t}px`,
         width: `${imageState.w}px`,
         height: `${imageState.h}px`,
-        transform: `translate(-50%, -50%) rotate(${imageState.r}deg)`,
+        transform: `translate(${imageState.translate}, ${imageState.translate}) rotate(${imageState.r}deg)`,
+    };
+
+    const imageStaticStyle: React.CSSProperties = {
+        cursor: `move`,
+        width: `${imageLoadedState.w}px`,
+        height: `${imageLoadedState.h}px`,
+        position: 'relative',
+        overflow: 'hidden',
     };
 
     // 禁用document滚轮防止意外滚动
@@ -68,13 +75,14 @@ export function ImagePreview(this: any, props: Props) {
         const prevent = (e: any) => e.preventDefault();
         const disablePassiveWheelEvent = () => document.addEventListener('wheel', prevent, { passive: false });
         const enablePassiveWheelEvent = () => document.removeEventListener('wheel', prevent);
-        if (visible) {
+        if (visible && fixedOnScreen) {
             disablePassiveWheelEvent();
         } else {
             enablePassiveWheelEvent();
         }
+
         return enablePassiveWheelEvent;
-    }, [visible]);
+    }, [visible,fixedOnScreen]);
 
     /**
      * 调整图片至遮罩的中心, 等比缩放图片, 避免屏幕裁剪
@@ -82,8 +90,10 @@ export function ImagePreview(this: any, props: Props) {
      * @returns
      */
     const sizing = (node: HTMLImageElement) => {
-        const l = window.innerWidth / 2;
-        const t = window.innerHeight / 2;
+        const l = fixedOnScreen ? window.innerWidth / 2 : 0; // 非固定时初始为0
+        const t = fixedOnScreen ? window.innerHeight / 2 : 0; // 非固定时初始为0
+
+        const translate = fixedOnScreen ? '-50%' : '0';
 
         const wMax = window.innerWidth * 0.9;
         const hMax = window.innerHeight * 0.9 - 100; // 100为底部功能栏高度保留
@@ -101,7 +111,7 @@ export function ImagePreview(this: any, props: Props) {
                 ? { w: wMax, h: hOrigin / wRatio }
                 : { w: wOrigin / hRatio, h: hMax };
 
-        const changedState = { t, l, w: size.w, h: size.h };
+        const changedState = { t, l, w: size.w, h: size.h, translate };
         const finalState = { ...imageState, ...changedState };
         setImageState(finalState);
         return finalState;
@@ -338,20 +348,25 @@ export function ImagePreview(this: any, props: Props) {
     }
 
     return (
-        // <div className={`g-image-preview-wrapper ${fixedOnScreen ? 'g-fixed-wrapper' : ''}`} onClick={fixedOnScreen ? close : void 0}>
-        <div className={`g-image-preview-wrapper g-fixed-wrapper`} onClick={close}>
-            <div className="g-image-preview-icon-close" onClick={close}>
-                X
-            </div>
+        <div
+            id="123"
+            className={`g-image-preview-wrapper ${fixedOnScreen ? 'g-fixed' : ''}`}
+            style={fixedOnScreen ? {} : imageStaticStyle}
+            onClick={fixedOnScreen ? close : void 0}
+        >
+            {fixedOnScreen && (
+                <div className="g-image-preview-icon-close" onClick={close}>
+                    X
+                </div>
+            )}
             <ContextMenu menu={renderContextMenu()}>
                 <img
-                    // className={`g-image-preview-image ${fixedOnScreen ? 'g-image-preview-image-fixed' : 'g-image-preview-image-relative'}`}
-                    className={`g-image-preview-image g-image-preview-image-fixed`}
+                    className={`g-image-preview-image`}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onContextMenu={disableActions}
-                    style={imageStyle}
+                    style={fixedOnScreen ? imageStyle : imageStyle}
                     onLoad={handleImageLoaded}
                     ref={image}
                     src={url}
