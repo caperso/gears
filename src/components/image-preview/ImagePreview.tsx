@@ -1,21 +1,21 @@
 // import { ContextMenu } from 'components/ContextMenu';
 import ContextMenu from 'components/context-menu/ContextMenu';
 import React, { useEffect, useRef, useState } from 'react';
-import { AxisPoint, ImageControlMode, ImageOperation, ImageOperationMap, MenuItem } from 'typings/types';
+import { AxisPoint, MenuItem } from 'typings/types';
 import './ImagePreview.scss';
+
+type ImageControlMode = 'free-rotate' | 'free-drag' | 'ratio-scale';
+type ImageAction = 'rotate' | 'drag' | 'ratio-scale' | 'zoom-in' | 'zoom-out' | 'reset';
+type ImageOperation = ImageAction | ImageControlMode;
+
+type ImageOperationMap = {
+    [key in ImageOperation]?: (props?: any) => void;
+};
 
 type Operator = {
     bar: ImageOperation[] | React.ReactElement | null;
     contextMenu: ImageOperation[] | React.ReactElement | null;
 };
-
-interface Props {
-    url: string; // 图片地址
-    visible: boolean; // 组件可视状态
-    onClose: () => void; // 组件关闭回调
-    fixedOnScreen?: boolean; // 组件是否固定
-    operator?: Operator; // 组件控制项接口
-}
 
 interface BaseImageProps {
     w: number; // width
@@ -25,7 +25,17 @@ interface BaseImageProps {
     t: number; // top
 }
 
-const emptyImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
+interface Props {
+    url: string; // 图片地址
+    visible: boolean; // 组件可视状态
+    onClose: () => void; // 组件关闭回调
+    fixedOnScreen?: boolean; // 组件是否固定
+    operator?: Operator; // 组件控制项接口
+}
+
+/* Component */
+
+const emptyImageProps: BaseImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0 };
 
 const defaultOperator: Operator = {
     bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
