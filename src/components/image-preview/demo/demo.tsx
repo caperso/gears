@@ -1,3 +1,4 @@
+import { Modal } from 'antd';
 import { CodePaper } from 'components/code-paper/CodePaper';
 import { IsolateBlock } from 'components/isolate-block/IsolateBlock';
 import React, { useEffect, useState } from 'react';
@@ -75,7 +76,15 @@ export const ImagePreviewDemo = () => {
                     <p>含默认右键菜单</p>
                     <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
                     <ImagePreview url={largeSample} fixedOnScreen={true} visible={show === 1} onClose={close} />
-                    <br />
+                </IsolateBlock>
+
+                <IsolateBlock>
+                    <h4>非全屏遮罩</h4>
+                    <p>可包含在特定组件, 元素内</p>
+                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
+                    <Modal>
+                        <ImagePreview url={largeSample} fixedOnScreen={false} visible={show === 3} onClose={close} />
+                    </Modal>
                 </IsolateBlock>
 
                 <IsolateBlock>
