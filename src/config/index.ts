@@ -65,10 +65,16 @@ export const routeConfig: IRouteConfigs[] = [
                 path: '/comp/code-paper',
             },
             {
-                key: 'loading',
-                title: '加载 · Loading',
+                key: 'rolling-banner',
+                title: '滚动幅 · RollingBanner',
                 component: LoadingDemo,
-                path: '/comp/loading',
+                path: '/comp/rolling-banner',
+            },
+            {
+                key: 'waterfall',
+                title: '加载 · Waterfall',
+                component: WaterfallDemo,
+                path: '/comp/waterfall',
             },
             {
                 key: 'waterfall',
