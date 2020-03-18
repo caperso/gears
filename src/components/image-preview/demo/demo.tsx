@@ -82,7 +82,7 @@ export const ImagePreviewDemo = () => {
                             getImageLoadedSize={getImageLoadedSize}
                             fixedOnScreen={false}
                             operator="default"
-                            visible={show === 3}
+                            visible={true}
                             onClose={close}
                         />
                     </Modal>
