@@ -1,13 +1,14 @@
 .site-info {
-    padding: 1em ;
-    background-color: rgba(0, 1, 2, 0.9);
+    border-top: 2px solid rgba(2, 2, 2, 0.733);
+    padding: 1em;
+    background-color: rgb(3, 21, 41);
     display: flex;
     flex-flow: column;
     align-items: left;
     font-size: 14px;
     color: white;
     & > p:hover {
-        color: goldenrod;
+        cursor: default;
     }
     & > p {
         display: flex;
@@ -16,9 +17,6 @@
     }
 }
 .site-record-anchor {
-    color: white;
+    color: rgb(255, 255, 255);
     font-size: 12px;
-    &:hover {
-        color: goldenrod;
-    }
 }
