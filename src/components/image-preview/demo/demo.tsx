@@ -6,10 +6,10 @@ import ReactMarkdown from 'react-markdown';
 import toc from 'remark-toc';
 import img from '../../../assets/image/panda.png';
 import markdown from '../doc/image-preview.md';
-import { ImagePreview } from '../ImagePreview';
+import { BaseImageProps, ImagePreview } from '../ImagePreview';
 import './demo.scss';
 
-const largeSample = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
+const sampleImage = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
 
 export const ImagePreviewDemo = () => {
     const [show, setShow] = useState<number | null>(-1);
@@ -28,24 +28,12 @@ export const ImagePreviewDemo = () => {
         setShow(null);
     };
 
-    const showDefault = () => {
-        setShow(0);
-    };
-
-    const showDefaultLarge = () => {
-        setShow(1);
-    };
-
     const showWebImage = (text: string) => {
         if (text) {
             setWebImageUrl(text);
             localStorage.setItem('image-preview-url', text);
         }
-        setShow(2);
-    };
-
-    const showModalImage = () => {
-        setShow(3);
+        setShow(99);
     };
 
     // 加载本地缓存url
@@ -56,6 +44,12 @@ export const ImagePreviewDemo = () => {
         }
     }, []);
 
+    const [modalWidth, setModalWidth] = useState(500);
+
+    const getImageLoadedSize = (size: BaseImageProps) => {
+        setModalWidth(size.w + 48);
+    };
+
     return (
         <div>
             <h2>组件名称：图片预览（ImagePreview）</h2>
@@ -63,37 +57,33 @@ export const ImagePreviewDemo = () => {
             <p>菜单操作: 旋转 重置</p>
             <div className="g-table">
                 <IsolateBlock>
-                    <h4>基本示例</h4>
-                    <p>无菜单</p>
-                    <img src={img} alt="图片" className="g-sample-image" onClick={showDefault} />
-                    <ImagePreview
-                        url={img}
-                        fixedOnScreen={true}
-                        visible={show === 0}
-                        onClose={close}
-                        operator={{ bar: null, contextMenu: null }}
-                    />
+                    <h3>简易模式示例</h3>
+                    <p>单击图片 将等比拉伸至可能的屏幕最大尺寸, 无菜单</p>
+                    <img src={img} alt="图片" className="g-sample-image" onClick={() => setShow(1)} />
+                    <ImagePreview url={img} operator={null} visible={show === 1} onClose={close} />
                 </IsolateBlock>
 
                 <IsolateBlock>
-                    <h4>功能菜单</h4>
+                    <h3>功能菜单</h3>
                     <p>含默认右键菜单</p>
-                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showDefaultLarge} />
-                    <ImagePreview url={largeSample} fixedOnScreen={true} visible={show === 1} onClose={close} />
+                    <img alt="图片" className="g-sample-image" src={sampleImage} onClick={() => setShow(2)} />
+                    <ImagePreview url={sampleImage} operator="default" fixedOnScreen={true} visible={show === 2} onClose={close} />
                 </IsolateBlock>
 
                 <IsolateBlock>
-                    <h4>非全屏遮罩</h4>
-                    <p>可包含在特定组件, 元素内</p>
-                    <ImagePreview url={largeSample} fixedOnScreen={false} visible={true} onClose={close} />
-                </IsolateBlock>
-
-                <IsolateBlock>
-                    <h4>包含于Modal内</h4>
-                    <p>可包含在特定组件, 元素内</p>
-                    <img alt="图片" className="g-sample-image" src={largeSample} onClick={showModalImage} />
-                    <Modal visible={show === 3} onCancel={close} style={{ width: '780px', height: '520px' }}>
-                        <ImagePreview url={largeSample} fixedOnScreen={false} visible={show === 3} onClose={close} />
+                    <h3>非全屏遮罩模式</h3>
+                    <p>包含在特定组件, 元素内</p>
+                    <p>包含于Ant-Modal内</p>
+                    <img alt="图片" className="g-sample-image" src={sampleImage} onClick={() => setShow(3)} />
+                    <Modal visible={show === 3} width={modalWidth} onCancel={close} style={{ width: '780px', height: '520px' }}>
+                        <ImagePreview
+                            url={sampleImage}
+                            getImageLoadedSize={getImageLoadedSize}
+                            fixedOnScreen={false}
+                            operator="default"
+                            visible={show === 3}
+                            onClose={close}
+                        />
                     </Modal>
                 </IsolateBlock>
 
@@ -107,7 +97,7 @@ export const ImagePreviewDemo = () => {
                         url={webImageUrl}
                         operator={{ bar: null, contextMenu: ['zoom-in', 'zoom-out'] }}
                         fixedOnScreen={true}
-                        visible={show === 2}
+                        visible={show === 99}
                         onClose={close}
                     />
                 </IsolateBlock>

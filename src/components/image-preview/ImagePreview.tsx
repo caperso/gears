@@ -12,12 +12,12 @@ type ImageOperationMap = {
     [key in ImageOperation]?: (props?: any) => void;
 };
 
-type Operator = {
+type OperatorProps = {
     bar: ImageOperation[] | React.ReactElement | null;
     contextMenu: ImageOperation[] | React.ReactElement | null;
 };
 
-interface BaseImageProps {
+export interface BaseImageProps {
     w: number; // width
     h: number; // height
     r: number; // rotate
@@ -26,31 +26,50 @@ interface BaseImageProps {
     translate: string;
 }
 
+/*
+ * 组件备注相关说明
+ * 原始尺寸: 图片的原始尺寸
+ * 加载尺寸: 图片所能最大占有屏幕的尺寸
+ *
+ * url: 图片地址
+ * visible:  组件可视状态
+ * onClose:  关闭回调
+ * operator:  控制条, null 则生成简易模式, 'default' 则生成默认操作栏
+ * fixedOnScreen: 是否在整个全屏遮罩固定, 简易模式下(operator = null) 必定为true
+ * getImageLoadedSize: 图片加载成功后返回图片的加载尺寸
+ */
+
 interface Props {
-    url: string; // 图片地址
-    visible: boolean; // 组件可视状态
-    onClose: () => void; // 组件关闭回调
-    fixedOnScreen?: boolean; // 组件是否固定
-    operator?: Operator; // 组件控制项接口
+    url: string;
+    visible: boolean;
+    onClose: () => void;
+    operator: 'default' | OperatorProps | null;
+    fixedOnScreen?: boolean;
+    getImageLoadedSize?: (state: BaseImageProps) => void;
 }
 
 /* Component */
 
 const emptyImageProps: BaseImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0, translate: '-50%' };
 
-const defaultOperator: Operator = {
+const defaultOperator: OperatorProps = {
     bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
     contextMenu: ['rotate', 'free-rotate', 'free-drag'],
 };
 
 export function ImagePreview(this: any, props: Props) {
-    const { url, fixedOnScreen = true, onClose, operator = defaultOperator } = props;
+    const { url, onClose, visible, getImageLoadedSize = undefined } = props;
 
-    let visible = fixedOnScreen ? props.visible : true; // 一旦非固定在屏幕, 则常亮
+    let operator: OperatorProps | null = props.operator ? (props.operator === 'default' ? defaultOperator : props.operator) : null;
 
-    const [imageState, setImageState] = useState<BaseImageProps>(emptyImageProps);
+    let fixedOnScreen = operator === null ? true : props.fixedOnScreen;
+
+    if (fixedOnScreen === false && operator === null) {
+    }
 
     const [imageLoadedState, setImageLoadedState] = useState<BaseImageProps>(emptyImageProps);
+
+    const [imageState, setImageState] = useState<BaseImageProps>(emptyImageProps);
 
     let image = useRef<HTMLImageElement>(null);
 
@@ -76,13 +95,14 @@ export function ImagePreview(this: any, props: Props) {
         const disablePassiveWheelEvent = () => document.addEventListener('wheel', prevent, { passive: false });
         const enablePassiveWheelEvent = () => document.removeEventListener('wheel', prevent);
         if (visible && fixedOnScreen) {
+            console.log('%cnow scroll by wheel is blocked', 'color:purple');
             disablePassiveWheelEvent();
         } else {
+            console.log('%cnow scroll by wheel is available', 'color:green');
             enablePassiveWheelEvent();
         }
-
         return enablePassiveWheelEvent;
-    }, [visible,fixedOnScreen]);
+    }, [visible, fixedOnScreen]);
 
     /**
      * 调整图片至遮罩的中心, 等比缩放图片, 避免屏幕裁剪
@@ -92,8 +112,6 @@ export function ImagePreview(this: any, props: Props) {
     const sizing = (node: HTMLImageElement) => {
         const l = fixedOnScreen ? window.innerWidth / 2 : 0; // 非固定时初始为0
         const t = fixedOnScreen ? window.innerHeight / 2 : 0; // 非固定时初始为0
-
-        const translate = fixedOnScreen ? '-50%' : '0';
 
         const wMax = window.innerWidth * 0.9;
         const hMax = window.innerHeight * 0.9 - 100; // 100为底部功能栏高度保留
@@ -111,18 +129,23 @@ export function ImagePreview(this: any, props: Props) {
                 ? { w: wMax, h: hOrigin / wRatio }
                 : { w: wOrigin / hRatio, h: hMax };
 
+        const translate = fixedOnScreen ? '-50%' : '0';
+
         const changedState = { t, l, w: size.w, h: size.h, translate };
         const finalState = { ...imageState, ...changedState };
         setImageState(finalState);
+        setImageLoadedState(finalState);
         return finalState;
     };
 
     /* 初始化容器大小 */
     const handleImageLoaded = () => {
-        console.log('image-loaded');
+        console.log('%cimage loaded', 'color:red');
         if (image.current) {
             const changedState = sizing(image.current);
-            setImageLoadedState(changedState);
+            if (getImageLoadedSize) {
+                getImageLoadedSize(changedState);
+            }
         }
     };
 
@@ -313,7 +336,7 @@ export function ImagePreview(this: any, props: Props) {
     };
 
     /* 操作栏渲染 */
-    const renderBar = (): Operator['bar'] => {
+    const renderBar = (): OperatorProps['bar'] => {
         if (!operator || !operator.bar) {
             return null;
         }
@@ -343,13 +366,56 @@ export function ImagePreview(this: any, props: Props) {
         return operator.bar;
     };
 
+    const [fullScreenFlag, setFullScreenFlag] = useState(false);
+
+    const easyCursorStyle: React.CSSProperties = { cursor: fullScreenFlag ? 'zoom-out' : 'zoom-in' };
+
+    const toggleFullScreen = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const l = window.innerWidth / 2; // 非固定时初始为0
+        const t = window.innerHeight / 2; // 非固定时初始为0
+
+        const wMax = window.innerWidth * 0.9 - 48; // 安全边界
+        const hMax = window.innerHeight * 0.9 - 48;
+
+        const wRatio = imageLoadedState.w / wMax;
+        const hRatio = imageLoadedState.h / hMax;
+
+        const size = wRatio > hRatio ? { w: wMax, h: imageLoadedState.h / wRatio } : { w: imageLoadedState.w / hRatio, h: hMax };
+
+        const translate = fixedOnScreen ? '-50%' : '0';
+
+        setImageState(s => (fullScreenFlag ? imageLoadedState : { ...s, l, t, w: size.w, h: size.h, translate }));
+        setFullScreenFlag(s => !s);
+    };
+
     if (!visible) {
         return <></>;
     }
 
+    if (!operator) {
+        return (
+            <div className={`g-image-preview-wrapper g-fixed`} onClick={close}>
+                <div className="g-image-preview-icon-close" onClick={close}>
+                    X
+                </div>
+                <img
+                    className={`g-image-preview-image`}
+                    onContextMenu={disableActions}
+                    onClick={toggleFullScreen}
+                    style={{ ...imageStyle, ...easyCursorStyle }}
+                    onLoad={handleImageLoaded}
+                    ref={image}
+                    src={url}
+                    alt="图片"
+                />
+            </div>
+        );
+    }
+
     return (
         <div
-            id="123"
             className={`g-image-preview-wrapper ${fixedOnScreen ? 'g-fixed' : ''}`}
             style={fixedOnScreen ? {} : imageStaticStyle}
             onClick={fixedOnScreen ? close : void 0}
@@ -366,7 +432,8 @@ export function ImagePreview(this: any, props: Props) {
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onContextMenu={disableActions}
-                    style={fixedOnScreen ? imageStyle : imageStyle}
+                    onClick={(e: React.MouseEvent) => e.stopPropagation}
+                    style={imageStyle}
                     onLoad={handleImageLoaded}
                     ref={image}
                     src={url}
