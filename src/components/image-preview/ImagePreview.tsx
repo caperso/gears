@@ -34,6 +34,7 @@ export interface BaseImageProps {
  * url: 图片地址
  * visible:  组件可视状态
  * onClose:  关闭回调
+ * simpleMode: 简单模式, 当为 true 时, 不接受 operator 和 fixedOnScreen
  * operator:  控制条, null 则生成简易模式, 'default' 则生成默认操作栏
  * fixedOnScreen: 是否在整个全屏遮罩固定, 简易模式下(operator = null) 必定为true
  * getImageLoadedSize: 图片加载成功后返回图片的加载尺寸
@@ -43,7 +44,8 @@ interface Props {
     url: string;
     visible: boolean;
     onClose: () => void;
-    operator: 'default' | OperatorProps | null;
+    simpleMode?: boolean;
+    operator?: 'default' | OperatorProps | null;
     fixedOnScreen?: boolean;
     getImageLoadedSize?: (state: BaseImageProps) => void;
 }
@@ -58,14 +60,11 @@ const defaultOperator: OperatorProps = {
 };
 
 export function ImagePreview(this: any, props: Props) {
-    const { url, onClose, visible, getImageLoadedSize = undefined } = props;
+    const { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
-    let operator: OperatorProps | null = props.operator ? (props.operator === 'default' ? defaultOperator : props.operator) : null;
+    let operator = simpleMode ? null : props.operator === 'default' ? defaultOperator : props.operator;
 
-    let fixedOnScreen = operator === null ? true : props.fixedOnScreen;
-
-    if (fixedOnScreen === false && operator === null) {
-    }
+    let fixedOnScreen = simpleMode ? true : props.fixedOnScreen;
 
     const [imageLoadedState, setImageLoadedState] = useState<BaseImageProps>(emptyImageProps);
 
@@ -94,7 +93,7 @@ export function ImagePreview(this: any, props: Props) {
         const prevent = (e: any) => e.preventDefault();
         const disablePassiveWheelEvent = () => document.addEventListener('wheel', prevent, { passive: false });
         const enablePassiveWheelEvent = () => document.removeEventListener('wheel', prevent);
-        if (visible && fixedOnScreen) {
+        if (!simpleMode && visible && fixedOnScreen) {
             console.log('%cnow scroll by wheel is blocked', 'color:purple');
             disablePassiveWheelEvent();
         } else {
@@ -102,10 +101,11 @@ export function ImagePreview(this: any, props: Props) {
             enablePassiveWheelEvent();
         }
         return enablePassiveWheelEvent;
-    }, [visible, fixedOnScreen]);
+    }, [visible, fixedOnScreen, simpleMode]);
+
+    // const [imageOriginState, setImageOriginState] = useState(emptyImageProps);
 
     /**
-     * 调整图片至遮罩的中心, 等比缩放图片, 避免屏幕裁剪
      * @param {HTMLImageElement} node
      * @returns
      */
@@ -131,20 +131,21 @@ export function ImagePreview(this: any, props: Props) {
 
         const translate = fixedOnScreen ? '-50%' : '0';
 
+        // setImageOriginState({ ...imageState, t, l, w: wOrigin, h: hOrigin, translate });
         const changedState = { t, l, w: size.w, h: size.h, translate };
-        const finalState = { ...imageState, ...changedState };
-        setImageState(finalState);
-        setImageLoadedState(finalState);
-        return finalState;
+        const state = { ...imageState, ...changedState };
+        setImageLoadedState(state);
+        setImageState(state);
+        return state;
     };
 
     /* 初始化容器大小 */
     const handleImageLoaded = () => {
         console.log('%cimage loaded', 'color:red');
         if (image.current) {
-            const changedState = sizing(image.current);
+            const state = sizing(image.current);
             if (getImageLoadedSize) {
-                getImageLoadedSize(changedState);
+                getImageLoadedSize(state);
             }
         }
     };
@@ -394,7 +395,7 @@ export function ImagePreview(this: any, props: Props) {
         return <></>;
     }
 
-    if (!operator) {
+    if (simpleMode) {
         return (
             <div className={`g-image-preview-wrapper g-fixed`} onClick={close}>
                 <div className="g-image-preview-icon-close" onClick={close}>

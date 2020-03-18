@@ -1,4 +1,5 @@
-import { Modal } from 'antd';
+import { Checkbox, Modal } from 'antd';
+import CheckboxGroup from 'antd/lib/checkbox/Group';
 import { CodePaper } from 'components/code-paper/CodePaper';
 import { IsolateBlock } from 'components/isolate-block/IsolateBlock';
 import React, { useEffect, useState } from 'react';
@@ -60,7 +61,7 @@ export const ImagePreviewDemo = () => {
                     <h3>简易模式示例</h3>
                     <p>单击图片 将等比拉伸至可能的屏幕最大尺寸, 无菜单</p>
                     <img src={img} alt="图片" className="g-sample-image" onClick={() => setShow(1)} />
-                    <ImagePreview url={img} operator={null} visible={show === 1} onClose={close} />
+                    <ImagePreview url={img} simpleMode={true} visible={show === 1} onClose={close} />
                 </IsolateBlock>
 
                 <IsolateBlock>
@@ -88,18 +89,20 @@ export const ImagePreviewDemo = () => {
                 </IsolateBlock>
 
                 <IsolateBlock>
-                    <h4>网络图片</h4>
-                    <p>默认菜单</p>
+                    <h4>组件测试</h4>
                     <p>将想要测试图片地址输入(空白使用默认图片)</p>
-
                     <CodePaper text={webImageUrl} handleClick={showWebImage} buttonText="显示预览" className="small-size" />
-                    <ImagePreview
-                        url={webImageUrl}
-                        operator={{ bar: null, contextMenu: ['zoom-in', 'zoom-out'] }}
-                        fixedOnScreen={true}
-                        visible={show === 99}
-                        onClose={close}
-                    />
+                    <CheckboxGroup>
+                        <label>
+                            <Checkbox></Checkbox>
+                            简易模式
+                        </label>
+                        <label>
+                            <Checkbox></Checkbox>
+                            遮罩固定
+                        </label>
+                    </CheckboxGroup>
+                    <ImagePreview url={webImageUrl} simpleMode={true} visible={show === 99} onClose={close} />
                 </IsolateBlock>
             </div>
             <ReactMarkdown source={doc} plugins={[toc]}></ReactMarkdown>

@@ -14,15 +14,8 @@
     left: 0;
     right: 0;
     background: #00000078;
-}
-
-.g-fixed {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #00000078;
+    overflow: auto;
+    z-index: 100; // WARN
 }
 
 .g-image-preview-icon-close {
