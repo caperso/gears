@@ -1,5 +1,6 @@
 import { CheckCircleTwoTone, MenuFoldOutlined, MenuUnfoldOutlined, SettingTwoTone } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import { SiteRecord } from 'pages/SiteRecord';
 import React, { useEffect, useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
 import './App.scss';
@@ -97,6 +98,8 @@ const App: React.FC = () => {
                     </Content>
                 </Layout>
             </Layout>
+
+            <SiteRecord/>
         </div>
     );
 };
