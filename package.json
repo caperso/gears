@@ -80,7 +80,6 @@
         "type": "git",
         "url": "git+https://github.com/caperso/gears.git"
     },
-    "homepage": "home",
     "files": [
         "es",
         "lib"
