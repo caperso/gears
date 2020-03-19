@@ -1,5 +1,5 @@
 {
-    "name": "gears",
+    "name": "gearware",
     "version": "0.1.0",
     "private": false,
     "main": "lib/index.js",
@@ -73,7 +73,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git https://github.com/caperso/gears.git"
+        "url": "git+https://github.com/caperso/gears.git"
     },
     "homepage": "home",
     "files": [
