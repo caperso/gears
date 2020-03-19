@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import './CodePaper.scss';
+import './CodePaper.less';
 interface Props {
     text: string;
     buttonText?: string;

@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
-import './Waterfall.scss';
+import './Waterfall.less';
 
 interface Props {
     children: React.ReactElement[];

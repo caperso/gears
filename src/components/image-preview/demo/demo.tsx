@@ -8,7 +8,7 @@ import toc from 'remark-toc';
 import img from '../../../assets/image/panda.png';
 import markdown from '../doc/image-preview.md';
 import { BaseImageProps, ImagePreview } from '../ImagePreview';
-import './demo.scss';
+import './demo.less';
 
 const sampleImage = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
 

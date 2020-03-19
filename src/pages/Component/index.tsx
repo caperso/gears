@@ -2,7 +2,7 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 import { RouteWithSubRoutes } from '../../App';
-import './style.scss';
+import './style.less';
 
 interface ICompProps {
   routes: any[];

@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import { SiteRecord } from 'pages/SiteRecord';
 import React, { useEffect, useState } from 'react';
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
-import './App.scss';
+import './App.less';
 import { IRouteConfigs, routeConfig } from './config/index';
 import { NotFound } from './pages/NotFound';
 const { Header, Sider, Content } = Layout;
