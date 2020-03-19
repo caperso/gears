@@ -62,7 +62,8 @@
         "es",
         "lib"
     ],
+    "typings": "typings/index.d.ts",
     "publishConfig": {
         "registry": "https://github.com/caperso/gears.git"
-      }
+    }
 }
