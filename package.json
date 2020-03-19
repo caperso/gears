@@ -81,6 +81,6 @@
         "lib"
     ],
     "publishConfig": {
-        "registry": "https://github.com/caperso/gears.git"
+        "registry": "http://registry.npmjs.org/gearware"
     }
 }
