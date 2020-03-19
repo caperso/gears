@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "downlevelIteration": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -11,15 +14,19 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
-    "declaration":true,
-    "declarationDir":"./types",
+    "noEmit": true,
+    "declaration": true,
+    "declarationDir": "./types",
     "jsx": "preserve",
     "sourceMap": true,
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node"
   },
-  "exclude": ["node_modules"],
-  "include": ["src"]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src"
+  ]
 }

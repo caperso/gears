@@ -1,8 +1,10 @@
 {
     "name": "gears",
     "version": "0.1.0",
-    "private": true,
-    "main":"lib/index.js",
+    "private": false,
+    "main": "lib/index.js",
+    "typings": "types/index.d.ts",
+    "module": "esm/index.js",
     "dependencies": {
         "@testing-library/jest-dom": "^5.1.1",
         "@testing-library/react": "^9.3.2",
@@ -62,19 +64,22 @@
         "@babel/preset-typescript": "^7.8.3",
         "@babel/runtime": "^7.8.7",
         "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^7.0.1",
         "gulp-babel": "^8.0.0",
-        "react-markdown": "^4.3.1"
+        "gulp-cssnano": "^2.1.3",
+        "gulp-less": "^4.0.1",
+        "react-markdown": "^4.3.1",
+        "through2": "^3.0.1"
     },
     "repository": {
         "type": "git",
         "url": "git https://github.com/caperso/gears.git"
     },
-    "homepage": "gears.caperal.cn",
+    "homepage": "home",
     "files": [
         "es",
         "lib"
     ],
-    "typings": "typings/index.d.ts",
     "publishConfig": {
         "registry": "https://github.com/caperso/gears.git"
     }
