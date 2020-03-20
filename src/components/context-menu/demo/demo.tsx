@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ContextMenu from '../ContextMenu';
-import './demo.scss';
+import './demo.less';
 
 export const BasicContextMenuSample = () => {
     const log = () => console.log('this is a log');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './index.scss';
+import './index.less';
 import { Level } from './Levels';
 
 interface Props {

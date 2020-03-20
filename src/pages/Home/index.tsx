@@ -2,7 +2,7 @@ import { Avatar, Card, Col, Row, Statistic } from 'antd';
 import { routeConfig } from 'config';
 import React from 'react';
 import img from '../../assets/image/panda.png';
-import './style.scss';
+import './style.less';
 
 const { Meta } = Card;
 

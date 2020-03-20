@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AxisPoint, DefaultHTMLElementProps, MenuItem } from 'typings/types';
-import './ContextMenu.scss';
+import './ContextMenu.less';
 
 interface Props extends DefaultHTMLElementProps {
     menu?: MenuItem[] | React.ReactElement | null;

@@ -2,7 +2,7 @@
 import ContextMenu from 'components/context-menu/ContextMenu';
 import React, { useEffect, useRef, useState } from 'react';
 import { AxisPoint, MenuItem } from 'typings/types';
-import './ImagePreview.scss';
+import './ImagePreview.less';
 
 type ImageControlMode = 'free-rotate' | 'free-drag' | 'ratio-scale';
 type ImageAction = 'rotate' | 'drag' | 'ratio-scale' | 'zoom-in' | 'zoom-out' | 'reset';

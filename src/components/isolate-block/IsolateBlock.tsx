@@ -1,6 +1,6 @@
 import React from 'react';
 import { DefaultHTMLElementProps } from 'typings/types';
-import './IsolateBlock.scss';
+import './IsolateBlock.less';
 
 interface Props extends DefaultHTMLElementProps {
     children: React.ReactNode;
