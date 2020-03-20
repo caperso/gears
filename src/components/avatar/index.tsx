@@ -98,11 +98,11 @@ export default class Avatar extends React.Component<AvatarProps, AvatarState> {
             [`${prefixCls}-sm`]: size === 'small',
         });
 
-        const classString = classNames(prefixCls, className, sizeCls, {
-            [`${prefixCls}-${shape}`]: shape,
-            [`${prefixCls}-image`]: src && isImgExist,
-            [`${prefixCls}-icon`]: icon,
-        });
+        // const classString = classNames(prefixCls, className, sizeCls, {
+        //     [`${prefixCls}-${shape}`]: shape,
+        //     [`${prefixCls}-image`]: src && isImgExist,
+        //     [`${prefixCls}-icon`]: icon,
+        // });
 
         const sizeStyle: React.CSSProperties =
             typeof size === 'number'
