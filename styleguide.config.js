@@ -11,9 +11,9 @@ module.exports = {
     components: 'src/components/**/[A-Z]*.tsx',
     ignore:['**/demo/*.{ts,tsx}'],
 
-    ribbon: {
-        url: 'https://github.com/caperso/gearware',
-    },
+    // ribbon: {
+    //     url: 'https://github.com/caperso/gearware',
+    // },
 
 
 
