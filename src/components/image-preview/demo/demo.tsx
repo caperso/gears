@@ -3,8 +3,6 @@ import CheckboxGroup from 'antd/lib/checkbox/Group';
 import { CodePaper } from 'components/code-paper/CodePaper';
 import { IsolateBlock } from 'components/isolate-block/IsolateBlock';
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import toc from 'remark-toc';
 import img from '../../../assets/image/panda.png';
 import markdown from '../doc/image-preview.md';
 import { BaseImageProps, ImagePreview } from '../ImagePreview';
@@ -12,7 +10,7 @@ import './demo.less';
 
 const sampleImage = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
 
-export const ImagePreviewDemo = () => {
+ const ImagePreviewDemo = () => {
     const [show, setShow] = useState<number | null>(-1);
 
     const [webImageUrl, setWebImageUrl] = useState('');
@@ -105,7 +103,8 @@ export const ImagePreviewDemo = () => {
                     <ImagePreview url={webImageUrl} simpleMode={true} visible={show === 99} onClose={close} />
                 </IsolateBlock>
             </div>
-            <ReactMarkdown source={doc} plugins={[toc]}></ReactMarkdown>
         </div>
     );
 };
+
+export default ImagePreviewDemo
