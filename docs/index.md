@@ -2,10 +2,10 @@
 hero:
   title: Gearware
   desc: Gearware UI for React
-  logo: 11
+  logo: aa
   actions:
     - text: take a bite
-      link: /getting-started
+      link: /start
 features:
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/881dc458-f20b-407b-947a-95104b5ec82b/k79dm8ih_w144_h144.png
     title: simple
