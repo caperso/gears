@@ -433,7 +433,7 @@ export function ImagePreview(this: any, props: Props) {
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onContextMenu={disableActions}
-                    onClick={(e: React.MouseEvent) => e.stopPropagation}
+                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
                     style={imageStyle}
                     onLoad={handleImageLoaded}
                     ref={image}
