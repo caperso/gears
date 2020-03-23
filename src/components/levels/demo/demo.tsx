@@ -21,8 +21,7 @@ const levels: Level[] = [
     ],
   },
 ];
-
-export const LevelsDemo = () => {
+const LevelsDemo = () => {
   const [levelData, setLevelData] = useState(levels);
 
   const handleChange = (text: string) => {
@@ -46,3 +45,5 @@ export const LevelsDemo = () => {
     </div>
   );
 };
+
+export default () => <LevelsDemo />;

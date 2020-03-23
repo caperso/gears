@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useState } from 'react';
 import './Waterfall.less';
 
 interface Props {
-  children: React.ReactElement[];
+  children: React.ReactElement | React.ReactElement[];
   column?: number;
 }
 

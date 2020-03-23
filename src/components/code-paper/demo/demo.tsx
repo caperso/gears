@@ -2,7 +2,7 @@ import { message } from 'antd';
 import React from 'react';
 import { CodePaper } from '../CodePaper';
 
-export const CodePaperDemo = () => {
+const CodePaperDemo = () => {
   const handleClick = (text: string) => {
     message.info(text);
   };
@@ -13,3 +13,5 @@ export const CodePaperDemo = () => {
     </div>
   );
 };
+
+export default () => <CodePaperDemo />;
