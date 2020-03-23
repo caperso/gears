@@ -26,5 +26,8 @@
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
     "yorkie": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
   }
 }
