@@ -1,14 +1,12 @@
 ---
-title: Documentation
+title: Doc
 nav:
-  order: 3
+  order: 2
   title: Documentation
 toc: menu
 ---
 
-# Documentation
-
-## Image Preview
+## Demo
 
 组件名称：图片预览（ImagePreview）
 基础操作: 滚轮缩放 拖拽

@@ -15,6 +15,7 @@
 
 # umi
 /.umi
-src/.umi
 /.umi-production
 /.env.local
+src/.umi
+src/.production
