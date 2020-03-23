@@ -2,7 +2,6 @@
 hero:
   title: Gearware
   desc: Gearware, react组件库
-  logo: aa
   actions:
     - text: 快速查看
       link: /start

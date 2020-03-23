@@ -2,7 +2,6 @@
 hero:
   title: Gearware
   desc: Gearware UI for React
-  logo: aa
   actions:
     - text: take a bite
       link: /start
