@@ -15,7 +15,10 @@ toc: menu
 菜单操作: 旋转 重置
 
 <code src="./demo/demo-simple.tsx" />
+
 <code src="./demo/demo-custom.tsx" />
+
+<code src="./demo/demo-unfixed.tsx" />
 
 ## API
 

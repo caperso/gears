@@ -21,16 +21,16 @@ const ImagePreviewDemo = () => {
     <div className="g-table">
       <img
         alt="图片"
-        className="g-sample-image"
         src={sampleImage}
+        className="g-sample-image"
         onClick={() => setShow(true)}
       />
       <ImagePreview
         url={sampleImage}
-        operator="default"
-        fixedOnScreen={true}
         visible={show}
         onClose={close}
+        operator="default"
+        fixedOnScreen={true}
       />
     </div>
   );

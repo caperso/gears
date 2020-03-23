@@ -20,21 +20,21 @@ const ImagePreviewDemo = () => {
   return (
     <div className="g-table">
       <img
-        src={sampleImage}
         alt="图片"
+        src={sampleImage}
         className="g-sample-image"
         onClick={() => setShow(true)}
       />
       <ImagePreview
         url={sampleImage}
-        simpleMode={true}
         visible={show}
         onClose={close}
+        simpleMode={true}
       />
     </div>
-  )
-}
+  );
+};
 
 export default () => {
-  return <ImagePreviewDemo />
+  return <ImagePreviewDemo />;
 };
