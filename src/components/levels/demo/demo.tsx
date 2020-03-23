@@ -1,3 +1,8 @@
+/**
+ * title: 层级导航（Levels）
+ * desc:  开发中
+ */
+
 import { CodePaper } from '@/components/code-paper/CodePaper';
 import React, { useState } from 'react';
 import { Level, Levels } from '../Levels';
@@ -33,9 +38,6 @@ const LevelsDemo = () => {
   };
   return (
     <div className="demo-levels-wrapper">
-      <h3>组件名称：层级导航（Levels）</h3>
-      <h4>(开发中)</h4>
-      <h4>示例</h4>
       当前数据:
       <CodePaper
         text={`${JSON.stringify(levels)}`}
