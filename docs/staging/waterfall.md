@@ -1,14 +1,15 @@
 ---
-title: Doc
+group:
+  title: staging
 nav:
-  order: 2
-  title: Documentation
+  title: Staging
+title: waterfall
 toc: menu
 ---
 
-## Demo
+## demo
 
-<code src="./demo/demo.tsx" />
+<code src="@/components/waterfall/demo/demo.tsx" />
 
 ## API
 

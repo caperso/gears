@@ -1,14 +1,15 @@
 ---
-title: Doc
+group:
+  title: staging
 nav:
-  order: 2
-  title: Documentation
+  title: Staging
+demo: code-paper
 toc: menu
 ---
 
-## Demo
+## demo
 
-<code src="./demo/demo.tsx" />
+<code src="@/components/code-paper/demo/demo.tsx" />
 
 ## API
 

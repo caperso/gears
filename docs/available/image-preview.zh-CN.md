@@ -1,22 +1,25 @@
 ---
-title: Doc
-nav:
-  order: 2
-  title: Documentation
+title: 图片预览(ImagePreview)
 toc: menu
 ---
 
-## Demo
+## 概览
 
-组件名称：图片预览（ImagePreview）
-基础操作: 滚轮缩放 拖拽
-菜单操作: 旋转 重置
+|                |                            |
+| :------------- | :------------------------- |
+| 导入名称       | ImagePreview               |
+| 描述           | 浏览图片, 含基础交互功能   |
+| 特性: 基础     | 缩放, 拖拽, 旋转, 自由旋转 |
+| 特性: 即将更新 | 保存                       |
+| 特性: 未来     | 测量, 简单绘画             |
 
-<code src="./demo/demo-simple.tsx" />
+## 演示
 
-<code src="./demo/demo-custom.tsx" />
+<code src="@/components/image-preview/demo/demo-simple.tsx" />
 
-<code src="./demo/demo-unfixed.tsx" />
+<code src="@/components/image-preview/demo/demo-custom.tsx" />
+
+<code src="@/components/image-preview/demo/demo-unfixed.tsx" />
 
 ## API
 

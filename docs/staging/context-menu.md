@@ -1,22 +1,25 @@
 ---
-title: Doc
+group:
+  title: staging
 nav:
-  order: 2
-  title: Documentation
+  title: Staging
+title: context-menu
 toc: menu
 ---
 
-## Demo
+## Overview
+
+## demo
 
 组件名称：图片预览（ImagePreview）
 基础操作: 滚轮缩放 拖拽
 菜单操作: 旋转 重置
 
-<code src="./demo/demo.tsx" />
+<code src="@/components/context-menu/demo/demo.tsx" />
 
-<code src="./demo/demo.tsx" />
+<code src="@/components/context-menu/demo/demo.tsx" />
 
-<code src="./demo/demo.tsx" />
+<code src="@/components/context-menu/demo/demo.tsx" />
 
 ## API
 

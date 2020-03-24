@@ -1,18 +1,19 @@
 ---
-title: Doc
+group:
+  title: staging
 nav:
-  order: 2
-  title: Documentation
+  title: Staging
+title: levels
 toc: menu
 ---
 
-## Levels
+## overview
 
 still developing
 
-## Demo
+## demo
 
-<code src="./demo/demo.tsx" />
+<code src="@/components/levels/demo/demo.tsx" />
 
 ## API
 
