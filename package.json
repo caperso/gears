@@ -2,6 +2,7 @@
   "private": true,
   "name": "dumi-app",
   "scripts": {
+    "push:master": "git checkout master && git merge change-dumi && git push && git checkout change-dumi",
     "start": "dumi dev",
     "build": "dumi build",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
