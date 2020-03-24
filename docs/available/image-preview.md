@@ -10,8 +10,8 @@ toc: menu
 | import name       | ImagePreview                               |
 | description       | View a image with some interactive actions |
 | feature: basic    | scale, drag, rotate, free-rotate           |
-| feature: upcoming | save                                       |
-| feature: future   | measure, simple drawing                    |
+| feature: upcoming | custom operation bar                       |
+| feature: future   | measure, simple drawing, save              |
 
 ## Demo
 
@@ -23,12 +23,26 @@ toc: menu
 
 ## API
 
-| 参数               | 是否必须 | 类型                               | 默认值 | 说明                                                     |
-| :----------------- | :------- | :--------------------------------- | :----- | :------------------------------------------------------- |
-| url                | true     | string                             | ''     | 图片地址                                                 |
-| visible            | true     | boolean                            | false  | 可视状态                                                 |
-| onClose            | true     | () => void;                        | null   | 关闭时候的回调                                           |
-| simpleMode         | false    | boolean                            | true   | 简易模式, 当为 true 时, operator 和 fixedOnScreen 不可控 |
-| operator           | true     | 'default' \| null \| OperatorProps | null;  | 控制条, 'default' 则生成默认操作栏,简易模式下必定为 null |
-| fixedOnScreen      | false    | boolean                            | true   | 是否在整个全屏遮罩固定, 简易模式下必定为 true            |
-| getImageLoadedSize | false    | (state: BaseImageProps) => void;   | null   | 图片加载成功后返回图片的加载尺寸                         |
+| prop name          | required | type                               | default | description                                      |
+| :----------------- | :------- | :--------------------------------- | :------ | :----------------------------------------------- |
+| url                | true     | string                             | ''      | url image                                        |
+| visible            | true     | boolean                            | false   | whether component is visible or not              |
+| onClose            | true     | () => void;                        | null    | call the function when closed                    |
+| simpleMode         | false    | boolean                            | true    | no operation bar, only zoom.                     |
+| operator           | true     | 'default' \| null \| OperatorProps | null;   | operations that controls image's state           |
+| fixedOnScreen      | false    | boolean                            | true    | whether fixed on a full screen mask              |
+| getImageLoadedSize | false    | (state: BaseImageProps) => void;   | null    | when image loaded call function with size params |
+
+## details
+
+| prop name  | further description                                                                       |
+| :--------- | :---------------------------------------------------------------------------------------- |
+| simpleMode | when true: fixedOnScreen is settled as true, operator is settled as null                  |
+| operator   | when 'default': generate default operations, when OperatorProps: receives array of string |
+
+## types
+
+| type name      | description                      |
+| :------------- | :------------------------------- |
+| OperatorProps  | currently please check it on ide |
+| BaseImageProps | currently please check it on ide |

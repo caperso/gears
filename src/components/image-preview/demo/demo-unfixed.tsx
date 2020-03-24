@@ -4,8 +4,9 @@
  */
 
 import { Modal } from 'antd';
+import 'antd/es/modal/style/css';
 import React, { useState } from 'react';
-import { BaseImageProps } from '../ImagePreview';
+import { BaseImageProps, ImagePreview } from '../ImagePreview';
 import './demo.less';
 
 const sampleImage =
@@ -38,15 +39,14 @@ const ImagePreviewDemo = () => {
         width={modalWidth}
         style={{ width: '780px', height: '520px' }}
       >
-        123123123213213
-        {/* <ImagePreview
+        <ImagePreview
           url={sampleImage}
           visible={true}
           onClose={close}
           operator="default"
           fixedOnScreen={false}
           getImageLoadedSize={getImageLoadedSize}
-        /> */}
+        />
       </Modal>
     </div>
   );
