@@ -1,5 +1,3 @@
-// import { ContextMenu } from 'components/ContextMenu';
-// import ContextMenu from 'components/context-menu/ContextMenu';
 import React, { useEffect, useRef, useState } from 'react';
 import { AxisPoint, MenuItem } from '../../typings/types';
 import './ImagePreview.less';
@@ -12,9 +10,9 @@ type ImageOperationMap = {
     [key in ImageOperation]?: (props?: any) => void;
 };
 
-type OperatorProps = {
-    bar: ImageOperation[] | React.ReactElement | null;
-    contextMenu: ImageOperation[] | React.ReactElement | null;
+export type OperatorProps = {
+    bar?: ImageOperation[] | React.ReactElement | null;
+    contextMenu?: ImageOperation[] | React.ReactElement | null;
 };
 
 export interface BaseImageProps {
@@ -52,7 +50,14 @@ interface Props {
 
 /* Component */
 
-const emptyImageProps: BaseImageProps = { w: 0, h: 0, r: 0, l: 0, t: 0, translate: '-50%' };
+const emptyImageProps: BaseImageProps = {
+    w: 0,
+    h: 0,
+    r: 0,
+    l: 0,
+    t: 0,
+    translate: '-50%',
+};
 
 const defaultOperator: OperatorProps = {
     bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
@@ -60,11 +65,11 @@ const defaultOperator: OperatorProps = {
 };
 
 export function ImagePreview(this: any, props: Props) {
-    const { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
+    let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
     let operator = simpleMode ? null : props.operator === 'default' ? defaultOperator : props.operator;
 
-    let fixedOnScreen = simpleMode ? true : props.fixedOnScreen;
+    let fixedOnScreen = simpleMode ? true : props.fixedOnScreen ? props.fixedOnScreen : true;
 
     const [imageLoadedState, setImageLoadedState] = useState<BaseImageProps>(emptyImageProps);
 
@@ -152,12 +157,20 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 放大 */
     const zoomIn = () => {
-        setImageState(state => ({ ...state, w: imageState.w * 1.05, h: imageState.h * 1.05 }));
+        setImageState(state => ({
+            ...state,
+            w: imageState.w * 1.05,
+            h: imageState.h * 1.05,
+        }));
     };
 
     /* 缩小 */
     const zoomOut = () => {
-        setImageState(state => ({ ...state, w: imageState.w * 0.95, h: imageState.h * 0.95 }));
+        setImageState(state => ({
+            ...state,
+            w: imageState.w * 0.95,
+            h: imageState.h * 0.95,
+        }));
     };
 
     /* 旋转 */
@@ -188,7 +201,10 @@ export function ImagePreview(this: any, props: Props) {
         let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05;
 
         // 捕获鼠标在图片位置
-        const relativePoint: AxisPoint = { x: e.clientX - imageState.l, y: e.clientY - imageState.t };
+        const relativePoint: AxisPoint = {
+            x: e.clientX - imageState.l,
+            y: e.clientY - imageState.t,
+        };
 
         // 缩放宽高
         let w = imageState.w * (1 + scaleDelta);
@@ -212,14 +228,20 @@ export function ImagePreview(this: any, props: Props) {
     const changeMode = (mode: ImageControlMode) => setControlMode(mode);
 
     /* 拖拽 */
-    const [distToImageBoundary, setDistToImageBoundary] = useState<AxisPoint>({ x: 0, y: 0 });
+    const [distToImageBoundary, setDistToImageBoundary] = useState<AxisPoint>({
+        x: 0,
+        y: 0,
+    });
     const [draggable, setDraggable] = useState(false);
 
     // 拖拽开始
     const startMove = (e: React.MouseEvent) => {
         e.preventDefault();
         setDraggable(true);
-        setDistToImageBoundary({ x: e.clientX - image.current!.offsetLeft, y: e.clientY - image.current!.offsetTop });
+        setDistToImageBoundary({
+            x: e.clientX - image.current!.offsetLeft,
+            y: e.clientY - image.current!.offsetTop,
+        });
     };
 
     // 拖拽移动
@@ -312,38 +334,16 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 渲染 */
 
-    /* 右键菜单渲染 */
-    const renderContextMenu = (): MenuItem[] | React.ReactElement | null => {
-        // 不渲染右键菜单
-        if (!operator || !operator.contextMenu) {
-            return null;
-        }
-
-        // 字符串数组
-        if (operator.contextMenu instanceof Array) {
-            let menuList: MenuItem[] = [];
-            for (let name of operator.contextMenu) {
-                const method = imageOperations[name];
-                if (method) {
-                    const newItem: MenuItem = { name, method };
-                    menuList = [...menuList, newItem];
-                }
-            }
-            return menuList;
-        }
-
-        // 组件
-        return operator.contextMenu as React.ReactElement;
-    };
-
     /* 操作栏渲染 */
-    const renderBar = (): OperatorProps['bar'] => {
-        if (!operator || !operator.bar) {
+    //TODO: move all renderBar to a isolate comp next time plz
+    const renderBar = (bar: OperatorProps['bar']) => {
+        if (!bar) {
             return null;
         }
-        if (operator.bar instanceof Array) {
+
+        if (bar instanceof Array) {
             let barOperations: MenuItem[] = [];
-            for (let name of operator.bar) {
+            for (let name of bar) {
                 const method = imageOperations[name];
                 if (method) {
                     const newItem: MenuItem = { name, method };
@@ -364,12 +364,53 @@ export function ImagePreview(this: any, props: Props) {
             );
             return menu;
         }
-        return operator.bar;
+
+        const findOperation = (str: string) => {
+            let method = imageOperations[str as keyof ImageOperationMap];
+
+            if (!method) {
+                console.warn(`method key:${str} is not correct, please check`);
+            }
+            return method;
+        };
+
+        const bindMethods = (element: React.ReactElement) => {
+            console.log(element);
+
+            let method = findOperation(element.props['data-gear-image-method']);
+            console.log(method, element.props.onClick);
+
+            // element.props.onClick = method;
+        };
+
+        let children = bar.props.children;
+
+        if (!children) {
+            throw new Error('Bar contains no react element children');
+        }
+
+        if (!children.length) {
+            bindMethods(children);
+        } else {
+            children.forEach((item: React.ReactElement) => bindMethods(item));
+        }
+
+        const menu = (
+            <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
+                {bar.props}
+            </div>
+        );
+
+        console.log({ ...operator });
+
+        return menu;
     };
 
     const [fullScreenFlag, setFullScreenFlag] = useState(false);
 
-    const easyCursorStyle: React.CSSProperties = { cursor: fullScreenFlag ? 'zoom-out' : 'zoom-in' };
+    const easyCursorStyle: React.CSSProperties = {
+        cursor: fullScreenFlag ? 'zoom-out' : 'zoom-in',
+    };
 
     const toggleFullScreen = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -426,23 +467,44 @@ export function ImagePreview(this: any, props: Props) {
                     X
                 </div>
             )}
-            {/* <ContextMenu menu={renderContextMenu()}> */}
-                <img
-                    className={`g-image-preview-image`}
-                    onMouseDown={handleMouseDown}
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
-                    onContextMenu={disableActions}
-                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                    style={imageStyle}
-                    onLoad={handleImageLoaded}
-                    ref={image}
-                    src={url}
-                    alt="图片"
-                    onWheel={toScale}
-                />
-            {/* </ContextMenu> */}
-            {renderBar()}
+            <img
+                className={`g-image-preview-image`}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onContextMenu={disableActions}
+                onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                style={imageStyle}
+                onLoad={handleImageLoaded}
+                ref={image}
+                src={url}
+                alt="图片"
+                onWheel={toScale}
+            />
+            {renderBar(operator ? operator.bar : null)}
         </div>
     );
 }
+//   /* 右键菜单渲染 */
+//   const renderContextMenu = (): MenuItem[] | React.ReactElement | null => {
+//     // 不渲染右键菜单
+//     if (!operator || !operator.contextMenu) {
+//         return null;
+//     }
+
+//     // 字符串数组
+//     if (operator.contextMenu instanceof Array) {
+//         let menuList: MenuItem[] = [];
+//         for (let name of operator.contextMenu) {
+//             const method = imageOperations[name];
+//             if (method) {
+//                 const newItem: MenuItem = { name, method };
+//                 menuList = [...menuList, newItem];
+//             }
+//         }
+//         return menuList;
+//     }
+
+//     // 组件
+//     return operator.contextMenu as React.ReactElement;
+// };

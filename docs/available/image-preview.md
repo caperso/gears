@@ -19,6 +19,8 @@ toc: menu
 
 <code src="@/components/image-preview/demo/demo-custom.tsx" />
 
+<code src="@/components/image-preview/demo/demo-operation.tsx" />
+
 <code src="@/components/image-preview/demo/demo-unfixed.tsx" />
 
 ## API
