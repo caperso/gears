@@ -1,21 +1,23 @@
-# dumi app
+# gearware
 
-## Getting Started
+React UI lib
 
-Install dependencies,
+**_still developing_**
 
-```bash
-$ npm i
-```
+## Documentation
 
-Start the dev server,
+<https://gears.caperal.cn/>
 
-```bash
-$ npm start
-```
+## Demos
 
-Build site app,
+<https://gears.caperal.cn>
 
-```bash
-$ npm run build
-```
+## Install
+
+`npm install gearware`
+
+or
+
+`yarn add gearware`
+
+## Description
