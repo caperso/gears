@@ -27,7 +27,7 @@ const ImagePreviewDemo = () => {
     return (
         <div className="g-table">
             <img alt="图片" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
-            <Modal visible={show} onCancel={close} width={modalWidth} style={{ width: '780px', height: '520px' }}>
+            <Modal visible={show} onCancel={close} width={modalWidth} style={{ width: '780px', height: '520px', top: '10px' }}>
                 <ImagePreview
                     url={sampleImage}
                     visible={true}

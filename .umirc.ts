@@ -4,10 +4,10 @@ export default defineConfig({
     title: 'Gearware',
     mode: 'site',
     logo: 'https://www.easyicon.net/api/resizeApi.php?id=1180534&size=72',
-    locales: [
-        ['zh-CN', '中文'],
-        ['en-US', 'English'],
-    ],
+    // locales: [
+    //     ['zh-CN', '中文'],
+    //     ['en-US', 'English'],
+    // ],
     // more config: https://d.umijs.org/config
     // menus: {
     //   // 需要自定义侧边菜单的路径，没有配置的路径还是会使用自动生成的配置

@@ -15,13 +15,27 @@ toc: menu
 
 ## 演示
 
+### 基础演示
+
 <code src="@/components/image-preview/demo/demo-simple.tsx" />
+
+### 自定义功能
 
 <code src="@/components/image-preview/demo/demo-custom-operation.tsx" />
 
+### 自定义功能栏
+
 <code src="@/components/image-preview/demo/demo-custom-toolbar.tsx" />
 
-一般来说, 浏览窗口需要占据全屏的遮罩, 然而我们提供了一个视窗内展示图片的选项, 但外部容器需要用户自定义
+### 无遮罩
+
+"我不想要遮罩"
+
+一般来说, 浏览窗口需要占据全屏的遮罩组件整体性得到保证.
+
+然而我们提供了一个视窗内展示图片的选项, 但外部容器需要用户自定义
+
+> 目前对于滚轮的默认行为不进行限制,滚轮缩放会带动页面下移,需要自定容器限制
 
 <code src="@/components/image-preview/demo/demo-unfixed.tsx" />
 
@@ -50,3 +64,7 @@ toc: menu
 | :--------------- | :-------------------------------- |
 | OperatorBarProps | 当前版本请在 ide 中查看 type 内容 |
 | BaseImageProps   | 当前版本请在 ide 中查看 type 内容 |
+
+## 需要反馈
+
+请暂时在<https://caperal.cn>的联系方式中联系我
