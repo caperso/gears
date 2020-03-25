@@ -384,7 +384,7 @@ export function ImagePreview(this: any, props: Props) {
     const interceptOperatorClick = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
 
-        if ((e.target as HTMLElement).className === 'g-image-preview-action-bar') {
+        if ((e.target as HTMLElement).className === 'g-image-preview-action-toolbar') {
             return;
         }
 
@@ -429,8 +429,8 @@ export function ImagePreview(this: any, props: Props) {
                 onWheel={toScale}
             />
 
-            <div className="g-image-preview-action-bar" onClick={interceptOperatorClick}>
-                <Operator bar={operatorBar || null} operations={imageOperations} />
+            <div className="g-image-preview-action-toolbar" onClick={interceptOperatorClick}>
+                <Operator toolbar={operatorBar || null} operations={imageOperations} />
             </div>
         </div>
     );

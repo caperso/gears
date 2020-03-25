@@ -5,20 +5,20 @@ import './ImagePreview.less';
 
 interface Props {
     operations: ImageOperationMap;
-    bar: OperatorBarProps;
+    toolbar: OperatorBarProps;
 }
 
 const ImagePreviewOperator = (props: Props) => {
-    const { operations, bar = null } = props;
+    const { operations, toolbar = null } = props;
 
-    const renderBar = (bar: OperatorBarProps): React.ReactElement | null => {
-        if (!bar) {
+    const renderBar = (toolbar: OperatorBarProps): React.ReactElement | null => {
+        if (!toolbar) {
             return null;
         }
 
-        if (bar instanceof Array) {
+        if (toolbar instanceof Array) {
             let barOperations: MenuItem[] = [];
-            for (let name of bar) {
+            for (let name of toolbar) {
                 const method = operations[name];
                 if (method) {
                     const newItem: MenuItem = { name, method };
@@ -40,10 +40,10 @@ const ImagePreviewOperator = (props: Props) => {
             return menu;
         }
 
-        return bar;
+        return toolbar;
     };
 
-    return renderBar(bar);
+    return renderBar(toolbar);
 };
 
 export default ImagePreviewOperator;

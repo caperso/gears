@@ -10,16 +10,16 @@ toc: menu
 | import name       | ImagePreview                               |
 | description       | View a image with some interactive actions |
 | feature: basic    | scale, drag, rotate, free-rotate           |
-| feature: upcoming | custom operation bar                       |
+| feature: upcoming | custom operation toolbar                   |
 | feature: future   | measure, simple drawing, save              |
 
 ## Demo
 
 <code src="@/components/image-preview/demo/demo-simple.tsx" />
 
-<code src="@/components/image-preview/demo/demo-custom.tsx" />
+<code src="@/components/image-preview/demo/demo-custom-operation.tsx" />
 
-<code src="@/components/image-preview/demo/demo-operation.tsx" />
+<code src="@/components/image-preview/demo/demo-custom-toolbar.tsx" />
 
 <code src="@/components/image-preview/demo/demo-unfixed.tsx" />
 
@@ -30,7 +30,7 @@ toc: menu
 | url                | true     | string                                | ''      | url image                                        |
 | visible            | true     | boolean                               | false   | whether component is visible or not              |
 | onClose            | true     | () => void;                           | null    | call the function when closed                    |
-| simpleMode         | false    | boolean                               | true    | no operation bar, only zoom.                     |
+| simpleMode         | false    | boolean                               | true    | no operation toolbar, only zoom.                 |
 | operatorBar        | true     | 'default' \| null \| OperatorBarProps | null;   | operations that controls image's state           |
 | fixedOnScreen      | false    | boolean                               | true    | whether fixed on a full screen mask              |
 | getImageLoadedSize | false    | (state: BaseImageProps) => void;      | null    | when image loaded call function with size params |

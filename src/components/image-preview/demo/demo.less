@@ -12,21 +12,34 @@
     max-height: 300px;
 }
 
+.highly-styled-toolbar {
+    width: 100vw;
+    height: 70px;
+    background-color: rgba(37, 53, 59, 0.384);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px 15px rgba(210, 205, 236, 0.356);
+}
+
 .highly-styled-button {
     border: 0;
     vertical-align: baseline;
-    border-radius: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    color: #ffffff;
+    border-radius: 7px;
+    color: #4dee3e;
     text-align: center;
     width: 70px;
-    height: 70px;
-    line-height: 70px;
-
+    height: 40px;
+    line-height: 40px;
     font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
     font-size: 20px;
     font-weight: 500;
-    background: #363636;
+    background: #505152;
 
     margin-right: 3em;
+    &:hover {
+        cursor: pointer;
+        color: #eee;
+    }
 }

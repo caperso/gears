@@ -16,8 +16,8 @@ const ImagePreviewDemo = () => {
         setShow(false);
     };
 
-    const bar = (
-        <div>
+    const toolbar = (
+        <div className="highly-styled-toolbar">
             <button data-gear-image-method="zoom-in" className="highly-styled-button">
                 zoom
             </button>
@@ -36,7 +36,7 @@ const ImagePreviewDemo = () => {
     return (
         <div className="g-table">
             <img alt="图片" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
-            <ImagePreview url={sampleImage} visible={show} onClose={close} operatorBar={bar} />
+            <ImagePreview url={sampleImage} visible={show} onClose={close} operatorBar={toolbar} />
         </div>
     );
 };

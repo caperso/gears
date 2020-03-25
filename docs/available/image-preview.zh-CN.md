@@ -17,9 +17,11 @@ toc: menu
 
 <code src="@/components/image-preview/demo/demo-simple.tsx" />
 
-<code src="@/components/image-preview/demo/demo-custom.tsx" />
+<code src="@/components/image-preview/demo/demo-custom-operation.tsx" />
 
-<code src="@/components/image-preview/demo/demo-operation.tsx" />
+<code src="@/components/image-preview/demo/demo-custom-toolbar.tsx" />
+
+一般来说, 浏览窗口需要占据全屏的遮罩, 然而我们提供了一个视窗内展示图片的选项, 但外部容器需要用户自定义
 
 <code src="@/components/image-preview/demo/demo-unfixed.tsx" />
 
