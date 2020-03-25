@@ -64,3 +64,7 @@ toc: menu
 | :--------------- | :-------------------------------- |
 | OperatorBarProps | 当前版本请在 ide 中查看 type 内容 |
 | BaseImageProps   | 当前版本请在 ide 中查看 type 内容 |
+
+## 需要反馈
+
+请暂时在<https://caperal.cn>的联系方式中联系我
