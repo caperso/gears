@@ -16,22 +16,13 @@ const ImagePreviewDemo = () => {
         setShow(false);
     };
 
-    const bar: React.ReactElement = (
+    const bar = (
         <div className="test-bar">
-            <span
-                data-gear-image-method="free-rotate"
-                onClick={() => {
-                    console.log(123);
-                }}
-                style={{ color: 'green' }}
-            >
-                DESC
-            </span>
             <span data-gear-image-method="free-rotate" style={{ color: 'green' }}>
                 DESC
             </span>
-            <span data-gear-image-method="free-rotate" style={{ color: 'green' }}>
-                DESC
+            <span data-gear-image-method="rotate" style={{ color: 'green' }}>
+                ASCE
             </span>
         </div>
     );

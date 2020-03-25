@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AxisPoint, MenuItem } from '../../typings/types';
+import { AxisPoint } from '../../typings/types';
 import './ImagePreview.less';
+import ImagePreviewOperator from './ImagePreviewOperator';
 
 type ImageControlMode = 'free-rotate' | 'free-drag' | 'ratio-scale';
 type ImageAction = 'rotate' | 'drag' | 'ratio-scale' | 'zoom-in' | 'zoom-out' | 'reset';
 type ImageOperation = ImageAction | ImageControlMode;
 
-type ImageOperationMap = {
+export type ImageOperationMap = {
     [key in ImageOperation]?: (props?: any) => void;
 };
 
@@ -65,11 +66,13 @@ const defaultOperator: OperatorProps = {
 };
 
 export function ImagePreview(this: any, props: Props) {
+    const Operator = ImagePreviewOperator;
+
     let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
     let operator = simpleMode ? null : props.operator === 'default' ? defaultOperator : props.operator;
 
-    let fixedOnScreen = simpleMode ? true : props.fixedOnScreen ? props.fixedOnScreen : true;
+    let fixedOnScreen = simpleMode ? true : props.fixedOnScreen !== undefined ? props.fixedOnScreen : true;
 
     const [imageLoadedState, setImageLoadedState] = useState<BaseImageProps>(emptyImageProps);
 
@@ -334,78 +337,6 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 渲染 */
 
-    /* 操作栏渲染 */
-    //TODO: move all renderBar to a isolate comp next time plz
-    const renderBar = (bar: OperatorProps['bar']) => {
-        if (!bar) {
-            return null;
-        }
-
-        if (bar instanceof Array) {
-            let barOperations: MenuItem[] = [];
-            for (let name of bar) {
-                const method = imageOperations[name];
-                if (method) {
-                    const newItem: MenuItem = { name, method };
-                    barOperations = [...barOperations, newItem];
-                } else {
-                    console.warn(`can't find method which refers ${name}`);
-                }
-            }
-
-            const menu = (
-                <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
-                    {barOperations.map(item => (
-                        <i key={item.name} onClick={item.method}>
-                            {item.name}
-                        </i>
-                    ))}
-                </div>
-            );
-            return menu;
-        }
-
-        const findOperation = (str: string) => {
-            let method = imageOperations[str as keyof ImageOperationMap];
-
-            if (!method) {
-                console.warn(`method key:${str} is not correct, please check`);
-            }
-            return method;
-        };
-
-        const bindMethods = (element: React.ReactElement) => {
-            console.log(element);
-
-            let method = findOperation(element.props['data-gear-image-method']);
-            console.log(method, element.props.onClick);
-
-            // element.props.onClick = method;
-        };
-
-        let children = bar.props.children;
-
-        if (!children) {
-            throw new Error('Bar contains no react element children');
-        }
-
-        if (!children.length) {
-            bindMethods(children);
-        } else {
-            children.forEach((item: React.ReactElement) => bindMethods(item));
-        }
-
-        const menu = (
-            <div className="g-image-preview-action-bar" onClick={e => e.stopPropagation()}>
-                {bar.props}
-            </div>
-        );
-
-        console.log({ ...operator });
-
-        return menu;
-    };
-
     const [fullScreenFlag, setFullScreenFlag] = useState(false);
 
     const easyCursorStyle: React.CSSProperties = {
@@ -456,6 +387,28 @@ export function ImagePreview(this: any, props: Props) {
         );
     }
 
+    const interceptOperatorClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+
+        if (((e.target as HTMLElement).className = 'g-image-preview-action-bar')) {
+            return;
+        }
+
+        const methodName = (e.target as HTMLElement).dataset['gearImageMethod'];
+
+        if (!methodName) {
+            return console.warn(`Method name on attribute 'data-gear-image-method' is required`);
+        }
+
+        const method = imageOperations[methodName as ImageOperation];
+
+        if (!method) {
+            return console.warn(`can't find method which refers ${methodName}`);
+        }
+
+        return method();
+    };
+
     return (
         <div
             className={`g-image-preview-wrapper ${fixedOnScreen ? 'g-fixed' : ''}`}
@@ -481,10 +434,14 @@ export function ImagePreview(this: any, props: Props) {
                 alt="图片"
                 onWheel={toScale}
             />
-            {renderBar(operator ? operator.bar : null)}
+
+            <div className="g-image-preview-action-bar" onClick={interceptOperatorClick}>
+                <Operator bar={operator?.bar} operations={imageOperations} />
+            </div>
         </div>
     );
 }
+
 //   /* 右键菜单渲染 */
 //   const renderContextMenu = (): MenuItem[] | React.ReactElement | null => {
 //     // 不渲染右键菜单
