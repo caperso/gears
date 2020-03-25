@@ -384,7 +384,7 @@ export function ImagePreview(this: any, props: Props) {
     const interceptOperatorClick = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
 
-        if (((e.target as HTMLElement).className = 'g-image-preview-action-bar')) {
+        if ((e.target as HTMLElement).className === 'g-image-preview-action-bar') {
             return;
         }
 

@@ -17,13 +17,19 @@ const ImagePreviewDemo = () => {
     };
 
     const bar = (
-        <div className="test-bar">
-            <span data-gear-image-method="free-rotate" style={{ color: 'green' }}>
-                DESC
-            </span>
-            <span data-gear-image-method="rotate" style={{ color: 'green' }}>
-                ASCE
-            </span>
+        <div>
+            <button data-gear-image-method="zoom-in" className="highly-styled-button">
+                zoom
+            </button>
+            <button data-gear-image-method="rotate" className="highly-styled-button">
+                rotate
+            </button>
+            <button data-gear-image-method="free-rotate" className="highly-styled-button">
+                try
+            </button>
+            <button data-gear-image-method="reset" className="highly-styled-button">
+                reset
+            </button>
         </div>
     );
 
