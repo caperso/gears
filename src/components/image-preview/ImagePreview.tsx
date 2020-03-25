@@ -11,10 +11,7 @@ export type ImageOperationMap = {
     [key in ImageOperation]?: (props?: any) => void;
 };
 
-export type OperatorProps = {
-    bar?: ImageOperation[] | React.ReactElement | null;
-    contextMenu?: ImageOperation[] | React.ReactElement | null;
-};
+export type OperatorBarProps = ImageOperation[] | React.ReactElement | null;
 
 export interface BaseImageProps {
     w: number; // width
@@ -33,9 +30,9 @@ export interface BaseImageProps {
  * url: 图片地址
  * visible:  组件可视状态
  * onClose:  关闭回调
- * simpleMode: 简单模式, 当为 true 时, 不接受 operator 和 fixedOnScreen
- * operator:  控制条, null 则生成简易模式, 'default' 则生成默认操作栏
- * fixedOnScreen: 是否在整个全屏遮罩固定, 简易模式下(operator = null) 必定为true
+ * simpleMode: 简单模式, 当为 true 时, 不接受 operatorBar 和 fixedOnScreen
+ * operatorBar:  控制条, null 则生成简易模式, 'default' 则生成默认操作栏
+ * fixedOnScreen: 是否在整个全屏遮罩固定, 简易模式下(operatorBar = null) 必定为true
  * getImageLoadedSize: 图片加载成功后返回图片的加载尺寸
  */
 
@@ -44,7 +41,7 @@ interface Props {
     visible: boolean;
     onClose: () => void;
     simpleMode?: boolean;
-    operator?: 'default' | OperatorProps | null;
+    operatorBar?: 'default' | OperatorBarProps | null;
     fixedOnScreen?: boolean;
     getImageLoadedSize?: (state: BaseImageProps) => void;
 }
@@ -60,17 +57,14 @@ const emptyImageProps: BaseImageProps = {
     translate: '-50%',
 };
 
-const defaultOperator: OperatorProps = {
-    bar: ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'],
-    contextMenu: ['rotate', 'free-rotate', 'free-drag'],
-};
+const defaultOperator: OperatorBarProps = ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'];
 
 export function ImagePreview(this: any, props: Props) {
     const Operator = ImagePreviewOperator;
 
     let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
-    let operator = simpleMode ? null : props.operator === 'default' ? defaultOperator : props.operator;
+    let operatorBar = simpleMode ? null : props.operatorBar === 'default' ? defaultOperator : props.operatorBar;
 
     let fixedOnScreen = simpleMode ? true : props.fixedOnScreen !== undefined ? props.fixedOnScreen : true;
 
@@ -102,10 +96,10 @@ export function ImagePreview(this: any, props: Props) {
         const disablePassiveWheelEvent = () => document.addEventListener('wheel', prevent, { passive: false });
         const enablePassiveWheelEvent = () => document.removeEventListener('wheel', prevent);
         if (!simpleMode && visible && fixedOnScreen) {
-            console.log('%cnow scroll by wheel is blocked', 'color:purple');
+            console.log('%c now scroll by wheel is blocked', 'color:purple');
             disablePassiveWheelEvent();
         } else {
-            console.log('%cnow scroll by wheel is available', 'color:green');
+            console.log('%c now scroll by wheel is available', 'color:green');
             enablePassiveWheelEvent();
         }
         return enablePassiveWheelEvent;
@@ -436,32 +430,8 @@ export function ImagePreview(this: any, props: Props) {
             />
 
             <div className="g-image-preview-action-bar" onClick={interceptOperatorClick}>
-                <Operator bar={operator?.bar} operations={imageOperations} />
+                <Operator bar={operatorBar || null} operations={imageOperations} />
             </div>
         </div>
     );
 }
-
-//   /* 右键菜单渲染 */
-//   const renderContextMenu = (): MenuItem[] | React.ReactElement | null => {
-//     // 不渲染右键菜单
-//     if (!operator || !operator.contextMenu) {
-//         return null;
-//     }
-
-//     // 字符串数组
-//     if (operator.contextMenu instanceof Array) {
-//         let menuList: MenuItem[] = [];
-//         for (let name of operator.contextMenu) {
-//             const method = imageOperations[name];
-//             if (method) {
-//                 const newItem: MenuItem = { name, method };
-//                 menuList = [...menuList, newItem];
-//             }
-//         }
-//         return menuList;
-//     }
-
-//     // 组件
-//     return operator.contextMenu as React.ReactElement;
-// };

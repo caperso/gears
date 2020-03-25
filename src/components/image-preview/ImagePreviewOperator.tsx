@@ -1,17 +1,17 @@
 import { MenuItem } from '@/typings/types';
 import React from 'react';
-import { ImageOperationMap, OperatorProps } from './ImagePreview';
+import { ImageOperationMap, OperatorBarProps } from './ImagePreview';
 import './ImagePreview.less';
 
 interface Props {
     operations: ImageOperationMap;
-    bar: OperatorProps['bar'];
+    bar: OperatorBarProps;
 }
 
 const ImagePreviewOperator = (props: Props) => {
     const { operations, bar = null } = props;
 
-    const renderBar = (bar: OperatorProps['bar']): React.ReactElement | null => {
+    const renderBar = (bar: OperatorBarProps): React.ReactElement | null => {
         if (!bar) {
             return null;
         }

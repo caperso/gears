@@ -1,8 +1,8 @@
 ---
 group:
-  title: staging
+    title: staging
 nav:
-  title: Staging
+    title: Staging
 demo: code-paper
 toc: menu
 ---
@@ -19,6 +19,6 @@ toc: menu
 | visible            | true     | boolean     | false  | 可视状态       |
 | onClose            | true     | () => void; | null   | 关闭时候的回调 |
 | simpleMode         | false    | boolean     | true   |                |
-| operator           | true     |             | null;  |                |
+| operatorBar        | true     |             | null;  |                |
 | fixedOnScreen      | false    | boolean     | true   |                |
 | getImageLoadedSize | false    |             | null   |                |
