@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { BaseImageProps, ImagePreview } from '../ImagePreview';
 import './demo.less';
 
-const sampleImage = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
+const sampleImage = 'http://bitbear.cdn.v2geek.com/uploads/20032616137A6C923ED.jpg';
 
 const ImagePreviewDemo = () => {
     const [show, setShow] = useState<boolean>(false);
