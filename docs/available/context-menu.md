@@ -1,9 +1,5 @@
 ---
-group:
-    title: staging
-nav:
-    title: Staging
-title: context-menu
+title: Context-Menu
 toc: menu
 ---
 
@@ -11,15 +7,9 @@ toc: menu
 
 ## demo
 
-组件名称：图片预览（ImagePreview）
-基础操作: 滚轮缩放 拖拽
-菜单操作: 旋转 重置
+<code src="@/components/context-menu/demo/demo-list-menu.tsx" />
 
-<code src="@/components/context-menu/demo/demo.tsx" />
-
-<code src="@/components/context-menu/demo/demo.tsx" />
-
-<code src="@/components/context-menu/demo/demo.tsx" />
+<code src="@/components/context-menu/demo/demo-custom-menu.tsx" />
 
 ## API
 

@@ -3,68 +3,62 @@ import { AxisPoint, DefaultHTMLElementProps, MenuItem } from '../../typings/type
 import './ContextMenu.less';
 
 interface Props extends DefaultHTMLElementProps {
-  menu?: MenuItem[] | React.ReactElement | null;
-  children: React.ReactElement;
+    menu: MenuItem[] | React.ReactElement;
+    children: React.ReactElement | React.ReactElement[];
 }
 
 const ContextMenu = (props: Props) => {
-  const { menu, children } = props;
+    const { menu, children } = props;
 
-  const [cursorPoint, setCursorPoint] = useState<AxisPoint>({ x: 0, y: 0 });
+    const [cursorPoint, setCursorPoint] = useState<AxisPoint>({ x: 0, y: 0 });
 
-  const [showContextMenu, setShowContextMenu] = useState(false);
+    const [showContextMenu, setShowContextMenu] = useState(false);
 
-  const style: React.CSSProperties = {
-    position: 'fixed',
-    left: cursorPoint.x,
-    top: cursorPoint.y,
-    backgroundColor: 'white',
-    borderRadius: '4px',
-    padding: '4px',
-  };
+    const contentStyle: React.CSSProperties = {
+        left: cursorPoint.x,
+        top: cursorPoint.y,
+    };
 
-  /* 右键菜单 */
-  const openMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setCursorPoint({ x: e.clientX, y: e.clientY });
-    setShowContextMenu(true);
-  };
+    /* 右键菜单 */
+    const openMenu = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setShowContextMenu(true);
+        setCursorPoint({ x: e.clientX, y: e.clientY });
+    };
 
-  const handleClick = (e: React.MouseEvent) => {
-    setShowContextMenu(false);
-    e.stopPropagation();
-  };
+    const closeMenu = (e: React.MouseEvent) => {
+        console.log('closing down');
+        setShowContextMenu(false);
+        e.stopPropagation();
+    };
 
-  const renderMenu = (menu: Props['menu']): React.ReactNode => {
-    if (menu instanceof Array) {
-      return (
-        <>
-          {(menu as MenuItem[]).map((item: MenuItem) => (
-            <div key={item.name} onClick={item.method}>
-              {item.name}
-            </div>
-          ))}
-        </>
-      );
-    } else {
-      return menu;
-    }
-  };
+    const renderMenu = (menu: Props['menu']): React.ReactNode => {
+        if (menu instanceof Array) {
+            return (
+                <>
+                    {(menu as MenuItem[]).map((item: MenuItem) => (
+                        <div key={item.name} className="g-context-menu-item" onClick={item.method}>
+                            {item.name}
+                        </div>
+                    ))}
+                </>
+            );
+        }
+        return menu;
+    };
 
-  if (!menu) {
-    return <div onClick={handleClick}>{children}</div>;
-  }
-
-  return (
-    <div onClick={handleClick} onContextMenu={openMenu}>
-      {children}
-      {showContextMenu && (
-        <div className="g-context-menu-default" style={style}>
-          {renderMenu(menu)}
+    return (
+        <div onContextMenu={openMenu}>
+            {children}
+            {showContextMenu && (
+                <div className="g-context-menu-cover-mask" onClick={closeMenu} onWheel={closeMenu}>
+                    <div className="g-context-menu-default" style={contentStyle}>
+                        {renderMenu(menu)}
+                    </div>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default ContextMenu;
