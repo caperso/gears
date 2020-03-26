@@ -60,13 +60,13 @@ const emptyImageProps: BaseImageProps = {
 const defaultOperator: OperatorBarProps = ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'];
 
 export function ImagePreview(this: any, props: Props) {
-    const Operator = ImagePreviewOperator;
-
     let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
     let operatorBar = simpleMode ? null : props.operatorBar === 'default' ? defaultOperator : props.operatorBar;
 
     let fixedOnScreen = simpleMode ? true : props.fixedOnScreen !== undefined ? props.fixedOnScreen : true;
+
+    const Operator = ImagePreviewOperator;
 
     const [imageLoadedState, setImageLoadedState] = useState<BaseImageProps>(emptyImageProps);
 
@@ -105,8 +105,6 @@ export function ImagePreview(this: any, props: Props) {
         return enablePassiveWheelEvent;
     }, [visible, fixedOnScreen, simpleMode]);
 
-    // const [imageOriginState, setImageOriginState] = useState(emptyImageProps);
-
     /**
      * @param {HTMLImageElement} node
      * @returns
@@ -133,7 +131,6 @@ export function ImagePreview(this: any, props: Props) {
 
         const translate = fixedOnScreen ? '-50%' : '0';
 
-        // setImageOriginState({ ...imageState, t, l, w: wOrigin, h: hOrigin, translate });
         const changedState = { t, l, w: size.w, h: size.h, translate };
         const state = { ...imageState, ...changedState };
         setImageLoadedState(state);
@@ -143,7 +140,7 @@ export function ImagePreview(this: any, props: Props) {
 
     /* 初始化容器大小 */
     const handleImageLoaded = () => {
-        console.log('%cimage loaded', 'color:red');
+        console.log('%c image loaded', 'color:red');
         if (image.current) {
             const state = sizing(image.current);
             if (getImageLoadedSize) {
