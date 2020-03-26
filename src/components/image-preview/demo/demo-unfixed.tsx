@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { BaseImageProps, ImagePreview } from '../ImagePreview';
 import './demo.less';
 
-const sampleImage = 'https://cdn.pixabay.com/photo/2020/03/08/11/21/british-4912211_960_720.jpg';
+const sampleImage = 'http://bitbear.cdn.v2geek.com/uploads/20032616137A6C923ED.jpg';
 
 const ImagePreviewDemo = () => {
     const [show, setShow] = useState<boolean>(false);
@@ -26,7 +26,7 @@ const ImagePreviewDemo = () => {
 
     return (
         <div className="g-table">
-            <img alt="图片" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
+            <img alt="a lovely cat" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
             <Modal visible={show} onCancel={close} width={modalWidth} style={{ width: '780px', height: '520px', top: '10px' }}>
                 <ImagePreview
                     url={sampleImage}

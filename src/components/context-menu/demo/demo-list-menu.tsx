@@ -9,7 +9,7 @@ const BasicContextMenuSample = () => {
     const getTime = () => message.info(`${new Date().getHours()}:${new Date().getMinutes()}`);
 
     const reportIssue = () => {
-        message.info('reporting you issue');
+        message.info('reporting your issue');
 
         let fakeHandler = new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -23,7 +23,7 @@ const BasicContextMenuSample = () => {
         });
 
         fakeHandler
-            .then(() => message.success('thanks for you report'))
+            .then(() => message.success('thanks for your report'))
             .catch(() => message.error('report failed, please try again later'));
     };
 
