@@ -35,7 +35,7 @@ const ImagePreviewDemo = () => {
 
     return (
         <div className="g-table">
-            <img alt="图片" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
+            <img alt="a lovely cat" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
             <ImagePreview url={sampleImage} visible={show} onClose={close} operatorBar={toolbar} />
         </div>
     );
