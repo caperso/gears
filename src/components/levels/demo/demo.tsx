@@ -1,6 +1,5 @@
 /**
  * title: 层级导航（Levels）
- * desc:  开发中
  */
 
 import { CodePaper } from '@/components/code-paper/CodePaper';
@@ -8,21 +7,16 @@ import React, { useState } from 'react';
 import { Level, Levels } from '../Levels';
 
 const levels: Level[] = [
-    { name: 'Pipeline', route: 'pipeline' },
-    { name: 'Github', route: 'https://github.com/', static: true },
+    { name: 'Pipeline' },
+    { name: 'Github', staticUrl: 'https://github.com/' },
     {
         name: 'Ground',
-        route: 'ground',
         deep: [
             {
                 name: 'Solid',
-                route: 'solid',
-                deep: [
-                    { name: 'Dust', route: 'dust' },
-                    { name: 'Germ', route: 'germ' },
-                ],
+                deep: [{ name: 'Dust' }, { name: 'Germ' }],
             },
-            { name: 'Liquid', route: 'liquid' },
+            { name: 'Liquid' },
         ],
     },
 ];

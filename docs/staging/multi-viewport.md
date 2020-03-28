@@ -1,5 +1,5 @@
 ---
-title: 层级导航(Levels)
+title: 多视口(MultiViewport)
 toc: menu
 nav:
     title: 开发中组件
@@ -11,7 +11,7 @@ still developing
 
 ## 演示
 
-<code src="@/components/levels/demo/demo.tsx" />
+<code src="@/components/multi-viewport/demo/demo.tsx" />
 
 ## API
 
