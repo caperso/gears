@@ -96,10 +96,8 @@ export function ImagePreview(this: any, props: Props) {
         const disablePassiveWheelEvent = () => document.addEventListener('wheel', prevent, { passive: false });
         const enablePassiveWheelEvent = () => document.removeEventListener('wheel', prevent);
         if (!simpleMode && visible && fixedOnScreen) {
-            console.log('%c now scroll by wheel is blocked', 'color:purple');
             disablePassiveWheelEvent();
         } else {
-            console.log('%c now scroll by wheel is available', 'color:green');
             enablePassiveWheelEvent();
         }
         return enablePassiveWheelEvent;

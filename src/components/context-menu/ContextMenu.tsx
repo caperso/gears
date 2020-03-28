@@ -27,7 +27,6 @@ const ContextMenu = (props: Props) => {
     };
 
     const closeMenu = (e: React.MouseEvent) => {
-        console.log('closing down');
         setShowContextMenu(false);
         e.stopPropagation();
     };

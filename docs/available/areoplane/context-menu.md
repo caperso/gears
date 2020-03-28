@@ -1,6 +1,9 @@
 ---
 title: 右键菜单(ContextMenu)
 toc: menu
+group:
+  title: 整体组件
+  order: 2
 ---
 
 ## 概览
