@@ -1,17 +1,15 @@
 ---
-group:
-    title: staging
-nav:
-    title: Staging
-title: levels
+title: 层级导航(Levels)
 toc: menu
+nav:
+    title: 开发中组件
 ---
 
-## overview
+## 概览
 
 still developing
 
-## demo
+## 演示
 
 <code src="@/components/levels/demo/demo.tsx" />
 
