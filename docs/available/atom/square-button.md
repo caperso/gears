@@ -2,8 +2,8 @@
 title: 方形按钮(SquareButton)
 toc: menu
 group:
-    order: 3
-    title: 原子组件
+  order: 3
+  title: 原子组件
 ---
 
 ## 概览
@@ -16,11 +16,11 @@ group:
 
 ```ts
 const data = [
-    { name: '维护系统入口', icon },
-    { name: '签到系统入口', icon },
-    { name: '排查系统入口', icon },
-    { name: '登记系统入口', icon },
-    { name: '销毁系统入口', icon },
+  { name: '维护系统入口', icon },
+  { name: '签到系统入口', icon },
+  { name: '排查系统入口', icon },
+  { name: '登记系统入口', icon },
+  { name: '销毁系统入口', icon },
 ];
 ```
 

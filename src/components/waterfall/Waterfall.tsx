@@ -13,9 +13,7 @@ interface Props {
 export const Waterfall = (props: Props) => {
   const { children, column = 3 } = props;
 
-  const generateColumn = (
-    column: number,
-  ): CSSProperties['gridTemplateColumns'] => {
+  const generateColumn = (column: number): CSSProperties['gridTemplateColumns'] => {
     let totalPropString = '';
     for (let i = 0; i < column; i++) {
       totalPropString.concat(' 1fr');

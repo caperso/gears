@@ -17,16 +17,8 @@ export const CodePaper = (props: Props) => {
   };
   return (
     <div className="g-code-paper-wrapper">
-      <textarea
-        ref={textarea}
-        defaultValue={props.text}
-        className={`g-code-paper-textarea ${props.className}`}
-      />
-      {props.handleClick && (
-        <button onClick={updateChanges}>
-          {props.buttonText ? props.buttonText : '更新数据'}
-        </button>
-      )}
+      <textarea ref={textarea} defaultValue={props.text} className={`g-code-paper-textarea ${props.className}`} />
+      {props.handleClick && <button onClick={updateChanges}>{props.buttonText ? props.buttonText : '更新数据'}</button>}
     </div>
   );
 };

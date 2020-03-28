@@ -2,7 +2,7 @@
 title: 瀑布流(Waterfall)
 toc: menu
 nav:
-    title: 开发中组件
+  title: 开发中组件
 ---
 
 ## demo

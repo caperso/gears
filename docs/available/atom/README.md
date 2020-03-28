@@ -2,8 +2,8 @@
 title: 概览
 toc: menu
 group:
-    order: 3
-    title: 原子组件
+  order: 3
+  title: 原子组件
 ---
 
 这部分组件是一个个为了特定方向需求而诞生的组件

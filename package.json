@@ -5,7 +5,9 @@
     "push:master": "git checkout master && git merge change-dumi && git push && git checkout change-dumi",
     "start": "dumi dev",
     "build": "dumi build",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+    "prettier": "prettier --write **/*.{js,jsx,tsx,ts,less,md,json}",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:package": "npm run clean && npm run build:types && gulp"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

@@ -1,7 +1,7 @@
 ---
 nav:
-    title: Staging
-    order: 6
+  title: Staging
+  order: 6
 title: Overview
 toc: menu
 ---
