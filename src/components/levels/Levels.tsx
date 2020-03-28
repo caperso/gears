@@ -45,7 +45,7 @@ export const Levels = (props: Props) => {
                     key={item.name}
                     className="g-levels-one"
                     onClick={() => activeLevel(item, currentRoute)}
-                    style={{ fontSize, color: `${activeRoute === currentRoute ? '#2dc6ad' : 'inherit'}` }}
+                    style={{ fontSize, color: `${activeRoute === currentRoute ? '#2dc6ad' : ''}` }}
                 >
                     <span style={{ paddingLeft: `${depth}em` }}></span>
                     {item.name}

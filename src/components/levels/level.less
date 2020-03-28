@@ -1,3 +1,16 @@
+@keyframes hue-trans {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    50% {
+        filter: hue-rotate(180deg);
+    }
+
+    100% {
+        filter: hue-rotate(0deg);
+    }
+}
 .g-levels-wrapper {
     display: flex;
     flex-direction: column;
@@ -7,20 +20,14 @@
 .g-levels-one {
     padding: 0.5rem 0;
     font-size: 45px;
-    cursor: pointer;
     font-weight: bold;
     text-decoration: none;
     color: grey;
-    animation: hue-trans 3s infinite;
+    animation: hue-trans 12s infinite;
 
     &:hover {
+        cursor: pointer;
         color: #2dc6ad;
-        filter: hue-rotate();
         animation: hue-trans 7s infinite;
     }
-}
-
-// TODO: move to base scss file
-.g-small-font {
-    font-size: 34px;
 }
