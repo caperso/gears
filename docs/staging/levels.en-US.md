@@ -1,13 +1,15 @@
 ---
-title: 层级导航(Levels)
+nav:
+    title: Staging
+title: levels
 toc: menu
 ---
 
-## 概览
+## overview
 
 still developing
 
-## 演示
+## demo
 
 <code src="@/components/levels/demo/demo.tsx" />
 

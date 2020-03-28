@@ -1,17 +1,62 @@
 ---
+title: 快速上手
 nav:
-  title: Start
-  order: 1
+    title: 快速上手
+    order: 1
 ---
 
-## Overview
+快速上手制作中.
 
-leave blank still thinking
+请在导航栏查看已开发, 开发中的组件
 
-## Pres
+## 安装
 
-Before usage there are some tips and advices about using rc(react component) well
+`npm install gearware`
 
-1. Read and test demo: Words in doc may not quiet fit for describing component's function, api, or performance, but with demo you will find it's easy to understand, and I will try my best to practice the full demo and doc.
+or
 
-2. Happy coding: Feel free to give any positive advice to me, contact ways were posted at <https://caperal.cn>
+`yarn add gearware`
+
+## 更新
+
+`npm upgrade gearware@latest`
+
+or
+
+`yarn upgrade gearware@latest`
+
+## 引入
+
+es6(推荐):
+
+```ts
+import { ImagePreview } from 'gearware';
+```
+
+cmd:
+
+## 示例
+
+react 组件:
+
+```ts
+import React, { useState } from 'react';
+import { ImagePreview } from 'gearware';
+
+const sampleImage = 'https://s1.ax1x.com/2020/03/28/GFfufU.jpg';
+
+const ImagePreviewDemo = () => {
+    const [show, setShow] = useState<boolean>(false);
+
+    const close = () => {
+        setShow(false);
+    };
+
+    return (
+        <div className="g-table">
+            <img alt="a lovely cat" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
+            <ImagePreview url={sampleImage} visible={show} onClose={close} simpleMode={true} />
+        </div>
+    );
+};
+```
