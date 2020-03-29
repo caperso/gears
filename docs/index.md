@@ -18,7 +18,9 @@ features:
 footer:
 ---
 
-## 说明
+## Gareware - react 组件库
+
+### 说明
 
 因为打包工具 father 正在升级中, 且我不打算回退至 2.0;
 
