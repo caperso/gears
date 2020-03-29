@@ -1,1 +1,0 @@
-@keyframes hue-trans{0%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(180deg)}to{filter:hue-rotate(0deg)}}.g-levels-wrapper{display:flex;flex-direction:column;padding:0 2rem}.g-levels-one{padding:.5rem 0;font-size:45px;font-weight:700;text-decoration:none;color:grey;animation:hue-trans 12s infinite}.g-levels-one:hover{cursor:pointer;color:#2dc6ad;animation:hue-trans 7s infinite}

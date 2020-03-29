@@ -4,7 +4,7 @@
     "push:master": "git checkout master && git merge change-dumi && git push && git checkout change-dumi",
     "prettier": "prettier --write **/*.{js,jsx,tsx,ts,less,md,json}",
     "start": "dumi dev",
-    "clean": "rm -rf es/ lib/",
+    "clean": "rm -rf esm lib",
     "build": "dumi build",
     "build:types": "tsc --emitDeclarationOnly",
     "build:package": "npm run clean && npm run build:types && gulp"

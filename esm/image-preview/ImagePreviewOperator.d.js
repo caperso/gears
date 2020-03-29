@@ -1,1 +1,0 @@
-import './ImagePreview.less';

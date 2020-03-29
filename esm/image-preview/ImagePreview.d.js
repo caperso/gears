@@ -1,2 +1,0 @@
-import './ImagePreview.less';
-export {};
