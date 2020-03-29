@@ -40,5 +40,6 @@
     "through2": "^3.0.1",
     "typescript": "^3.8.3",
     "vfile-message": "^2.0.3"
-  }
+  },
+  "version": "0.1.1"
 }
