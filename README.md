@@ -1,4 +1,4 @@
-# dumi app
+# Gareware
 
 ## Getting Started
 

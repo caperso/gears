@@ -1,6 +1,5 @@
 {
-  "private": true,
-  "name": "dumi-app",
+  "name": "gearware",
   "scripts": {
     "push:master": "git checkout master && git merge change-dumi && git push && git checkout change-dumi",
     "prettier": "prettier --write **/*.{js,jsx,tsx,ts,less,md,json}",
