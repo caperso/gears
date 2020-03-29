@@ -1,0 +1,1 @@
+.g-waterfall-wrapper{grid-template-columns:1fr 1fr 1fr;justify-content:center;overflow-x:hidden;margin-bottom:3em;display:grid;grid-gap:.25em;grid-auto-flow:row dense;grid-auto-rows:20px}

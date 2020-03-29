@@ -1,0 +1,2 @@
+import './ImagePreview.less';
+export {};
