@@ -23,8 +23,7 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "lint-staged": "^10.0.7",
     "yorkie": "^2.0.0",
@@ -40,6 +39,6 @@
     "typescript": "^3.8.3",
     "vfile-message": "^2.0.3"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT"
 }
