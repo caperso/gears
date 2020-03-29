@@ -24,13 +24,13 @@
     ]
   },
   "dependencies": {
-    "antd": "^4.0.4",
-    "dumi": "1.0.13",
-    "lint-staged": "^10.0.7",
-    "prettier": "^1.19.1",
-    "yorkie": "^2.0.0"
   },
   "devDependencies": {
+    "lint-staged": "^10.0.7",
+    "yorkie": "^2.0.0",
+    "prettier": "^1.19.1",
+    "dumi": "1.0.13",
+    "antd": "^4.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
@@ -40,5 +40,6 @@
     "typescript": "^3.8.3",
     "vfile-message": "^2.0.3"
   },
-  "version": "0.1.2"
+  "version": "0.1.2",
+  "license": "MIT"
 }
