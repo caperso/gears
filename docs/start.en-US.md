@@ -1,8 +1,8 @@
 ---
 title: start
 nav:
-    title: Start
-    order: 1
+  title: Start
+  order: 1
 ---
 
 ## Overview

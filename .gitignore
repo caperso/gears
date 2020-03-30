@@ -19,3 +19,6 @@
 /.env.local
 src/.umi
 src/.production
+
+esm
+lib

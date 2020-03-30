@@ -1,23 +1,21 @@
-# gearware
+# Gareware
 
-React UI lib
+## Getting Started
 
-**_still developing_**
+Install dependencies,
 
-## Documentation
+```bash
+$ npm i
+```
 
-<https://gears.caperal.cn/>
+Start the dev server,
 
-## Demos
+```bash
+$ npm start
+```
 
-<https://gears.caperal.cn>
+Build site app,
 
-## Install
-
-`npm install gearware`
-
-or
-
-`yarn add gearware`
-
-## Description
+```bash
+$ npm run build
+```

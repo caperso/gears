@@ -1,6 +1,6 @@
 ---
 title: code-paper
 nav:
-    title: Staging
+  title: Staging
 toc: menu
 ---

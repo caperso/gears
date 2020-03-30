@@ -3,7 +3,7 @@ title: 右键菜单(ContextMenu)
 toc: menu
 group:
   title: 整体组件
-  order: 2
+  order: 1
 ---
 
 ## 概览
@@ -16,9 +16,9 @@ group:
 
 ```ts
 const menuList = [
-    { name: 'Say hi', method: greetMessage },
-    { name: 'Tell me when', method: getTime },
-    { name: 'Report an issue', method: reportIssue },
+  { name: 'Say hi', method: greetMessage },
+  { name: 'Tell me when', method: getTime },
+  { name: 'Report an issue', method: reportIssue },
 ];
 ```
 
@@ -30,12 +30,12 @@ const menuList = [
 
 ```ts
 const menuNode = (
-    <div className="test-context-node">
-        <p className="g-context-menu-item" onClick={loadSequence}>
-            LAUNCH THE MISSILE
-        </p>
-        // ....Rest of code
-    </div>
+  <div className="test-context-node">
+    <p className="g-context-menu-item" onClick={loadSequence}>
+      LAUNCH THE MISSILE
+    </p>
+    // ....Rest of code
+  </div>
 );
 ```
 

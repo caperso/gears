@@ -1,6 +1,6 @@
 ---
 nav:
-    title: Staging
+  title: Staging
 title: waterfall
 toc: menu
 ---

@@ -1,6 +1,9 @@
 ---
 title: 图片预览(ImagePreview)
 toc: menu
+group:
+  title: 整体组件
+  order: 2
 ---
 
 ## 概览

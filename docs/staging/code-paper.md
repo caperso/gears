@@ -2,7 +2,7 @@
 title: 代码块(CodePaper)
 toc: menu
 nav:
-    title: 开发中组件
+  title: 开发中组件
 ---
 
 ## 演示

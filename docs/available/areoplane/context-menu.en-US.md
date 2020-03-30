@@ -16,9 +16,9 @@ group:
 
 ```ts
 const menuList = [
-    { name: 'Say hi', method: greetMessage },
-    { name: 'Tell me when', method: getTime },
-    { name: 'Report an issue', method: reportIssue },
+  { name: 'Say hi', method: greetMessage },
+  { name: 'Tell me when', method: getTime },
+  { name: 'Report an issue', method: reportIssue },
 ];
 ```
 
@@ -30,12 +30,12 @@ const menuList = [
 
 ```ts
 const menuNode = (
-    <div className="test-context-node">
-        <p className="g-context-menu-item" onClick={loadSequence}>
-            LAUNCH THE MISSILE
-        </p>
-        // ....Rest of code
-    </div>
+  <div className="test-context-node">
+    <p className="g-context-menu-item" onClick={loadSequence}>
+      LAUNCH THE MISSILE
+    </p>
+    // ....Rest of code
+  </div>
 );
 ```
 
