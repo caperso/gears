@@ -14,7 +14,16 @@
       "@@/*": ["src/.umi/*"]
     },
     "allowSyntheticDefaultImports": true,
-    "declaration": true
+    "declaration": true,
+    "outDir": "lib/index.ts"
   },
+  "typedocOptions": {
+    "mode": "modules",
+    "out": "docs",
+    "target": "es6",
+    "theme": "default",
+    "isolatedModules": false //将每个文件作为单独的模块。
+  },
+
   "exclude": ["node_modules", "dist", "typings"]
 }
