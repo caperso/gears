@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import 'antd/es/message/style/css';
 import React from 'react';
-import ContextMenu from '../ContextMenu';
+import { ContextMenu } from '../ContextMenu';
 import './demo.less';
 
 const BasicContextMenuSample = () => {

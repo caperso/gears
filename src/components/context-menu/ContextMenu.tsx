@@ -7,7 +7,7 @@ interface Props extends DefaultHTMLElementProps {
   children: React.ReactElement | React.ReactElement[];
 }
 
-const ContextMenu = (props: Props) => {
+export const ContextMenu = (props: Props) => {
   const { menu, children } = props;
 
   const [cursorPoint, setCursorPoint] = useState<AxisPoint>({ x: 0, y: 0 });
@@ -59,5 +59,3 @@ const ContextMenu = (props: Props) => {
     </div>
   );
 };
-
-export default ContextMenu;

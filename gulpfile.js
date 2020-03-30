@@ -65,10 +65,9 @@ const paths = {
   dest: {
     lib: './lib',
     esm: './esm',
-    dist: './dist',
   },
-  styles: ['src/components/**/*.less', '!src/components/**/demo/*.less'],
-  scripts: ['src/components/**/*.{ts,tsx}', '!src/components/**/demo/*.{ts,tsx}'],
+  styles: ['src/**/*.less', '!src/components/**/demo/*.less'],
+  scripts: ['src/**/*.{ts,tsx}', '!src/components/**/demo/*.{ts,tsx}'],
 };
 
 /**

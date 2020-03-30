@@ -7,7 +7,7 @@ interface Props {
   clickCallback?: (e: any) => void;
 }
 
-const SquareButton = (props: Props) => {
+export const SquareButton = (props: Props) => {
   const handleClick = (e: any) => {
     if (props.clickCallback) {
       props.clickCallback(e);
@@ -21,4 +21,3 @@ const SquareButton = (props: Props) => {
     </div>
   );
 };
-export default SquareButton;

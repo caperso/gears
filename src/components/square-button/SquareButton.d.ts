@@ -5,5 +5,5 @@ interface Props {
   icon?: string;
   clickCallback?: (e: any) => void;
 }
-declare const SquareButton: (props: Props) => JSX.Element;
-export default SquareButton;
+export declare const SquareButton: (props: Props) => JSX.Element;
+export {};

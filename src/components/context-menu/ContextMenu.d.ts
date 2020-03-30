@@ -5,5 +5,5 @@ interface Props extends DefaultHTMLElementProps {
   menu: MenuItem[] | React.ReactElement;
   children: React.ReactElement | React.ReactElement[];
 }
-declare const ContextMenu: (props: Props) => JSX.Element;
-export default ContextMenu;
+export declare const ContextMenu: (props: Props) => JSX.Element;
+export {};

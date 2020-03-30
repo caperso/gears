@@ -1,5 +1,8 @@
 {
   "name": "gearware",
+  "version": "0.1.4",
+  "description": "",
+  "author": "caperso",
   "scripts": {
     "push:master": "git checkout master && git merge change-dumi && git push && git checkout change-dumi",
     "prettier": "prettier --write **/*.{js,jsx,tsx,ts,less,md,json}",
@@ -9,20 +12,9 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:package": "npm run clean && npm run build:types && gulp"
   },
-  "module": "es/index.esm.js",
+  "module": "es/index.js",
   "typings": "lib/index.d.ts",
-  "main": "lib/index.js",
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
-  },
+  "main": "lib/index.ts",
   "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -46,6 +38,17 @@
     "yorkie": "^2.0.0"
   },
   "files":["lib","esm"],
-  "version": "0.1.4",
-  "license": "MIT"
+  "license": "MIT",
+
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  }
 }

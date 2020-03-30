@@ -1,5 +1,5 @@
 import React from 'react';
-import SquareButton from '../SquareButton';
+import { SquareButton } from '../SquareButton';
 import './demo.less';
 
 const icon = 'https://www.easyicon.net/api/resizeApi.php?id=1180534&size=72';

@@ -1,21 +1,26 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "baseUrl": ".",
+    "target": "es6",
+    "module": "es6",
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "importHelpers": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "sourceMap": true,
-    "baseUrl": "./",
     "strict": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": true,
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },
+    "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "outDir": "lib/index.ts"
+    "outDir": "lib"
   },
   "typedocOptions": {
     "mode": "modules",
@@ -24,6 +29,8 @@
     "theme": "default",
     "isolatedModules": false //将每个文件作为单独的模块。
   },
+  "include": ["src/**/*"],
+  "exclude": ["src/components/**/demo/*.tsx"]
 
-  "exclude": ["node_modules", "dist", "typings"]
+  // "exclude": ["node_modules", "dist", "typings"]
 }
