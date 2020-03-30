@@ -12,9 +12,9 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:package": "npm run clean && npm run build:types && gulp"
   },
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "typings": "lib/index.d.ts",
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
   "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8.0",
