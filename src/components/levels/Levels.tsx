@@ -59,7 +59,7 @@ export const Levels = (props: Props) => {
 
   return (
     <LevelContext.Provider value={{ activeRoute: '' }}>
-      <div className="g-levels-wrapper">{data.map((item: Level) => recursiveRender(item))}</div>;
+      <div className="g-levels-wrapper">{data.map((item: Level) => recursiveRender(item))}</div>
     </LevelContext.Provider>
   );
 };
