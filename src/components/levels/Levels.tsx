@@ -15,9 +15,9 @@ interface RenderLevel extends Level {
 
 interface Props {
   data: Level[];
+  initExpanded?: boolean;
   baseFontSize?: number;
   fontSizeDecrease?: number;
-  initExpanded: boolean; // false
 }
 
 export const Levels = (props: Props) => {
@@ -25,81 +25,102 @@ export const Levels = (props: Props) => {
 
   const [compiledData, setCompiledData] = useState<RenderLevel[]>([]);
 
+  const [activeRoute, setActiveRoute] = useState('');
+
   useEffect(() => {
     // make no side effect
-    function recursiveAssign(data: Level[], initState: boolean): RenderLevel[] {
+    function recursiveAssign(data: Level[], initExpanded: boolean): RenderLevel[] {
+      // make sure no name include '/' so route wont failed
       const names = data.map(item => {
         if (item.name.match('/')) {
           throw new Error('Please make sure no "/" in level\'s name');
         }
-        // make sure no name include '/' so route wont failed
         return item.name;
       });
+
       // make sure no name duplicate at this level
       names.map((name, i) => {
-        for (let j = i; j < names.length - i; j++) {
+        for (let j = i + 1; j < names.length; j++) {
+          if (!name) {
+            throw new Error('Please check no empty name');
+          }
           if (name === names[j]) {
             throw new Error('Please make sure no duplicated name on the same level');
           }
         }
       });
 
-      //TODO: make sure no empty name
-
       return data.map(item => {
-        item.name;
         let result: RenderLevel;
         let deep: RenderLevel['deep'];
         if (item.deep) {
-          deep = recursiveAssign(item.deep, initState);
+          deep = recursiveAssign(item.deep, initExpanded);
         }
-        if (initState && item.deep) {
+
+        // console.log('%c assigned result', 'color:#0fe;', initExpanded, item.deep);
+        if (initExpanded && item.deep) {
           result = Object.assign(item, { extended: true, deep });
-        }
-        if (!initState && item.deep) {
+        } else if (!initExpanded && item.deep) {
           result = Object.assign(item, { extended: false, deep });
+        } else {
+          result = Object.assign(item, { extended: null, deep });
         }
-        result = Object.assign(item, { extended: null, deep });
+        console.log('%c assigned result', 'color:#0fe;', result);
+        // console.log('%c assigned result', 'color:orange;', result);
         return result;
       });
     }
 
     let compiledData = recursiveAssign(data, initExpanded);
+    console.log('%c assigned result', 'color:#0f0;', compiledData);
+
     setCompiledData(compiledData);
   }, [data]);
 
-  const [activeRoute, setActiveRoute] = useState('');
+  /**
+   * 修改层级展开状态
+   * @param {RenderLevel[]} looper
+   * @param {string[]} routeArray
+   * @param {number} routeIndex
+   * @returns
+   */
+  function changeLevelExtended(looper: RenderLevel[], routeArray: string[], routeIndex: number) {
+    if (routeIndex > routeArray.length - 1) {
+      return;
+    }
+
+    let matchedIndex;
+    for (let j = 0; j < looper.length; j++) {
+      const ele = looper[j];
+      if (ele.name === routeArray[routeIndex]) {
+        ele.extended = !ele.extended;
+        matchedIndex = j;
+      } else {
+        ele.extended = false;
+      }
+    }
+
+    if (!matchedIndex) {
+      return console.warn(`no matched index!`);
+    }
+
+    const nextLooper = looper[matchedIndex].deep;
+
+    if (!nextLooper) {
+      return console.warn(`levels: loop chain broken!`);
+    }
+
+    changeLevelExtended(nextLooper, routeArray, routeIndex + 1);
+  }
 
   const handleClickLevel = (item: RenderLevel, route: string) => {
     console.log(route);
     setActiveRoute(route);
 
-    const recursiveFinder = (currentLevels: RenderLevel[], routeArray: string[], thisLevel: RenderLevel) => {
-      const currentRoute = routeArray.shift();
-
-      if (currentRoute) {
-        const index = currentLevels.findIndex(item => item.name === routeArray[0]);
-        const target = currentLevels[index];
-        if (routeArray.length > 0 && target.deep) {
-          recursiveFinder(target.deep, routeArray, target);
-        }
-      }
-
-      if (!currentRoute) {
-        // means this level is the target
-        thisLevel.extended = !!thisLevel.extended;
-        return;
-      }
-    };
-
     function changeExtended(s: RenderLevel[]): RenderLevel[] {
       const updatedState = { ...s };
       const routeArray = route.split('/');
-      const index = updatedState.findIndex(item => item.name === routeArray[0]);
-      const target = updatedState[index];
-      routeArray.shift();
-
-      recursiveFinder(updatedState, routeArray, target);
+      changeLevelExtended(updatedState, routeArray, 0);
       return updatedState;
     }
 
@@ -115,7 +136,6 @@ export const Levels = (props: Props) => {
    * @param {string} [route]
    * @returns {React.ReactNode}
    */
-
   const recursiveRender = (item: RenderLevel, depth: number = 0, route: string = ''): React.ReactNode => {
     const currentRoute = route ? `${route}/${item.name}` : `${item.name}`;
     const fontSize = baseFontSize - fontSizeDecrease * depth > 12 ? baseFontSize - fontSizeDecrease * depth : 12;

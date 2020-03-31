@@ -12,6 +12,8 @@ group:
 
 <code src="@/components/levels/demo/demo.tsx" />
 
+<!-- <code src="@/components/levels/demo/demo-closed.tsx" /> -->
+
 ## API
 
 | 参数             | 必须  | 类型    | 默认值 | 说明     |
