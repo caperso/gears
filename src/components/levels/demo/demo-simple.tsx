@@ -9,20 +9,14 @@ import { Level, Levels } from '../Levels';
 const levels: Level[] = [
   {
     name: 'Astronomia',
-    description: 'The Great Sky Upon Us',
     deep: [
       {
         name: 'DeepSpace',
-        description: 'Light That Never Comes',
-        deep: [{ name: 'Dust' }, { name: 'Germ' }],
+        deep: [{ name: 'Dust' }, { name: 'Void' }],
       },
       {
         name: 'Red Liquid',
-        description: 'Filthy Prize Paradise',
-        deep: [
-          { name: 'Oxygen', description: 'THE LIVE ORIGINS' },
-          { name: 'Hear', description: 'Every color bleeds into the same' },
-        ],
+        deep: [{ name: 'Oxygen' }, { name: 'Heat' }],
       },
     ],
   },

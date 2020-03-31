@@ -22,6 +22,12 @@ group:
 
 <code src="@/components/levels/demo/demo.tsx" />
 
+### 完整例子
+
+默认自动展开, 回调函数返回路由信息
+
+<code src="@/components/levels/demo/demo-complex.tsx" />
+
 ## API
 
 Levels 组件接口:
@@ -38,10 +44,10 @@ Levels 组件接口:
 
 Level 类型接口:
 
-| 参数        | 必须  | 类型                 | 默认值 | 说明                            |
-| :---------- | :---- | :------------------- | :----- | :------------------------------ |
-| name        | true  | string               | -      | 单项名称                        |
-| staticUrl   | false | string               | null   | 静态地址(用于直接跳转)          |
-| description | false | string               | null   | 描述(悬浮出现)                  |
-| action      | false | (route: string) => T | null   | 点击事件(getCurrentActiveRoute) |
-| deep        | false | Level[]              | null   | 下一层数据(接受 Level 类型数组) |
+| 参数        | 必须  | 类型                   | 默认值 | 说明                            |
+| :---------- | :---- | :--------------------- | :----- | :------------------------------ |
+| name        | true  | string                 | -      | 单项名称                        |
+| staticUrl   | false | string                 | null   | 静态地址(用于直接跳转)          |
+| description | false | string                 | null   | 描述(悬浮出现)                  |
+| action      | false | (route: string) => any | null   | 点击事件(getCurrentActiveRoute) |
+| deep        | false | Level[]                | null   | 下一层数据(接受 Level 类型数组) |

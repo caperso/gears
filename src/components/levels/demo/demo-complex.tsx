@@ -3,29 +3,36 @@
  */
 
 import { CodePaper } from '@/components/code-paper/CodePaper';
+import { message } from 'antd';
 import React, { useState } from 'react';
 import { Level, Levels } from '../Levels';
 
+function showText() {
+  message.success('THIS ACTION WAS LIFT OFF');
+}
+
 const levels: Level[] = [
   {
-    name: 'Astronomia',
+    name: 'The Otherside',
     description: 'The Great Sky Upon Us',
     deep: [
       {
-        name: 'DeepSpace',
-        description: 'Light That Never Comes',
-        deep: [{ name: 'Dust' }, { name: 'Germ' }],
+        name: 'Larepac',
+        staticUrl: 'https://caperal.cn',
+        description: 'To site: https://caperal.cn',
       },
       {
-        name: 'Red Liquid',
-        description: 'Filthy Prize Paradise',
+        name: 'Phoenix',
+        description: '#BringBackTheGroove',
         deep: [
-          { name: 'Oxygen', description: 'THE LIVE ORIGINS' },
-          { name: 'Hear', description: 'Every color bleeds into the same' },
+          { name: 'Oxygen', description: 'THE LIVE ORIGINS', action: showText },
+          { name: 'Green Eyes', description: 'Go out like dynamite', action: showText },
         ],
       },
     ],
   },
+  { name: 'Way Back', description: 'Can we find our way back' },
+  { name: 'Ride Or Die', description: 'Gonna live this way' },
 ];
 const LevelsDemo = () => {
   const [levelData, setLevelData] = useState(levels);
