@@ -70,35 +70,40 @@ export const Levels = (props: Props) => {
 
   const [activeRoute, setActiveRoute] = useState('');
 
-  const handleClickLevel = (item: RenderLevel, route: string, indexString: string) => {
+  const handleClickLevel = (item: RenderLevel, route: string) => {
     console.log(route);
     setActiveRoute(route);
 
-    function legend(s: RenderLevel[]): RenderLevel[] {
-      const updatedState = { ...s };
+    const recursiveFinder = (currentLevels: RenderLevel[], routeArray: string[], thisLevel: RenderLevel) => {
+      const currentRoute = routeArray.shift();
 
-      const routeArray = route.split('/');
-
-      let target;
-
-      const index = updatedState.findIndex(item => item.name === routeArray[0]);
-
-      target = updatedState[index];
-
-      const recursiveFinder = () => {
-        let found = false;
-        for (let i = 0; i < updatedState.length; i++) {
-          if (updatedState[i].name === routeArray[0]) {
-            found = true;
-            routeArray.shift();
-          }
+      if (currentRoute) {
+        const index = currentLevels.findIndex(item => item.name === routeArray[0]);
+        const target = currentLevels[index];
+        if (routeArray.length > 0 && target.deep) {
+          recursiveFinder(target.deep, routeArray, target);
         }
-      };
+      }
 
+      if (!currentRoute) {
+        // means this level is the target
+        thisLevel.extended = !!thisLevel.extended;
+        return;
+      }
+    };
+
+    function changeExtended(s: RenderLevel[]): RenderLevel[] {
+      const updatedState = { ...s };
+      const routeArray = route.split('/');
+      const index = updatedState.findIndex(item => item.name === routeArray[0]);
+      const target = updatedState[index];
+      routeArray.shift();
+
+      recursiveFinder(updatedState, routeArray, target);
       return updatedState;
     }
 
-    item.extended !== null && setCompiledData(s => legend(s));
+    item.extended !== null && setCompiledData(s => changeExtended(s));
     item.staticUrl ? window.open(item.staticUrl) : void 0;
     item.action ? item.action(route) : void 0;
   };
@@ -111,31 +116,21 @@ export const Levels = (props: Props) => {
    * @returns {React.ReactNode}
    */
 
-  const recursiveRender = (
-    item: RenderLevel,
-    index: number,
-    fatherIndex: string = '',
-    depth: number = 0,
-    route: string = '',
-  ): React.ReactNode => {
+  const recursiveRender = (item: RenderLevel, depth: number = 0, route: string = ''): React.ReactNode => {
     const currentRoute = route ? `${route}/${item.name}` : `${item.name}`;
     const fontSize = baseFontSize - fontSizeDecrease * depth > 12 ? baseFontSize - fontSizeDecrease * depth : 12;
-    const indexes = fatherIndex ? `${fatherIndex},${index}` : `${index}`;
     return (
       <div key={item.name}>
         <div
-          key={indexes}
-          data-indexes={indexes}
+          key={item.name}
           className="g-levels-one"
-          onClick={() => handleClickLevel(item, currentRoute, indexes)}
+          onClick={() => handleClickLevel(item, currentRoute)}
           style={{ fontSize, color: `${activeRoute === currentRoute ? '#2dc6ad' : ''}` }}
         >
           <span style={{ paddingLeft: `${depth}em` }}></span>
           {item.name}
         </div>
-        {item.deep &&
-          item.extended &&
-          item.deep.map((deepItem: RenderLevel, i) => recursiveRender(deepItem, i, indexes, depth + 1, currentRoute))}
+        {item.deep && item.extended && item.deep.map((deepItem: RenderLevel) => recursiveRender(deepItem, depth + 1, currentRoute))}
       </div>
     );
   };
@@ -144,7 +139,7 @@ export const Levels = (props: Props) => {
 
   return (
     <LevelContext.Provider value={{ activeRoute: '' }}>
-      <div className="g-levels-wrapper">{compiledData.map((item, i) => recursiveRender(item, i))}</div>
+      <div className="g-levels-wrapper">{compiledData.map(item => recursiveRender(item))}</div>
     </LevelContext.Provider>
   );
 };
