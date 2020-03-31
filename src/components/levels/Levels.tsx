@@ -18,6 +18,7 @@ interface Props {
   initExpanded?: boolean;
   baseFontSize?: number;
   fontSizeDecrease?: number;
+  getCurrentActiveRoute?: (route: string) => any;
 }
 
 export const Levels = (props: Props) => {
@@ -28,7 +29,12 @@ export const Levels = (props: Props) => {
   const [activeRoute, setActiveRoute] = useState('');
 
   useEffect(() => {
-    // make no side effect
+    /**
+     * assign extend state to every level, make no side effect
+     * @param {Level[]} data
+     * @param {boolean} initExpanded
+     * @returns {RenderLevel[]}
+     */
     function recursiveAssign(data: Level[], initExpanded: boolean): RenderLevel[] {
       // make sure no name include '/' so route wont failed
       const names = data.map(item => {
@@ -70,65 +76,62 @@ export const Levels = (props: Props) => {
     }
 
     let compiledData = recursiveAssign(data, initExpanded);
-    console.log('%c init levels assigned result', 'color:#0f0;', compiledData);
-
     setCompiledData(compiledData);
   }, [data]);
 
-  /**
-   * 修改层级展开状态
-   * @param {RenderLevel[]} looper
-   * @param {string[]} routeArray
-   * @param {number} routeIndex
-   * @returns
-   */
-  function changeLevelExtended(looper: RenderLevel[], routeArray: string[], routeIndex: number) {
-    if (routeIndex > routeArray.length - 1) {
-      return;
-    }
-
-    let matchedIndex;
-    for (let j = 0; j < looper.length; j++) {
-      const ele = looper[j];
-      if (ele.name === routeArray[routeIndex]) {
-        ele.extended = true;
-        matchedIndex = j;
-      } else {
-        ele.extended = false;
-      }
-    }
-
-    if (matchedIndex === undefined) {
-      return console.warn(`no matched index!`);
-    }
-
-    const nextLooper = looper[matchedIndex].deep;
-
-    if (nextLooper === undefined) {
-      return console.warn(`levels: loop chain broken!`);
-    }
-
-    changeLevelExtended(nextLooper, routeArray, routeIndex + 1);
-  }
-
   const handleClickLevel = (item: RenderLevel, route: string) => {
-    console.log(route);
-    setActiveRoute(route);
+    /**
+     * change Level extended state
+     * @param {RenderLevel[]} looper
+     * @param {string[]} routes
+     * @param {number} routeIndex
+     * @returns
+     */
+    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {
+      let isTheRouteEnd = routeIndex + 1 >= routes.length;
+      let matchedIndex;
+      for (let j = 0; j < looper.length; j++) {
+        const ele = looper[j];
+        if (ele.name === routes[routeIndex]) {
+          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it
+          matchedIndex = j;
+        } else {
+          ele.extended = false;
+        }
+      }
 
-    function changeExtended(levels: RenderLevel[]): RenderLevel[] {
-      const routeArray = route.split('/');
-      changeLevelExtended(levels, routeArray, 0);
-      console.log('%c init levels assigned result', 'color:#0f0;', levels);
+      if (matchedIndex === undefined) {
+        return console.warn(`no matched index!`);
+      }
+
+      if (isTheRouteEnd) {
+        return;
+      }
+
+      const nextLooper = looper[matchedIndex].deep;
+      if (nextLooper === undefined) {
+        return console.warn(`levels: loop chain broken!`);
+      }
+
+      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);
+    }
+
+    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {
+      const routes = route.split('/');
+      const isLastRoute = route === activeRoute;
+      changeLevelsExtended(levels, routes, 0, isLastRoute);
       return levels;
     }
 
-    item.extended !== null && setCompiledData(s => changeExtended([...s]));
-    item.staticUrl ? window.open(item.staticUrl) : void 0;
-    item.action ? item.action(route) : void 0;
+    item.extended !== null && setCompiledData(s => getUpdateLevels([...s]));
+    item.staticUrl && window.open(item.staticUrl);
+    item.action && item.action(route);
+    setActiveRoute(route);
+    console.log('%croute:', 'color:#0fe;', route);
   };
 
   /**
-   * 递归渲染层级菜单
+   * Render levels recursively
    * @param {RenderLevel} item
    * @param {number} [depth=0]
    * @param {string} [route]
@@ -153,11 +156,5 @@ export const Levels = (props: Props) => {
     );
   };
 
-  const LevelContext = React.createContext({ activeRoute: '' });
-
-  return (
-    <LevelContext.Provider value={{ activeRoute: '' }}>
-      <div className="g-levels-wrapper">{compiledData.map(item => recursiveRender(item))}</div>
-    </LevelContext.Provider>
-  );
+  return <div className="g-levels-wrapper">{compiledData.map(item => recursiveRender(item))}</div>;
 };
