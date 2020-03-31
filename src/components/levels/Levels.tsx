@@ -15,14 +15,14 @@ interface RenderLevel extends Level {
 
 interface Props {
   data: Level[];
-  initExpanded?: boolean;
-  baseFontSize?: number;
-  fontSizeDecrease?: number;
+  allExpanded?: boolean;
+  baseFontSize?: number; // TODO:move to style
+  fontSizeDecrease?: number; // TODO:move to style
   getCurrentActiveRoute?: (route: string) => any;
 }
 
 export const Levels = (props: Props) => {
-  const { data, baseFontSize = 45, initExpanded = false, fontSizeDecrease = 3 } = props;
+  const { data, baseFontSize = 45, allExpanded = false, fontSizeDecrease = 3, getCurrentActiveRoute = null } = props;
 
   const [compiledData, setCompiledData] = useState<RenderLevel[]>([]);
 
@@ -32,10 +32,10 @@ export const Levels = (props: Props) => {
     /**
      * assign extend state to every level, make no side effect
      * @param {Level[]} data
-     * @param {boolean} initExpanded
+     * @param {boolean} allExpanded
      * @returns {RenderLevel[]}
      */
-    function recursiveAssign(data: Level[], initExpanded: boolean): RenderLevel[] {
+    function recursiveAssign(data: Level[], allExpanded: boolean): RenderLevel[] {
       // make sure no name include '/' so route wont failed
       const names = data.map(item => {
         if (item.name.match('/')) {
@@ -60,13 +60,13 @@ export const Levels = (props: Props) => {
         let result: RenderLevel;
         let deep: RenderLevel['deep'];
         if (item.deep) {
-          deep = recursiveAssign(item.deep, initExpanded);
+          deep = recursiveAssign(item.deep, allExpanded);
         }
 
-        // console.log('%c assigned result', 'color:#0fe;', initExpanded, item.deep);
-        if (initExpanded && item.deep) {
+        // console.log('%c assigned result', 'color:#0fe;', allExpanded, item.deep);
+        if (allExpanded && item.deep) {
           result = Object.assign(item, { extended: true, deep });
-        } else if (!initExpanded && item.deep) {
+        } else if (!allExpanded && item.deep) {
           result = Object.assign(item, { extended: false, deep });
         } else {
           result = Object.assign(item, { extended: null, deep });
@@ -75,7 +75,7 @@ export const Levels = (props: Props) => {
       });
     }
 
-    let compiledData = recursiveAssign(data, initExpanded);
+    let compiledData = recursiveAssign(data, allExpanded);
     setCompiledData(compiledData);
   }, [data]);
 
@@ -127,6 +127,7 @@ export const Levels = (props: Props) => {
     item.staticUrl && window.open(item.staticUrl);
     item.action && item.action(route);
     setActiveRoute(route);
+    getCurrentActiveRoute && getCurrentActiveRoute(route);
     console.log('%croute:', 'color:#0fe;', route);
   };
 

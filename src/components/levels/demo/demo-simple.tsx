@@ -32,8 +32,7 @@ const LevelsDemo = () => {
     <div className="demo-levels-wrapper">
       当前数据:
       <CodePaper text={`${JSON.stringify(levels)}`} handleClick={handleChange} />
-      <h3>默认不展开</h3>
-      <Levels data={levelData} initExpanded={false}></Levels>
+      <Levels data={levelData} allExpanded={false}></Levels>
     </div>
   );
 };

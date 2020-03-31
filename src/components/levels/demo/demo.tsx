@@ -3,12 +3,13 @@
  */
 
 import { CodePaper } from '@/components/code-paper/CodePaper';
+import { message } from 'antd';
 import React, { useState } from 'react';
 import { Level, Levels } from '../Levels';
 
 const levels: Level[] = [
   { name: 'Pipeline' },
-  { name: 'Github', staticUrl: 'https://github.com/' },
+  { name: 'Github', staticUrl: 'https://github.com/caperso' },
   {
     name: 'Ground',
     deep: [
@@ -23,19 +24,21 @@ const levels: Level[] = [
 const LevelsDemo = () => {
   const [levelData, setLevelData] = useState(levels);
 
-  const handleChange = (text: string) => {
+  const dangerousParse = (text: string) => {
     try {
       setLevelData(JSON.parse(text));
     } catch {
       console.error('error: INVALID JSON ARRAY FORMAT');
     }
   };
+
+  const getRoute = (route: string) => message.success(`changed to ${route}`);
+
   return (
     <div className="demo-levels-wrapper">
       当前数据:
-      <CodePaper text={`${JSON.stringify(levels)}`} handleClick={handleChange} />
-      <h3>默认自动展开</h3>
-      <Levels data={levelData} initExpanded={true}></Levels>
+      <CodePaper text={`${JSON.stringify(levels)}`} handleClick={dangerousParse} />
+      <Levels data={levelData} allExpanded={true} getCurrentActiveRoute={getRoute}></Levels>
     </div>
   );
 };
