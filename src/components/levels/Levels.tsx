@@ -4,6 +4,7 @@ import './level.less';
 export type Level = {
   name: string;
   staticUrl?: string;
+  description?: string;
   deep?: Level[];
   action?: <T>(route: string) => T;
 };
@@ -146,6 +147,7 @@ export const Levels = (props: Props) => {
         <div
           key={item.name}
           className="g-levels-one"
+          data-hover={item.description}
           onClick={() => handleClickLevel(item, currentRoute)}
           style={{ fontSize, color: `${activeRoute === currentRoute ? '#2dc6ad' : ''}` }}
         >

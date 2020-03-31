@@ -7,16 +7,23 @@ import React, { useState } from 'react';
 import { Level, Levels } from '../Levels';
 
 const levels: Level[] = [
-  { name: 'Pipeline' },
-  { name: 'Github', staticUrl: 'https://github.com/' },
   {
-    name: 'Ground',
+    name: 'Astronomia',
+    description: 'The Great Sky Upon Us',
     deep: [
       {
-        name: 'Solid',
+        name: 'DeepSpace',
+        description: 'Light That Never Comes',
         deep: [{ name: 'Dust' }, { name: 'Germ' }],
       },
-      { name: 'Liquid' },
+      {
+        name: 'Red Liquid',
+        description: 'Filthy Prize Paradise',
+        deep: [
+          { name: 'Oxygen', description: 'THE LIVE ORIGINS' },
+          { name: 'Hear', description: 'Every color bleeds into the same' },
+        ],
+      },
     ],
   },
 ];

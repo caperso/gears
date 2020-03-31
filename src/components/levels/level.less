@@ -11,6 +11,15 @@
     filter: hue-rotate(0deg);
   }
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
 .g-levels-wrapper {
   display: flex;
   flex-direction: column;
@@ -29,5 +38,15 @@
     cursor: pointer;
     color: #2dc6ad;
     animation: hue-trans 7s infinite;
+  }
+
+  &:hover::after {
+    content: attr(data-hover);
+    color: rgb(204, 204, 204);
+    font-weight: 300;
+    font-size: 26px;
+    opacity: 0;
+    padding-left: 0.5em;
+    animation: 0.45s ease 0s 1 normal forwards running fade-in;
   }
 }

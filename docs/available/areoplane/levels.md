@@ -24,6 +24,8 @@ group:
 
 ## API
 
+Levels 组件接口:
+
 | 参数                  | 必须  | 类型                | 默认值 | 说明                              |
 | :-------------------- | :---- | :------------------ | :----- | :-------------------------------- |
 | data                  | true  | Level[]             | []     | 阶级数据                          |
@@ -31,3 +33,15 @@ group:
 | getCurrentActiveRoute | false | (route:string)=>any | null   | 获取当前路由                      |
 | baseFontSize          | false | number              | 45     | !将被移除! 基础字体大小           |
 | fontSizeDecrease      | false | number              | 3      | !将被移除! 字体大小随层级向下递减 |
+
+## 类型
+
+Level 类型接口:
+
+| 参数        | 必须  | 类型                 | 默认值 | 说明                            |
+| :---------- | :---- | :------------------- | :----- | :------------------------------ |
+| name        | true  | string               | -      | 单项名称                        |
+| staticUrl   | false | string               | null   | 静态地址(用于直接跳转)          |
+| description | false | string               | null   | 描述(悬浮出现)                  |
+| action      | false | (route: string) => T | null   | 点击事件(getCurrentActiveRoute) |
+| deep        | false | Level[]              | null   | 下一层数据(接受 Level 类型数组) |
