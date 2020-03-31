@@ -10,9 +10,9 @@ group:
 
 ## 演示
 
-<code src="@/components/levels/demo/demo.tsx" />
+<code src="@/components/levels/demo/demo-simple.tsx" />
 
-<!-- <code src="@/components/levels/demo/demo-closed.tsx" /> -->
+<code src="@/components/levels/demo/demo.tsx" />
 
 ## API
 

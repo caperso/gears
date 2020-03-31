@@ -65,14 +65,12 @@ export const Levels = (props: Props) => {
         } else {
           result = Object.assign(item, { extended: null, deep });
         }
-        console.log('%c assigned result', 'color:#0fe;', result);
-        // console.log('%c assigned result', 'color:orange;', result);
         return result;
       });
     }
 
     let compiledData = recursiveAssign(data, initExpanded);
-    console.log('%c assigned result', 'color:#0f0;', compiledData);
+    console.log('%c init levels assigned result', 'color:#0f0;', compiledData);
 
     setCompiledData(compiledData);
   }, [data]);
@@ -93,20 +91,20 @@ export const Levels = (props: Props) => {
     for (let j = 0; j < looper.length; j++) {
       const ele = looper[j];
       if (ele.name === routeArray[routeIndex]) {
-        ele.extended = !ele.extended;
+        ele.extended = true;
         matchedIndex = j;
       } else {
         ele.extended = false;
       }
     }
 
-    if (!matchedIndex) {
+    if (matchedIndex === undefined) {
       return console.warn(`no matched index!`);
     }
 
     const nextLooper = looper[matchedIndex].deep;
 
-    if (!nextLooper) {
+    if (nextLooper === undefined) {
       return console.warn(`levels: loop chain broken!`);
     }
 
@@ -117,14 +115,14 @@ export const Levels = (props: Props) => {
     console.log(route);
     setActiveRoute(route);
 
-    function changeExtended(s: RenderLevel[]): RenderLevel[] {
-      const updatedState = { ...s };
+    function changeExtended(levels: RenderLevel[]): RenderLevel[] {
       const routeArray = route.split('/');
-      changeLevelExtended(updatedState, routeArray, 0);
-      return updatedState;
+      changeLevelExtended(levels, routeArray, 0);
+      console.log('%c init levels assigned result', 'color:#0f0;', levels);
+      return levels;
     }
 
-    item.extended !== null && setCompiledData(s => changeExtended(s));
+    item.extended !== null && setCompiledData(s => changeExtended([...s]));
     item.staticUrl ? window.open(item.staticUrl) : void 0;
     item.action ? item.action(route) : void 0;
   };
