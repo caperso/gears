@@ -1,18 +1,44 @@
+import { DefaultHTMLElementProps } from '@/typings/types';
 import React from 'react';
 import { RenderLevel } from './Levels';
 
-export const Level = (props: {
+export interface Level {
+  /* name */
+  name: string;
+  /* the actual route name of this level item */
+  route?: string;
+  /* next deeper level, same structure */
+  deep?: Level[];
+  /* whole url, it will open new tab and go */
+  staticUrl?: string;
+  /* this level item description, appear as pseudo */
+  description?: string;
+  /* fn return with a parameter of actual route */
+  action?: (route: string, activeState: boolean) => any;
+}
+
+interface LevelProps extends DefaultHTMLElementProps {
   item: RenderLevel;
   depth: number;
   route: string;
+  style: React.CSSProperties;
   activeRoute: string;
   onChangeRoute: (route: string) => any;
   setActiveRoute: (param?: any) => any;
   setCompiledData: (param?: any) => any;
+}
+
+export const Level: React.FC<LevelProps> = ({
+  item,
+  depth,
+  route = '',
+  style,
+  activeRoute = '',
+  onChangeRoute,
+  setActiveRoute,
+  setCompiledData,
 }) => {
-  const { item, depth = 0, route = '', activeRoute = '', onChangeRoute, setActiveRoute, setCompiledData } = props;
   const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;
-  const fontSize = 45 - 7 * depth > 12 ? 45 - 7 * depth : 12;
 
   const handleClickLevel = (item: RenderLevel, route: string) => {
     /**
@@ -66,26 +92,39 @@ export const Level = (props: {
     console.log('%croute:', 'color:#0fe;', route);
   };
 
+  console.log(style);
+
+  const fontSize = 45 - 5 * depth > 24 ? 45 - 5 * depth : 24;
+  const finalStyle: React.CSSProperties = {
+    fontSize,
+    paddingLeft: `${2 * depth}rem`,
+    color: `${activeRoute === currentRoute ? '#0fe' : ''}`,
+    ...style,
+  };
+
+  console.log(finalStyle, depth);
+
   return (
     /*if no actual route, use name instead */
-    <div key={item.name}>
+    <div>
       <div
+        style={finalStyle}
         key={item.name}
         className="g-levels-one"
         data-hover={item.description}
         onClick={() => handleClickLevel(item, currentRoute)}
-        style={{ fontSize, color: `${activeRoute === currentRoute ? '#2dc6ad' : ''}` }}
       >
-        <span style={{ paddingLeft: `${depth + 1}em` }}></span>
         {item.name}
       </div>
       {item.deep &&
         item.extended &&
-        item.deep.map((deepItem: RenderLevel) => (
+        item.deep.map((deepItem: RenderLevel, index) => (
           <Level
+            key={index}
             item={deepItem}
             depth={depth + 1}
             route={currentRoute}
+            style={finalStyle}
             activeRoute={activeRoute}
             onChangeRoute={onChangeRoute}
             setActiveRoute={setActiveRoute}

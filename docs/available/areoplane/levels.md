@@ -16,12 +16,6 @@ group:
 
 <code src="@/components/levels/demo/demo-simple.tsx" />
 
-### 多层例子
-
-默认自动展开, 回调函数返回路由信息
-
-<code src="@/components/levels/demo/demo.tsx" />
-
 ### 完整例子
 
 默认自动展开, 回调函数返回路由信息
