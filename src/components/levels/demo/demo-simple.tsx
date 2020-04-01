@@ -9,14 +9,23 @@ import { Level, Levels } from '../Levels';
 const levels: Level[] = [
   {
     name: 'Astronomia',
+    route: 'Astronomia',
     deep: [
       {
         name: 'DeepSpace',
-        deep: [{ name: 'Dust' }, { name: 'Void' }],
+        route: 'DeepSpace',
+        deep: [
+          { name: 'Dust', route: 'Dust' },
+          { name: 'Void', route: 'Void' },
+        ],
       },
       {
         name: 'Red Liquid',
-        deep: [{ name: 'Oxygen' }, { name: 'Heat' }],
+        route: 'Red Liquid',
+        deep: [
+          { name: 'Oxygen', route: 'Oxygen' },
+          { name: 'Heat', route: 'Heat' },
+        ],
       },
     ],
   },
@@ -35,7 +44,7 @@ const LevelsDemo = () => {
     <div className="demo-levels-wrapper">
       当前数据:
       <CodePaper text={`${JSON.stringify(levels)}`} handleClick={handleChange} />
-      <Levels data={levelData} allExpanded={false}></Levels>
+      <Levels data={levelData} defaultExpanded={false}></Levels>
     </div>
   );
 };

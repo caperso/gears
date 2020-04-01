@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 import { Level, Levels } from '../Levels';
 
 const levels: Level[] = [
-  { name: 'Pipeline' },
-  { name: 'Github', staticUrl: 'https://github.com/caperso' },
+  { name: 'Pipeline', route: 'Pipeline' },
+  { name: 'Github', route: 'Github', staticUrl: 'https://github.com/caperso' },
   {
     name: 'Ground',
     deep: [
@@ -38,7 +38,7 @@ const LevelsDemo = () => {
     <div className="demo-levels-wrapper">
       当前数据:
       <CodePaper text={`${JSON.stringify(levels)}`} handleClick={dangerousParse} />
-      <Levels data={levelData} allExpanded={true} getCurrentActiveRoute={getRoute}></Levels>
+      <Levels data={levelData} defaultExpanded={true} getCurrentActiveRoute={getRoute}></Levels>
     </div>
   );
 };

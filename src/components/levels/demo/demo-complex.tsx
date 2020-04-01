@@ -11,9 +11,14 @@ function showText() {
   message.success('THIS ACTION WAS LIFT OFF');
 }
 
+function getCurrentActiveRoute(route: string) {
+  message.info(`Current route: ${route}`);
+}
+
 const levels: Level[] = [
   {
     name: 'The Otherside',
+    route: 'otherside',
     description: 'The Great Sky Upon Us',
     deep: [
       {
@@ -23,16 +28,26 @@ const levels: Level[] = [
       },
       {
         name: 'Phoenix',
+        route: 'phoenix',
         description: '#BringBackTheGroove',
         deep: [
-          { name: 'Oxygen', description: 'THE LIVE ORIGINS', action: showText },
-          { name: 'Green Eyes', description: 'Go out like dynamite', action: showText },
+          {
+            name: 'Oxygen',
+            route: 'xxxgen',
+            description: 'THE LIVE ORIGINS',
+            action: showText,
+          },
+          {
+            name: 'Green Eyes',
+            description: 'Go out like dynamite',
+            action: showText,
+          },
         ],
       },
     ],
   },
-  { name: 'Way Back', description: 'Can we find our way back' },
-  { name: 'Ride Or Die', description: 'Gonna live this way' },
+  { name: 'Way Back', route: 'Way Back', description: 'Can we find our way back' },
+  { name: 'Ride Or Die', route: 'Ride Or Die', description: 'Gonna live this way' },
 ];
 const LevelsDemo = () => {
   const [levelData, setLevelData] = useState(levels);
@@ -44,11 +59,17 @@ const LevelsDemo = () => {
       console.error('error: INVALID JSON ARRAY FORMAT');
     }
   };
+
+  const [currentRoute, setCurrentRoute] = useState('');
+
   return (
     <div className="demo-levels-wrapper">
       当前数据:
       <CodePaper text={`${JSON.stringify(levels)}`} handleClick={handleChange} />
-      <Levels data={levelData} allExpanded={false}></Levels>
+      <br />
+      当前路径: <span>{currentRoute}</span>
+      <br />
+      <Levels data={levelData} defaultExpanded={false} getCurrentActiveRoute={setCurrentRoute}></Levels>
     </div>
   );
 };

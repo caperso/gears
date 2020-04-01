@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import './level.less';
 
+interface Props {
+  /* data receives array of Level */
+  data: Level[];
+  /* all deep levels expended when loaded */
+  defaultExpanded?: boolean;
+  baseFontSize?: number; // TODO:move to style
+  fontSizeDecrease?: number; // TODO:move to style
+  /* fn with parameter of current actual route */
+  getCurrentActiveRoute?: (route: string) => any;
+}
+
 export type Level = {
+  /* name */
   name: string;
-  staticUrl?: string;
-  description?: string;
+  /* the actual route name of this level item */
+  route?: string;
+  /* next deeper level, same structure */
   deep?: Level[];
+  /* whole url, it will open new tab and go */
+  staticUrl?: string;
+  /* this level item description, appear as pseudo */
+  description?: string;
+  /* fn return with a parameter of actual route */
   action?: (route: string) => any;
 };
 
 interface RenderLevel extends Level {
   deep?: RenderLevel[];
+  /* extends deeper level by default */
   extended: boolean | null;
 }
 
-interface Props {
-  data: Level[];
-  allExpanded?: boolean;
-  baseFontSize?: number; // TODO:move to style
-  fontSizeDecrease?: number; // TODO:move to style
-  getCurrentActiveRoute?: (route: string) => any;
-}
-
 export const Levels = (props: Props) => {
-  const { data, baseFontSize = 45, allExpanded = false, fontSizeDecrease = 3, getCurrentActiveRoute = null } = props;
+  const { data, baseFontSize = 45, defaultExpanded = false, fontSizeDecrease = 3, getCurrentActiveRoute = null } = props;
 
   const [compiledData, setCompiledData] = useState<RenderLevel[]>([]);
 
@@ -33,26 +44,28 @@ export const Levels = (props: Props) => {
     /**
      * assign extend state to every level, make no side effect
      * @param {Level[]} data
-     * @param {boolean} allExpanded
+     * @param {boolean} defaultExpanded
      * @returns {RenderLevel[]}
      */
-    function recursiveAssign(data: Level[], allExpanded: boolean): RenderLevel[] {
-      // make sure no name include '/' so route wont failed
-      const names = data.map(item => {
-        if (item.name.match('/')) {
+    function recursiveAssign(data: Level[], defaultExpanded: boolean): RenderLevel[] {
+      const routes = data.map(item => {
+        // make sure no route include '/' so route wont failed
+        if (item.route && item.route.match('/')) {
+          throw new Error('Please make sure no "/" in level\'s route');
+        } else if (item.name.match('/')) {
           throw new Error('Please make sure no "/" in level\'s name');
         }
-        return item.name;
+        return item.route || item.name;
       });
 
-      // make sure no name duplicate at this level
-      names.map((name, i) => {
-        for (let j = i + 1; j < names.length; j++) {
-          if (!name) {
+      // make sure no route duplicate at this level
+      routes.map((route, i) => {
+        for (let j = i + 1; j < routes.length; j++) {
+          if (!route) {
             throw new Error('Please check no empty name');
           }
-          if (name === names[j]) {
-            throw new Error('Please make sure no duplicated name on the same level');
+          if (route === routes[j]) {
+            throw new Error('Please make every route(or name) unique');
           }
         }
       });
@@ -61,13 +74,12 @@ export const Levels = (props: Props) => {
         let result: RenderLevel;
         let deep: RenderLevel['deep'];
         if (item.deep) {
-          deep = recursiveAssign(item.deep, allExpanded);
+          deep = recursiveAssign(item.deep, defaultExpanded);
         }
 
-        // console.log('%c assigned result', 'color:#0fe;', allExpanded, item.deep);
-        if (allExpanded && item.deep) {
+        if (defaultExpanded && item.deep) {
           result = Object.assign(item, { extended: true, deep });
-        } else if (!allExpanded && item.deep) {
+        } else if (!defaultExpanded && item.deep) {
           result = Object.assign(item, { extended: false, deep });
         } else {
           result = Object.assign(item, { extended: null, deep });
@@ -76,7 +88,7 @@ export const Levels = (props: Props) => {
       });
     }
 
-    let compiledData = recursiveAssign(data, allExpanded);
+    let compiledData = recursiveAssign(data, defaultExpanded);
     setCompiledData(compiledData);
   }, [data]);
 
@@ -93,7 +105,7 @@ export const Levels = (props: Props) => {
       let matchedIndex;
       for (let j = 0; j < looper.length; j++) {
         const ele = looper[j];
-        if (ele.name === routes[routeIndex]) {
+        if (ele.route === routes[routeIndex]) {
           ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it
           matchedIndex = j;
         } else {
@@ -140,12 +152,13 @@ export const Levels = (props: Props) => {
    * @returns {React.ReactNode}
    */
   const recursiveRender = (item: RenderLevel, depth: number = 0, route: string = ''): React.ReactNode => {
-    const currentRoute = route ? `${route}/${item.name}` : `${item.name}`;
+    /*if no actual route, use name instead */
+    const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;
     const fontSize = baseFontSize - fontSizeDecrease * depth > 12 ? baseFontSize - fontSizeDecrease * depth : 12;
     return (
-      <div key={item.name}>
+      <div key={item.route}>
         <div
-          key={item.name}
+          key={item.route}
           className="g-levels-one"
           data-hover={item.description}
           onClick={() => handleClickLevel(item, currentRoute)}
