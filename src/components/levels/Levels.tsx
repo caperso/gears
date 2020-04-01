@@ -6,7 +6,7 @@ export type Level = {
   staticUrl?: string;
   description?: string;
   deep?: Level[];
-  action?: <T>(route: string) => T;
+  action?: (route: string) => any;
 };
 
 interface RenderLevel extends Level {
