@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './level.less';
+import './index.less';
 
 interface Props {
   /* data receives array of Level */
@@ -33,7 +33,7 @@ interface RenderLevel extends Level {
   extended: boolean | null;
 }
 
-export const Levels = (props: Props) => {
+const Levels = (props: Props) => {
   const { data, baseFontSize = 45, defaultExpanded = false, fontSizeDecrease = 3, getCurrentActiveRoute = null } = props;
 
   const [compiledData, setCompiledData] = useState<RenderLevel[]>([]);
@@ -156,9 +156,9 @@ export const Levels = (props: Props) => {
     const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;
     const fontSize = baseFontSize - fontSizeDecrease * depth > 12 ? baseFontSize - fontSizeDecrease * depth : 12;
     return (
-      <div key={item.route}>
+      <div key={item.name}>
         <div
-          key={item.route}
+          key={item.name}
           className="g-levels-one"
           data-hover={item.description}
           onClick={() => handleClickLevel(item, currentRoute)}
@@ -174,3 +174,5 @@ export const Levels = (props: Props) => {
 
   return <div className="g-levels-wrapper">{compiledData.map(item => recursiveRender(item))}</div>;
 };
+
+export default Levels;

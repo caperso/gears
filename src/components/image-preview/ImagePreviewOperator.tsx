@@ -1,7 +1,7 @@
 import { MenuItem } from '@/typings/types';
 import React from 'react';
 import { ImageOperationMap, OperatorBarProps } from './ImagePreview';
-import './ImagePreview.less';
+import './index.less';
 
 interface Props {
   operations: ImageOperationMap;

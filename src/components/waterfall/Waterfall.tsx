@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
-import './Waterfall.less';
+import './index.less';
 
 interface Props {
   children: React.ReactElement | React.ReactElement[];
@@ -10,7 +10,7 @@ interface Props {
 //     horizontalEvenly: true,
 // };
 
-export const Waterfall = (props: Props) => {
+const Waterfall = (props: Props) => {
   const { children, column = 3 } = props;
 
   const generateColumn = (column: number): CSSProperties['gridTemplateColumns'] => {
@@ -35,3 +35,5 @@ export const Waterfall = (props: Props) => {
     </div>
   );
 };
+
+export default Waterfall;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AxisPoint } from '../../typings/types';
-import './ImagePreview.less';
 import ImagePreviewOperator from './ImagePreviewOperator';
+import './index.less';
 
 type ImageControlMode = 'free-rotate' | 'free-drag' | 'ratio-scale';
 type ImageAction = 'rotate' | 'drag' | 'ratio-scale' | 'zoom-in' | 'zoom-out' | 'reset';
@@ -59,7 +59,7 @@ const emptyImageProps: BaseImageProps = {
 
 const defaultOperator: OperatorBarProps = ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'];
 
-export function ImagePreview(this: any, props: Props) {
+function ImagePreview(this: any, props: Props) {
   let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
   let operatorBar = simpleMode ? null : props.operatorBar === 'default' ? defaultOperator : props.operatorBar;
@@ -430,3 +430,5 @@ export function ImagePreview(this: any, props: Props) {
     </div>
   );
 }
+
+export default ImagePreview;

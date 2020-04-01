@@ -1,5 +1,5 @@
 import React from 'react';
-import './SquareButton.less';
+import './index.less';
 
 interface Props {
   name: string;
@@ -7,7 +7,7 @@ interface Props {
   clickCallback?: (e: any) => void;
 }
 
-export const SquareButton = (props: Props) => {
+const SquareButton = (props: Props) => {
   const handleClick = (e: any) => {
     if (props.clickCallback) {
       props.clickCallback(e);
@@ -21,3 +21,4 @@ export const SquareButton = (props: Props) => {
     </div>
   );
 };
+export default SquareButton;

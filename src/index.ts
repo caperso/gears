@@ -1,4 +1,4 @@
-export { ContextMenu } from './components/context-menu/ContextMenu';
-export { ImagePreview } from './components/image-preview/ImagePreview';
-export { Levels } from './components/levels/Levels';
-export { SquareButton } from './components/square-button/SquareButton';
+export { default as ContextMenu } from './components/context-menu';
+export { default as ImagePreview } from './components/image-preview';
+export { default as Levels } from './components/levels';
+export { default as SquareButton } from './components/square-button';

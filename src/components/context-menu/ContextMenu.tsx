@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { AxisPoint, DefaultHTMLElementProps, MenuItem } from '../../typings/types';
-import './ContextMenu.less';
+import './index.less';
 
 interface Props extends DefaultHTMLElementProps {
   menu: MenuItem[] | React.ReactElement;
   children: React.ReactElement | React.ReactElement[];
 }
 
-export const ContextMenu = (props: Props) => {
+const ContextMenu = (props: Props) => {
   const { menu, children } = props;
 
   const [cursorPoint, setCursorPoint] = useState<AxisPoint>({ x: 0, y: 0 });
@@ -59,3 +59,5 @@ export const ContextMenu = (props: Props) => {
     </div>
   );
 };
+
+export default ContextMenu;

@@ -1,5 +1,5 @@
 import React from 'react';
-import './MultiViewport.less';
+import './index.less';
 
 type Unit = [0, 1, 2, 3];
 type Group = [[0, 1], [1, 2], [2, 3], [3, 0]];

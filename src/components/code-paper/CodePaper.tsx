@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import './CodePaper.less';
+import './index.less';
 interface Props {
   text: string;
   buttonText?: string;
@@ -7,7 +7,7 @@ interface Props {
   handleClick?: (text: string) => void;
 }
 
-export const CodePaper = (props: Props) => {
+const CodePaper = (props: Props) => {
   const textarea = useRef<HTMLTextAreaElement>(null);
   const updateChanges = () => {
     const text = textarea.current!.value;
@@ -22,3 +22,5 @@ export const CodePaper = (props: Props) => {
     </div>
   );
 };
+
+export default CodePaper;

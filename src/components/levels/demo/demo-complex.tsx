@@ -2,10 +2,11 @@
  * title: 层级导航（Levels）
  */
 
-import { CodePaper } from '@/components/code-paper/CodePaper';
+import CodePaper from '@/components/code-paper';
 import { message } from 'antd';
 import React, { useState } from 'react';
-import { Level, Levels } from '../Levels';
+import Levels from '../index';
+import { Level } from '../Levels';
 
 function showText() {
   message.success('THIS ACTION WAS LIFT OFF');

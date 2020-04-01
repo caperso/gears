@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import React from 'react';
-import { CodePaper } from '../CodePaper';
+import CodePaper from '../index';
 
 const CodePaperDemo = () => {
   const handleClick = (text: string) => {

@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { ImagePreview } from '../ImagePreview';
+import ImagePreview from '../index';
 import './demo.less';
 
 const sampleImage = 'https://s1.ax1x.com/2020/03/28/GFfufU.jpg';

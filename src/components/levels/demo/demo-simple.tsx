@@ -2,9 +2,10 @@
  * title: 层级导航（Levels）
  */
 
-import { CodePaper } from '@/components/code-paper/CodePaper';
+import CodePaper from '@/components/code-paper';
 import React, { useState } from 'react';
-import { Level, Levels } from '../Levels';
+import Levels from '../index';
+import { Level } from '../Levels';
 
 const levels: Level[] = [
   {

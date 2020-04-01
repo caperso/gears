@@ -1,12 +1,10 @@
 import React from 'react';
-import { Waterfall } from '../Waterfall';
+import Waterfall from '../index';
 
 export const WaterfallDemo = () => {
   return (
     <div>
-      <Waterfall>
-        <div>1122333</div>
-      </Waterfall>
+      <Waterfall></Waterfall>
     </div>
   );
 };

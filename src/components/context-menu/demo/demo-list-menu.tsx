@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import React from 'react';
-import { ContextMenu } from '../ContextMenu';
+import ContextMenu from '../index';
 import './demo.less';
 
 const BasicContextMenuSample = () => {
