@@ -24,7 +24,7 @@ export type Level = {
   /* this level item description, appear as pseudo */
   description?: string;
   /* fn return with a parameter of actual route */
-  action?: (route: string) => any;
+  action?: (route: string, activeState: boolean) => any;
 };
 
 interface RenderLevel extends Level {
@@ -138,7 +138,7 @@ const Levels = (props: Props) => {
 
     item.extended !== null && setCompiledData(s => getUpdateLevels([...s]));
     item.staticUrl && window.open(item.staticUrl);
-    item.action && item.action(route);
+    item.action && item.action(route, route === activeRoute);
     setActiveRoute(route);
     getCurrentActiveRoute && getCurrentActiveRoute(route);
     console.log('%croute:', 'color:#0fe;', route);
