@@ -1,8 +1,15 @@
 {
   "name": "gearware",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "",
-  "keywords": ["react","component","ui","rc","image","viewer"],
+  "keywords": [
+    "react",
+    "component",
+    "ui",
+    "rc",
+    "image",
+    "viewer"
+  ],
   "author": "caperso",
   "scripts": {
     "push:master": "git checkout master && git merge change-dumi && git push && git checkout change-dumi",
