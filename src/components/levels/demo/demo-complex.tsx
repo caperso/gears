@@ -12,7 +12,7 @@ function showText() {
   message.success('THIS ACTION WAS LIFT OFF');
 }
 
-function getCurrentActiveRoute(route: string) {
+function onChangeRoute(route: string) {
   message.info(`Current route: ${route}`);
 }
 
@@ -70,7 +70,7 @@ const LevelsDemo = () => {
       <br />
       当前路径: <span>{currentRoute}</span>
       <br />
-      <Levels data={levelData} defaultExpanded={false} getCurrentActiveRoute={setCurrentRoute}></Levels>
+      <Levels data={levelData} defaultExpanded={false} onChangeRoute={setCurrentRoute}></Levels>
     </div>
   );
 };

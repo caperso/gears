@@ -39,7 +39,7 @@ const LevelsDemo = () => {
     <div className="demo-levels-wrapper">
       当前数据:
       <CodePaper text={`${JSON.stringify(levels)}`} handleClick={dangerousParse} />
-      <Levels data={levelData} defaultExpanded={true} getCurrentActiveRoute={getRoute}></Levels>
+      <Levels data={levelData} defaultExpanded={true} onChangeRoute={getRoute}></Levels>
     </div>
   );
 };
