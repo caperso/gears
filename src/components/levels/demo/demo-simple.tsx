@@ -5,7 +5,7 @@
 import CodePaper from '@/components/code-paper';
 import React, { useState } from 'react';
 import Levels from '../index';
-import { Level } from '../Level';
+import { Level } from '../Levels';
 
 const levels: Level[] = [
   {

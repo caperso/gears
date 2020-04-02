@@ -2,27 +2,14 @@ import { DefaultHTMLElementProps } from '@/typings/types';
 import React from 'react';
 import { RenderLevel } from './Levels';
 
-export interface Level {
-  /* name */
-  name: string;
-  /* the actual route name of this level item */
-  route?: string;
-  /* next deeper level, same structure */
-  deep?: Level[];
-  /* whole url, it will open new tab and go */
-  staticUrl?: string;
-  /* this level item description, appear as pseudo */
-  description?: string;
-  /* fn return with a parameter of actual route */
-  action?: (route: string, activeState: boolean) => any;
-}
-
 interface LevelProps extends DefaultHTMLElementProps {
   item: RenderLevel;
   depth: number;
   route: string;
+  indent: number;
   style: React.CSSProperties;
   activeRoute: string;
+  activeStyle: React.CSSProperties;
   onChangeRoute: (route: string) => any;
   setActiveRoute: (param?: any) => any;
   setCompiledData: (param?: any) => any;
@@ -33,7 +20,9 @@ export const Level: React.FC<LevelProps> = ({
   depth,
   route = '',
   style,
+  indent = 20,
   activeRoute = '',
+  activeStyle,
   onChangeRoute,
   setActiveRoute,
   setCompiledData,
@@ -92,17 +81,17 @@ export const Level: React.FC<LevelProps> = ({
     console.log('%croute:', 'color:#0fe;', route);
   };
 
-  console.log(style);
+  const fontSize: number = typeof style.fontSize === 'number' ? style.fontSize : 45;
+  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;
+  const paddingLeft = `${indent * depth}px`;
+  const activeColor = activeStyle['color'] || '#0fe';
 
-  const fontSize = 45 - 5 * depth > 24 ? 45 - 5 * depth : 24;
   const finalStyle: React.CSSProperties = {
-    fontSize,
-    paddingLeft: `${2 * depth}rem`,
-    color: `${activeRoute === currentRoute ? '#0fe' : ''}`,
     ...style,
+    paddingLeft,
+    fontSize: actualFontSize,
+    color: `${activeRoute === currentRoute ? activeColor : ''}`,
   };
-
-  console.log(finalStyle, depth);
 
   return (
     /*if no actual route, use name instead */
@@ -122,9 +111,11 @@ export const Level: React.FC<LevelProps> = ({
           <Level
             key={index}
             item={deepItem}
+            indent={indent}
             depth={depth + 1}
             route={currentRoute}
             style={finalStyle}
+            activeStyle={activeStyle}
             activeRoute={activeRoute}
             onChangeRoute={onChangeRoute}
             setActiveRoute={setActiveRoute}

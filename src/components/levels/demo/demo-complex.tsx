@@ -6,7 +6,7 @@ import CodePaper from '@/components/code-paper';
 import { message } from 'antd';
 import React, { useState } from 'react';
 import Levels from '../index';
-import { Level } from '../Level';
+import { Level } from '../Levels';
 
 function showText(route: string) {
   message.success(`action was lift off @${route}`);

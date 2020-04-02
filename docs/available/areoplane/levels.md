@@ -26,11 +26,14 @@ group:
 
 Levels 组件接口:
 
-| 参数            | 必须  | 类型                | 默认值 | 说明                  |
-| :-------------- | :---- | :------------------ | :----- | :-------------------- |
-| data            | true  | Level[]             | []     | 阶级数据              |
-| defaultExpanded | false | boolean             | false  | 是否 默认展开所有层级 |
-| onChangeRoute   | false | (route:string)=>any | null   | 获取当前路由          |
+| 参数              | 必须  | 类型                | 默认值 | 说明                  |
+| :---------------- | :---- | :------------------ | :----- | :-------------------- |
+| data              | true  | Level[]             | []     | 阶级数据              |
+| defaultExpanded   | false | boolean             | false  | 是否 默认展开所有层级 |
+| indent            | false | number              | 20     | 缩进, 单位 px         |
+| singleStyle       | false | CSSProperties       | null   | 单个 Level 的样式     |
+| singleActiveStyle | false | CSSProperties       | null   | 单个 Level 的激活样式 |
+| onChangeRoute     | false | (route:string)=>any | null   | 获取当前路由          |
 
 ## 类型
 
