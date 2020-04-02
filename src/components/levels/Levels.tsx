@@ -1,17 +1,9 @@
+import { DefaultHTMLElementProps } from '@/typings/types';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Level } from './Level';
 
-interface Props {
-  /* data receives array of Level */
-  data: Level[];
-  /* all deep levels expended when loaded */
-  defaultExpanded?: boolean;
-  /* fn with parameter of current actual route */
-  onChangeRoute?: (route: string) => any;
-}
-
-export type Level = {
+export interface Level {
   /* name */
   name: string;
   /* the actual route name of this level item */
@@ -24,7 +16,7 @@ export type Level = {
   description?: string;
   /* fn return with a parameter of actual route */
   action?: (route: string, activeState: boolean) => any;
-};
+}
 
 export interface RenderLevel extends Level {
   deep?: RenderLevel[];
@@ -32,9 +24,31 @@ export interface RenderLevel extends Level {
   extended: boolean | null;
 }
 
-const Levels = (props: Props) => {
-  const { data, defaultExpanded = false, onChangeRoute = () => {} } = props;
+interface LevelsProps extends DefaultHTMLElementProps {
+  /* data receives array of Level */
+  data: Level[];
+  /* all deep levels expended when loaded */
+  defaultExpanded?: boolean;
+  /* indent of every deep level */
+  indent?: number;
+  /* single level style */
+  singleStyle?: React.CSSProperties;
+  /* single level active style */
+  singleActiveStyle?: React.CSSProperties;
+  /* fn with parameter of current actual route */
+  onChangeRoute?: (route: string) => any;
+}
 
+const Levels: React.FC<LevelsProps> = ({
+  data = [],
+  style = {},
+  indent = 20,
+  className = '',
+  singleStyle = {},
+  singleActiveStyle = {},
+  defaultExpanded = false,
+  onChangeRoute = () => {},
+}) => {
   const [compiledData, setCompiledData] = useState<RenderLevel[]>([]);
 
   const [activeRoute, setActiveRoute] = useState('');
@@ -92,12 +106,16 @@ const Levels = (props: Props) => {
   }, [data]);
 
   return (
-    <div className="g-levels-wrapper">
-      {compiledData.map(item => (
+    <div className={`${className} g-levels-wrapper`} style={style}>
+      {compiledData.map((item, index) => (
         <Level
+          key={index}
           item={item}
           route=""
           depth={0}
+          indent={indent}
+          style={singleStyle}
+          activeStyle={singleActiveStyle}
           activeRoute={activeRoute}
           onChangeRoute={onChangeRoute}
           setActiveRoute={setActiveRoute}

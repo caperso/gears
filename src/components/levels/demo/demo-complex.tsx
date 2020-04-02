@@ -8,47 +8,100 @@ import React, { useState } from 'react';
 import Levels from '../index';
 import { Level } from '../Levels';
 
-function showText() {
-  message.success('THIS ACTION WAS LIFT OFF');
-}
-
-function onChangeRoute(route: string) {
-  message.info(`Current route: ${route}`);
+function showText(route: string) {
+  message.success(`action was lift off @${route}`);
 }
 
 const levels: Level[] = [
   {
-    name: 'The Otherside',
-    route: 'otherside',
-    description: 'The Great Sky Upon Us',
+    name: 'Work Hard',
+    route: '1',
     deep: [
       {
-        name: 'Larepac',
-        staticUrl: 'https://caperal.cn',
-        description: 'To site: https://caperal.cn',
-      },
-      {
-        name: 'Phoenix',
-        route: 'phoenix',
-        description: '#BringBackTheGroove',
+        name: 'Play Hard',
+        route: '0',
         deep: [
           {
-            name: 'Oxygen',
-            route: 'xxxgen',
-            description: 'THE LIVE ORIGINS',
+            name: 'Work Hard',
+            route: '1',
             action: showText,
-          },
-          {
-            name: 'Green Eyes',
-            description: 'Go out like dynamite',
-            action: showText,
+            deep: [
+              {
+                name: 'Play Hard',
+                route: '0',
+                action: showText,
+                deep: [
+                  {
+                    name: 'Work Hard',
+                    route: '1',
+                    action: showText,
+                    deep: [
+                      {
+                        name: 'Play Hard',
+                        route: '0',
+                        action: showText,
+                        deep: [
+                          {
+                            name: 'Work Hard',
+                            route: '1',
+                            action: showText,
+                            deep: [
+                              {
+                                name: 'Play Hard',
+                                route: '0',
+                                action: showText,
+                              },
+                            ],
+                          },
+                          {
+                            name: 'Work it out',
+                            route: '2',
+                            action: showText,
+                          },
+                        ],
+                      },
+                      {
+                        name: 'Work it out',
+                        route: '2',
+                        action: showText,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: 'Work it out',
+                route: '2',
+                action: showText,
+              },
+            ],
           },
         ],
       },
+      {
+        name: 'Work it out',
+        route: '2',
+        action: showText,
+      },
     ],
   },
+
   { name: 'Way Back', route: 'Way Back', description: 'Can we find our way back' },
-  { name: 'Ride Or Die', route: 'Ride Or Die', description: 'Gonna live this way' },
+  {
+    name: 'Ride Or Die',
+    description: 'Gonna live this way',
+    deep: [
+      {
+        name: 'Game',
+        description: '#BringBackTheGroove',
+      },
+    ],
+  },
+  {
+    name: 'Larepac',
+    staticUrl: 'https://caperal.cn',
+    description: 'To site: https://caperal.cn',
+  },
 ];
 const LevelsDemo = () => {
   const [levelData, setLevelData] = useState(levels);

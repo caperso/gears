@@ -1,18 +1,33 @@
+import { DefaultHTMLElementProps } from '@/typings/types';
 import React from 'react';
 import { RenderLevel } from './Levels';
 
-export const Level = (props: {
+interface LevelProps extends DefaultHTMLElementProps {
   item: RenderLevel;
   depth: number;
   route: string;
+  indent: number;
+  style: React.CSSProperties;
   activeRoute: string;
+  activeStyle: React.CSSProperties;
   onChangeRoute: (route: string) => any;
   setActiveRoute: (param?: any) => any;
   setCompiledData: (param?: any) => any;
+}
+
+export const Level: React.FC<LevelProps> = ({
+  item,
+  depth,
+  route = '',
+  style,
+  indent = 20,
+  activeRoute = '',
+  activeStyle,
+  onChangeRoute,
+  setActiveRoute,
+  setCompiledData,
 }) => {
-  const { item, depth = 0, route = '', activeRoute = '', onChangeRoute, setActiveRoute, setCompiledData } = props;
   const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;
-  const fontSize = 45 - 7 * depth > 12 ? 45 - 7 * depth : 12;
 
   const handleClickLevel = (item: RenderLevel, route: string) => {
     /**
@@ -66,26 +81,41 @@ export const Level = (props: {
     console.log('%croute:', 'color:#0fe;', route);
   };
 
+  const fontSize: number = typeof style.fontSize === 'number' ? style.fontSize : 45;
+  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;
+  const paddingLeft = `${indent * depth}px`;
+  const activeColor = activeStyle['color'] || '#0fe';
+
+  const finalStyle: React.CSSProperties = {
+    ...style,
+    paddingLeft,
+    fontSize: actualFontSize,
+    color: `${activeRoute === currentRoute ? activeColor : ''}`,
+  };
+
   return (
     /*if no actual route, use name instead */
-    <div key={item.name}>
+    <div>
       <div
+        style={finalStyle}
         key={item.name}
         className="g-levels-one"
         data-hover={item.description}
         onClick={() => handleClickLevel(item, currentRoute)}
-        style={{ fontSize, color: `${activeRoute === currentRoute ? '#2dc6ad' : ''}` }}
       >
-        <span style={{ paddingLeft: `${depth + 1}em` }}></span>
         {item.name}
       </div>
       {item.deep &&
         item.extended &&
-        item.deep.map((deepItem: RenderLevel) => (
+        item.deep.map((deepItem: RenderLevel, index) => (
           <Level
+            key={index}
             item={deepItem}
+            indent={indent}
             depth={depth + 1}
             route={currentRoute}
+            style={finalStyle}
+            activeStyle={activeStyle}
             activeRoute={activeRoute}
             onChangeRoute={onChangeRoute}
             setActiveRoute={setActiveRoute}

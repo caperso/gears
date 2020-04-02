@@ -10,7 +10,7 @@ group:
 
 ## 演示
 
-<code src="@/components/levels/demo/demo.tsx" />
+<code src="@/components/levels/demo/demo-simple.tsx" />
 
 ## API
 

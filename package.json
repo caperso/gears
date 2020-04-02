@@ -1,7 +1,7 @@
 {
   "name": "gearware",
-  "version": "0.1.15",
-  "description": "",
+  "version": "0.1.16",
+  "description": "react component, ui lib, like image-viewer",
   "keywords": [
     "react",
     "component",
