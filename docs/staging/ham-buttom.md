@@ -1,5 +1,5 @@
 ---
-title: 汉堡按钮(CodePaper)
+title: 汉堡按钮(HamButton)
 toc: menu
 nav:
   title: 开发中组件
