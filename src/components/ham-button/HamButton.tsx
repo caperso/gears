@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import './index.less';
 
 const HamButton = () => {
-  const showMenu = () => {};
+  const holder = () => {};
 
   return (
     <>
-      <i className="g-ham-button" onClick={showMenu} aria-label="menu"></i>
+      <i className="g-ham-button" onClick={holder} aria-label="menu"></i>
       <div className="g-ham-container">
         <Link to="/gallery" className="header-link">
           MINNIE's GALLERY
