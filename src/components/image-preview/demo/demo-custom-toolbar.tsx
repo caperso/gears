@@ -1,6 +1,6 @@
 /**
- * title: 自定义操作栏元素组件
- * desc:  基础示例 单击图片 将等比拉伸至可能的屏幕最大尺寸, 无菜单
+ * title: 自定义toolbar
+ * desc: 自定义操作栏元素组件,接受按钮上attr:data-gear-image-method,来调用内置方法.
  */
 
 import React, { useState } from 'react';

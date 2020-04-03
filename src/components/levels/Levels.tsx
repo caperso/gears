@@ -68,7 +68,8 @@ const Levels: React.FC<LevelsProps> = ({
         } else if (item.name.match('/')) {
           throw new Error('Please make sure no "/" in level\'s name');
         }
-        return item.route || item.name;
+        item.route = item.route || item.name;
+        return item.route;
       });
 
       // make sure no route duplicate at this level
