@@ -18,10 +18,10 @@ interface LevelProps extends DefaultHTMLElementProps {
 export const Level: React.FC<LevelProps> = ({
   item,
   depth,
-  route = '',
+  route,
   style,
-  indent = 20,
-  activeRoute = '',
+  indent,
+  activeRoute,
   activeStyle,
   onChangeRoute,
   setActiveRoute,
@@ -90,7 +90,7 @@ export const Level: React.FC<LevelProps> = ({
     ...style,
     paddingLeft,
     fontSize: actualFontSize,
-    color: `${activeRoute === currentRoute ? activeColor : ''}`,
+    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,
   };
 
   return (

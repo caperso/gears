@@ -51,3 +51,9 @@ Level 类型接口:
 ### 注意
 
 同级 route, name 不能重名
+
+## Playground
+
+<code src="@/components/levels/demo/demo-playground.tsx" />
+
+默认自动展开, 回调函数返回路由信息
