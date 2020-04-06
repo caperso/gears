@@ -7,7 +7,7 @@ nav:
 
 ## 演示
 
-<code src="@/components/ham-button/demo/demo.tsx" />
+<code src="@/components/developing/ham-button/demo/demo.tsx" />
 
 ## API
 

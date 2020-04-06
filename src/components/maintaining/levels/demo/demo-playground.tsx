@@ -3,9 +3,8 @@
  * desc: testing&Playground
  */
 
-import CodePaper from '@/components/code-paper';
 import React, { useState } from 'react';
-import Levels from '../index';
+import { default as CodePaper, default as Levels } from '../index';
 import { Level } from '../Levels';
 
 const levels: Level[] = [

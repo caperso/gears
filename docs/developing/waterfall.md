@@ -1,16 +1,16 @@
 ---
-title: 画板(Blackboard)
+title: 瀑布流(Waterfall)
 toc: menu
 nav:
   title: 开发中组件
 ---
 
-## 演示
+## demo
 
-<code src="@/components/blackboard/demo/demo.tsx" />
+<code src="@/components/developing/waterfall/demo/demo.tsx" />
 
 ## API
 
 | 参数 | 是否必须 | 类型 | 默认值 | 说明 |
 | :--- | :------- | :--- | :----- | :--- |
-|      |          |      |        |      |
+

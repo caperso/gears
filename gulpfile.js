@@ -67,7 +67,7 @@ const paths = {
     esm: './esm',
   },
   styles: ['src/**/*.less', '!src/components/**/demo/*.less'],
-  scripts: ['src/**/*.{ts,tsx}', '!src/components/**/demo/*.{ts,tsx}'],
+  scripts: ['src/**/*.{ts,tsx}', '!src/components/developing/**/*.{ts,tsx}', '!src/components/**/demo/*.{ts,tsx}'],
 };
 
 /**

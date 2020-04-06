@@ -14,13 +14,13 @@ group:
 
 点击展开,深层递归查询,根据路由更新状态
 
-<code src="@/components/levels/demo/demo-simple.tsx" />
+<code src="@/components/maintaining/levels/demo/demo-simple.tsx" />
 
 ### 完整例子
 
 默认自动展开, 回调函数返回路由信息
 
-<code src="@/components/levels/demo/demo-complex.tsx" />
+<code src="@/components/maintaining/levels/demo/demo-complex.tsx" />
 
 ## API
 
@@ -54,6 +54,6 @@ Level 类型接口:
 
 ## Playground
 
-<code src="@/components/levels/demo/demo-playground.tsx" />
+<code src="@/components/maintaining/levels/demo/demo-playground.tsx" />
 
 默认自动展开, 回调函数返回路由信息

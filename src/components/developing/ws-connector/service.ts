@@ -8,15 +8,14 @@ class WSService {
     this.url = url;
     this.name = name;
     this.signIn(token);
+    this.ws = new WebSocket(this.url, token || '');
   }
 
   signIn(token?: string) {
     if (this.ws.readyState !== 1) {
       console.log('duplicate ws service, closing');
-
       this.ws.close();
     }
-
     this.ws = new WebSocket(this.url, token || '');
   }
 
@@ -27,6 +26,8 @@ class WSService {
   }
 
   send(destination: string, data: WebSocketData) {
+    console.log(destination);
+
     this.ws.send(data);
   }
 

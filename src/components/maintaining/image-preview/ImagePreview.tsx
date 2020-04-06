@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AxisPoint } from '../../typings/types';
+import { AxisPoint } from '../../../typings/types';
 import ImagePreviewOperator from './ImagePreviewOperator';
 import './index.less';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AxisPoint, DefaultHTMLElementProps, MenuItem } from '../../typings/types';
+import { AxisPoint, DefaultHTMLElementProps, MenuItem } from '../../../typings/types';
 import './index.less';
 
 interface Props extends DefaultHTMLElementProps {

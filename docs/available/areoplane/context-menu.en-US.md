@@ -22,7 +22,7 @@ const menuList = [
 ];
 ```
 
-<code src="@/components/context-menu/demo/demo-list-menu.tsx" />
+<code src="@/components/maintaining/context-menu/demo/demo-list-menu.tsx" />
 
 自定义模式:
 
@@ -39,7 +39,7 @@ const menuNode = (
 );
 ```
 
-<code src="@/components/context-menu/demo/demo-custom-menu.tsx" />
+<code src="@/components/maintaining/context-menu/demo/demo-custom-menu.tsx" />
 
 ## API
 

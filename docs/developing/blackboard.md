@@ -1,5 +1,5 @@
 ---
-title: 代码块(CodePaper)
+title: 画板(Blackboard)
 toc: menu
 nav:
   title: 开发中组件
@@ -7,7 +7,7 @@ nav:
 
 ## 演示
 
-<code src="@/components/code-paper/demo/demo.tsx" />
+<code src="@/components/developing/blackboard/demo/demo.tsx" />
 
 ## API
 

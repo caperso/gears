@@ -2,10 +2,9 @@
  * title: 层级导航（Levels）
  */
 
-import CodePaper from '@/components/code-paper';
 import { message } from 'antd';
 import React, { useState } from 'react';
-import Levels from '../index';
+import { default as CodePaper, default as Levels } from '../index';
 import { Level } from '../Levels';
 
 function showText(route: string) {
