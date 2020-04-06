@@ -66,7 +66,7 @@ const paths = {
     lib: './lib',
     esm: './esm',
   },
-  styles: ['src/**/*.less', '!src/components/**/demo/*.less'],
+  styles: ['src/**/*.less', '!src/components/developing/**/*.{less,css}', '!src/components/**/demo/*.less'],
   scripts: ['src/**/*.{ts,tsx}', '!src/components/developing/**/*.{ts,tsx}', '!src/components/**/demo/*.{ts,tsx}'],
 };
 

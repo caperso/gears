@@ -3,8 +3,8 @@
  */
 
 import React, { useState } from 'react';
-import { default as CodePaper, default as Levels } from '../index';
-import { Level } from '../Levels';
+import CodePaper from '../../../developing/code-paper';
+import Levels, { Level } from '../Levels';
 
 const levels: Level[] = [
   {

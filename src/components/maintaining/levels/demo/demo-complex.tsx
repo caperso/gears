@@ -4,7 +4,8 @@
 
 import { message } from 'antd';
 import React, { useState } from 'react';
-import { default as CodePaper, default as Levels } from '../index';
+import CodePaper from '../../../developing/code-paper';
+import Levels from '../index';
 import { Level } from '../Levels';
 
 function showText(route: string) {
