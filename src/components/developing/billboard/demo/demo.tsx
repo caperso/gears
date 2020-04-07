@@ -37,7 +37,7 @@ const BillboardDemo = () => {
   };
   return (
     <div>
-      <Billboard units={fakeUnits} limit={3} />
+      <Billboard units={fakeUnits} limit={9} />
     </div>
   );
 };

@@ -18,19 +18,20 @@
 .g-billboard-unit {
   font-size: inherit;
   display: inline-block;
-  width: 10em;
-  height: 20em;
+  // width: 10em;
+  // height: 20em;
   background-color: #fff;
   background-size: cover;
   background-position: center center;
   position: absolute;
   filter: grayscale(0.9);
   transition: 0.35s ease-in-out;
+  transform: translate(-50%, -50%);
   opacity: 0.7;
 
   &:hover {
     opacity: 1;
-    transform: scale(1.4);
+    transform: translate(-50%, -50%) scale(1.2);
     filter: none;
     z-index: 1;
   }
