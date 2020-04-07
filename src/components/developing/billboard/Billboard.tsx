@@ -46,12 +46,11 @@ interface BillboardProps extends DefaultHTMLElementProps {
   limit?: number;
 }
 
-const Billboard: React.FC<BillboardProps> = ({ units = [], limit = 9 }) => {
+const Billboard: React.FC<BillboardProps> = ({ units = [], limit = 9, style = {}, className = '' }) => {
   const [unitQuery, setUnitQuery] = useState<FixedUnit[]>([]);
 
   const verifyQuery = (query: BillboardUnit[], limit: number) => {
     let randomQuery = query.sort(() => Math.random() - Math.random());
-
     if (query.length > limit) {
       return randomQuery.slice(0, limit);
     }
@@ -83,7 +82,7 @@ const Billboard: React.FC<BillboardProps> = ({ units = [], limit = 9 }) => {
   }, [units.length, limit]);
 
   return (
-    <dl className="g-billboard-wrapper">
+    <dl className={`g-billboard-wrapper ${className}`} style={style}>
       {unitQuery.map(item => (
         <dd className="g-billboard-unit" style={getUnitStyle(item)} key={item.name}>
           <div className="g-billboard-description">{item.description}</div>

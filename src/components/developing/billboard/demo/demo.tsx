@@ -55,11 +55,8 @@ const BillboardDemo = () => {
   const handleClick = (text: string) => {
     message.info(text);
   };
-  return (
-    <div>
-      <Billboard units={fakeUnits} limit={9} />
-    </div>
-  );
+  const style: React.CSSProperties = { height: `70vh` };
+  return <Billboard units={fakeUnits} limit={9} style={style} />;
 };
 
 export default () => <BillboardDemo />;
