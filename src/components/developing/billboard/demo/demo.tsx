@@ -1,9 +1,9 @@
 import { message } from 'antd';
 import React from 'react';
-import { BillboardUnitProps } from '../Billboard';
+import { BillboardUnit } from '../Billboard';
 import Billboard from '../index';
 
-const fakeUnits: BillboardUnitProps[] = [
+const fakeUnits: BillboardUnit[] = [
   {
     name: '111111',
     url: 'https://gw.alipayobjects.com/zos/bmw-prod/d60657df-0822-4631-9d7c-e7a869c2f21c/k79dmz3q_w126_h126.png',
