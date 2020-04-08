@@ -36,13 +36,13 @@ export interface BaseImageProps {
  * getImageLoadedSize: 图片加载成功后返回图片的加载尺寸
  */
 
-interface Props {
+interface ImagePreviewProps {
   url: string;
   visible: boolean;
   onClose: () => void;
   simpleMode?: boolean;
-  operatorBar?: 'default' | OperatorBarProps | null;
   fixedOnScreen?: boolean;
+  operatorBar?: 'default' | OperatorBarProps | null;
   getImageLoadedSize?: (state: BaseImageProps) => void;
 }
 
@@ -59,7 +59,7 @@ const emptyImageProps: BaseImageProps = {
 
 const defaultOperator: OperatorBarProps = ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'];
 
-function ImagePreview(this: any, props: Props) {
+function ImagePreview(props: ImagePreviewProps) {
   let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
 
   let operatorBar = simpleMode ? null : props.operatorBar === 'default' ? defaultOperator : props.operatorBar;
@@ -138,7 +138,6 @@ function ImagePreview(this: any, props: Props) {
 
   /* 初始化容器大小 */
   const handleImageLoaded = () => {
-    console.log('%c image loaded', 'color:red');
     if (image.current) {
       const state = sizing(image.current);
       if (getImageLoadedSize) {

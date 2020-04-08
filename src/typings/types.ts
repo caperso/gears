@@ -8,4 +8,5 @@ export interface MenuItem {
   method: (props?: any) => void;
 }
 
-export type AxisPoint = { x: number | string; y: number | string };
+export type AxisPoint = { x: number; y: number };
+export type AxisPointString = { x: string; y: string };

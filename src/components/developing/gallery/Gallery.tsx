@@ -1,4 +1,4 @@
-import { AxisPoint, DefaultHTMLElementProps } from '@/typings/types';
+import { AxisPointString, DefaultHTMLElementProps } from '@/typings/types';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 
@@ -31,7 +31,7 @@ function annularSpread(units: GalleryUnit[], centralized: boolean = true): Fixed
   return fixedQuery;
 }
 
-function annularCalculate(i: number, step: number): AxisPoint {
+function annularCalculate(i: number, step: number): AxisPointString {
   if (i === 0) {
     return { x: `50%`, y: `50%` };
   }
@@ -65,7 +65,7 @@ const randomSpread = (query: GalleryUnit[], centralized: boolean): FixedUnit[] =
   });
   return newQuery;
 };
-const randomAreaInLimit = (i: number): AxisPoint => {
+const randomAreaInLimit = (i: number): AxisPointString => {
   let limit = areaLimitMap.get(i % 4);
 
   if (!limit) {
@@ -84,7 +84,7 @@ export interface GalleryUnit {
   description: string;
 }
 
-export type FixedUnit = GalleryUnit & AxisPoint;
+export type FixedUnit = GalleryUnit & AxisPointString;
 export type GalleryMode = 'random' | 'annular';
 
 interface GalleryProps extends DefaultHTMLElementProps {
@@ -93,6 +93,7 @@ interface GalleryProps extends DefaultHTMLElementProps {
   mode?: GalleryMode;
   defaultGray?: number;
   centralized?: boolean;
+  onClick?: (unit: GalleryUnit) => any;
 }
 
 const Gallery: React.FC<GalleryProps> = ({
@@ -103,6 +104,7 @@ const Gallery: React.FC<GalleryProps> = ({
   className = '',
   defaultGray = 0.9,
   centralized = true,
+  onClick = null,
 }) => {
   const [unitQuery, setUnitQuery] = useState<FixedUnit[]>([]);
 
@@ -147,7 +149,7 @@ const Gallery: React.FC<GalleryProps> = ({
   return (
     <dl className={`g-gallery-wrapper ${className}`} style={style}>
       {unitQuery.map(item => (
-        <dd className="g-gallery-unit" style={getUnitStyle(item)} key={item.name}>
+        <dd className="g-gallery-unit" style={getUnitStyle(item)} key={item.name} onClick={() => (onClick ? onClick(item) : void 0)}>
           <div className="g-gallery-description">{item.description}</div>
           <div className="g-gallery-name" style={{ filter: `grayscale(${defaultGray})` }}>
             {item.name}

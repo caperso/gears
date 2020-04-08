@@ -1,5 +1,5 @@
-import { message } from 'antd';
-import React from 'react';
+import { ImagePreview } from '@/index';
+import React, { useState } from 'react';
 import { GalleryUnit } from '../Gallery';
 import Gallery from '../index';
 
@@ -52,11 +52,19 @@ const fakeUnits: GalleryUnit[] = [
 ];
 
 const GalleryDemo = () => {
-  const handleClick = (text: string) => {
-    message.info(text);
+  const [url, setUrl] = useState('');
+  const [show, setShow] = useState(false);
+  const handleClick = (unit: GalleryUnit) => {
+    setUrl(unit.url);
+    setShow(true);
   };
-  const style: React.CSSProperties = { height: `70vh` };
-  return <Gallery units={fakeUnits} limit={9} defaultGray={0.3} style={style} />;
+
+  return (
+    <>
+      <Gallery units={fakeUnits} limit={9} onClick={handleClick} defaultGray={0.3} style={{ height: `70vh` }} />
+      <ImagePreview url={url} visible={show} onClose={() => setShow(false)} operatorBar="default" />
+    </>
+  );
 };
 
 export default () => <GalleryDemo />;

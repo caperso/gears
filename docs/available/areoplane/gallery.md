@@ -5,6 +5,13 @@ nav:
   title: 可用组件
 ---
 
+## 概览
+
+图片展示组件，开放若干种图片排列模式，图片数组随机（可选）排列，按堆栈方式从底层排列到顶。
+(部分能力努力迭代中)
+
+设计原则：图片最大程度不重叠，图片播散在各个象限中(未来象限数量也可定)
+
 ## 演示
 
 <code src="@/components/developing/gallery/demo/demo.tsx" />
@@ -19,9 +26,9 @@ nav:
 | defaultGray | false    | number      | 0.9       | 默认灰度:0-1       |
 | centralized | false    | boolean     | true      | 末尾图片是否在中心 |
 
-## type
+## Type
 
-type: GalleryUnit
+GalleryUnit
 
 | 参数        | 类型   | 说明     |
 | :---------- | :----- | :------- |
@@ -29,7 +36,7 @@ type: GalleryUnit
 | url         | string | 图片地址 |
 | description | string | 描述     |
 
-type: GalleryMode
+GalleryMode
 
 | 参数    | 说明         |
 | :------ | :----------- |
