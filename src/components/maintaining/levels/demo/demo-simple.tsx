@@ -35,7 +35,8 @@ const LevelsDemo = () => {
 
   const handleChange = (text: string) => {
     try {
-      setLevelData(JSON.parse(text));
+      const json = JSON.parse(text);
+      typeof json === 'object' ? setLevelData(json) : console.error('error: INVALID JSON ARRAY FORMAT');
     } catch {
       console.error('error: INVALID JSON ARRAY FORMAT');
     }
