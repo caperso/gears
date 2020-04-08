@@ -1,9 +1,9 @@
 import { message } from 'antd';
 import React from 'react';
-import { BillboardUnit } from '../Billboard';
-import Billboard from '../index';
+import { GalleryUnit } from '../Gallery';
+import Gallery from '../index';
 
-const fakeUnits: BillboardUnit[] = [
+const fakeUnits: GalleryUnit[] = [
   {
     name: 'namibia',
     url: 'https://cdn.pixabay.com/photo/2020/03/24/20/41/namibia-4965456__340.jpg',
@@ -51,12 +51,12 @@ const fakeUnits: BillboardUnit[] = [
   },
 ];
 
-const BillboardDemo = () => {
+const GalleryDemo = () => {
   const handleClick = (text: string) => {
     message.info(text);
   };
   const style: React.CSSProperties = { height: `70vh` };
-  return <Billboard units={fakeUnits} limit={9} style={style} />;
+  return <Gallery units={fakeUnits} limit={9} defaultGray={0.3} style={style} />;
 };
 
-export default () => <BillboardDemo />;
+export default () => <GalleryDemo />;

@@ -1,4 +1,4 @@
-.g-billboard-wrapper {
+.g-gallery-wrapper {
   font-size: 10px;
   width: 100%;
   height: 100%;
@@ -7,8 +7,8 @@
   overflow: hidden;
 }
 
-.g-billboard-name,
-.g-billboard-description {
+.g-gallery-name,
+.g-gallery-description {
   position: relative;
   top: calc(100% - 3em);
   user-select: none;
@@ -17,7 +17,7 @@
   background-color: #22222280;
 }
 
-.g-billboard-unit {
+.g-gallery-unit {
   font-size: inherit;
   display: inline-block;
   width: 40%;
@@ -31,11 +31,11 @@
   filter: grayscale(0.9);
   transition: 0.35s ease-in-out;
   transform: translate(-50%, -50%);
-  opacity: 0.7;
+  opacity: 0.98;
 
   &:hover {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.25);
     filter: none;
     z-index: 1;
   }
