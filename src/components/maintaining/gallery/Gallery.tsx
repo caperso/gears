@@ -22,13 +22,13 @@ function annularSpread(units: GalleryUnit[], centralized: boolean = true): Fixed
   const totalCount = Math.floor(length / 4);
   const step = 50 / (totalCount + 1);
 
-  let fixedQuery = [];
+  let fixedQueue = [];
   for (let i = 0; i < length; i++) {
     const unit = units[i];
     const position = i === 0 && centralized ? { x: `50%`, y: `50%` } : annularCalculate(i, step);
-    fixedQuery.push({ ...unit, ...position });
+    fixedQueue.push({ ...unit, ...position });
   }
-  return fixedQuery;
+  return fixedQueue;
 }
 
 function annularCalculate(i: number, step: number): AxisPointString {
@@ -58,12 +58,12 @@ function annularCalculate(i: number, step: number): AxisPointString {
  * get top limit range: Math.random() * (limit[0][1] - limit[0][0])
  * meet up least range: + limit[0][0]
  */
-const randomSpread = (query: GalleryUnit[], centralized: boolean): FixedUnit[] => {
-  const newQuery: FixedUnit[] = query.map((item, i) => {
+const randomSpread = (queue: GalleryUnit[], centralized: boolean): FixedUnit[] => {
+  const newQueue: FixedUnit[] = queue.map((item, i) => {
     const position = i === 0 && centralized ? { x: `50%`, y: `50%` } : randomAreaInLimit(i);
     return { ...item, ...position };
   });
-  return newQuery;
+  return newQueue;
 };
 const randomAreaInLimit = (i: number): AxisPointString => {
   let limit = areaLimitMap.get(i % 4);
@@ -106,26 +106,26 @@ const Gallery: React.FC<GalleryProps> = ({
   centralized = true,
   onClick = null,
 }) => {
-  const [unitQuery, setUnitQuery] = useState<FixedUnit[]>([]);
+  const [unitQueue, setUnitQueue] = useState<FixedUnit[]>([]);
 
-  const sliceQuery = (query: GalleryUnit[], limit: number) => {
-    let randomQuery = query.sort(() => Math.random() - Math.random());
+  const sliceQueue = (queue: GalleryUnit[], limit: number) => {
+    let randomQueue = queue.sort(() => Math.random() - Math.random());
 
-    if (query.length > limit) {
-      return randomQuery.slice(0, limit);
+    if (queue.length > limit) {
+      return randomQueue.slice(0, limit);
     }
 
-    return randomQuery;
+    return randomQueue;
   };
 
-  const fixQuery = (mode: GalleryProps['mode'], query: GalleryUnit[]): FixedUnit[] => {
+  const fixQueue = (mode: GalleryProps['mode'], queue: GalleryUnit[]): FixedUnit[] => {
     if (mode === 'random') {
-      return randomSpread(query, centralized);
+      return randomSpread(queue, centralized);
     }
     if (mode === 'annular') {
-      return annularSpread(query, centralized);
+      return annularSpread(queue, centralized);
     } else {
-      return annularSpread(query, centralized);
+      return annularSpread(queue, centralized);
     }
   };
 
@@ -138,18 +138,18 @@ const Gallery: React.FC<GalleryProps> = ({
   };
 
   useEffect(() => {
-    const query = sliceQuery(units, limit);
-    const fixedUnits = fixQuery(mode, query);
-    // reverse the query
-    setUnitQuery(fixedUnits.reverse());
+    const queue = sliceQueue(units, limit);
+    const fixedUnits = fixQueue(mode, queue);
+    // reverse the queue
+    setUnitQueue(fixedUnits.reverse());
   }, [units.length, limit]);
 
   console.log(defaultGray);
 
   return (
     <dl className={`g-gallery-wrapper ${className}`} style={style}>
-      {unitQuery.map(item => (
-        <dd className="g-gallery-unit" style={getUnitStyle(item)} key={item.name} onClick={() => (onClick ? onClick(item) : void 0)}>
+      {unitQueue.map(item => (
+        <dd className="g-gallery-unit" style={getUnitStyle(item)} key={item.url} onClick={() => (onClick ? onClick(item) : void 0)}>
           <div className="g-gallery-description">{item.description}</div>
           <div className="g-gallery-name" style={{ filter: `grayscale(${defaultGray})` }}>
             {item.name}

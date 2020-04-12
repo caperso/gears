@@ -18,7 +18,8 @@
     "clean": "rm -rf esm lib",
     "build": "dumi build",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:package": "npm run clean && npm run build:types && gulp"
+    "build:package": "npm run clean && npm run build:types && gulp",
+    "publish:patch": "yarn build:package && git add . && git commit -m 'patch changes and fixes' && npm version patch && npm publish && git push "
   },
   "module": "esm/index.js",
   "typings": "lib/index.d.ts",
