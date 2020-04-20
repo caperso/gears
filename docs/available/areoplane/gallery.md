@@ -14,7 +14,7 @@ nav:
 
 ## 演示
 
-<code src="@/components/developing/gallery/demo/demo.tsx" />
+<code src="@/components/maintaining/gallery/demo/demo.tsx" />
 
 ## API
 

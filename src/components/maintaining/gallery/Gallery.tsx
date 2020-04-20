@@ -144,8 +144,6 @@ const Gallery: React.FC<GalleryProps> = ({
     setUnitQueue(fixedUnits.reverse());
   }, [units.length, limit]);
 
-  console.log(defaultGray);
-
   return (
     <dl className={`g-gallery-wrapper ${className}`} style={style}>
       {unitQueue.map(item => (
