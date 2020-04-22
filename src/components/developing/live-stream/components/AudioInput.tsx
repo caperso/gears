@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getAudioDevices } from '../methods';
 
-interface AudioInputDemoProps {
+export interface AudioInputProps {
   devices: MediaDeviceInfo[];
 }
 
-const AudioInput: React.FC<AudioInputDemoProps> = ({ devices = [] }) => {
+export const AudioInput: React.FC<AudioInputProps> = ({ devices = [] }) => {
   const [audioInputs, setAudioInputs] = useState<MediaDeviceInfo[]>();
 
   useEffect(() => {
@@ -15,7 +15,9 @@ const AudioInput: React.FC<AudioInputDemoProps> = ({ devices = [] }) => {
     }
   }, [devices]);
 
-  return <div></div>;
+  return (
+    <div>
+      <select name="audio-select" id=""></select>
+    </div>
+  );
 };
-
-export default AudioInput;
