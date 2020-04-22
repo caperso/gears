@@ -1,13 +1,13 @@
 import { AxisPointString, DefaultHTMLElementProps } from '@/typings/types';
 
+export type FixedUnit = GalleryUnit & AxisPointString;
+export type GalleryMode = 'random' | 'annular';
+
 export interface GalleryUnit {
   name: string;
   url: string;
   description: string;
 }
-
-export type FixedUnit = GalleryUnit & AxisPointString;
-export type GalleryMode = 'random' | 'annular';
 
 export interface GalleryProps extends DefaultHTMLElementProps {
   units: GalleryUnit[];
