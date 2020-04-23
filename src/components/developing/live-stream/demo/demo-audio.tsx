@@ -1,5 +1,6 @@
+import { Button } from 'antd';
 import React, { useState } from 'react';
-import { AudioInput } from '../components/AudioInput';
+import { AudioInput } from '../core/AudioInput';
 import './demo.less';
 
 const LiveSteamDemo = () => {
@@ -13,10 +14,10 @@ const LiveSteamDemo = () => {
       使用系统麦克风
       <br />
       <br />
-      <button onClick={handleStreamClick}>打开/关闭音频直播</button>
+      <Button onClick={handleStreamClick}>打开/关闭音频直播</Button>
       <br />
       <br />
-      <AudioInput onStreaming={onStreaming} />
+      <AudioInput onStreaming={onStreaming} deviceSelectable={true} />
     </div>
   );
 };

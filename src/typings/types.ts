@@ -1,3 +1,5 @@
+declare var MediaRecorder: any;
+
 export interface DefaultHTMLElementProps {
   style?: React.CSSProperties;
   className?: string;

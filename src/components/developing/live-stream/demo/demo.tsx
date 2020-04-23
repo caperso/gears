@@ -1,5 +1,6 @@
+import { Button } from 'antd';
 import React, { useState } from 'react';
-import { VideoInput } from '../components/VideoInput';
+import { VideoInput } from '../core/VideoInput';
 import './demo.less';
 
 const LiveSteamDemo = () => {
@@ -18,10 +19,10 @@ const LiveSteamDemo = () => {
       使用系统摄像头
       <br />
       <br />
-      <button onClick={handleStreamClick}>打开/关闭直播</button>
+      <Button onClick={handleStreamClick}>打开/关闭直播</Button>
       <br />
       <br />
-      <button onClick={handleSelfieClick}>打开/关闭自拍画面</button>
+      <Button onClick={handleSelfieClick}>打开/关闭自拍画面</Button>
       <br />
       <br />
       <VideoInput onStreaming={onStreaming} onSelfie={onSelfie} audio={false} />

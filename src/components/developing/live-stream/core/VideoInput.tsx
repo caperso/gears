@@ -12,7 +12,7 @@ export const VideoInput = (props: VideoInputProps) => {
   const { audio = true, onSelfie = false, getMediaStream, onStreaming } = props;
   const videoEle = useRef<HTMLVideoElement>(null);
 
-  /* on streaming */
+  /* on streaming,giving video port */
   useEffect(() => {
     if (!getMediaStream) {
       return;
@@ -20,7 +20,6 @@ export const VideoInput = (props: VideoInputProps) => {
     onStreaming ? getUserMedia({ audio }).then(s => getMediaStream(s)) : getMediaStream(null);
   }, [onStreaming, getMediaStream]);
 
-  /* on selfie, giving video port */
   useEffect(() => {
     getUserMedia({ audio }).then(s => {
       if (!videoEle.current) {
