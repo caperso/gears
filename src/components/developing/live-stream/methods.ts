@@ -1,3 +1,8 @@
+interface MediaProps {
+  video?: boolean;
+  audio?: boolean;
+}
+
 type AudioDevice = 'audioinput' | 'audiooutput';
 type VideoDevice = 'videoinput' | 'videooutput';
 
@@ -11,10 +16,6 @@ export function getDevices(devices: MediaDeviceInfo[], type: AudioDevice | Video
   return audioDevices;
 }
 
-interface MediaProps {
-  video: boolean;
-  audio: boolean;
-}
 export async function getUserMedia(props?: MediaProps) {
   let constraints = { video: true, audio: true, ...props };
   let stream = await navigator.mediaDevices.getUserMedia(constraints);

@@ -6,7 +6,7 @@ export const VideoInput = () => {
   const videoEle = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    getUserMedia().then(s => {
+    getUserMedia({ audio: false }).then(s => {
       if (videoEle.current) {
         videoEle.current.srcObject = s;
       }
