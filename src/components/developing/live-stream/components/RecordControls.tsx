@@ -6,6 +6,7 @@ const defaultMIMEType = 'video/webm;codecs=h264';
 export const RecordControls: React.FC<RecorderControlsProps> = ({ stream = null }) => {
   const [recorder, setRecorder] = useState<Recorder>();
   const [paused, setPaused] = useState<boolean>(false);
+  const [data, setData] = useState<Blob>();
 
   /* check browser able to record */
   async function recorderGenerator(): Promise<void> {
@@ -34,7 +35,10 @@ export const RecordControls: React.FC<RecorderControlsProps> = ({ stream = null 
   }, [stream]);
 
   /* when recorded */
-  const finishRecording = () => {};
+  const finishRecording = (e: { data: Blob }): void => {
+    console.log(e);
+    setData(e.data);
+  };
 
   /* handle recording */
   const startRecording = () => {
