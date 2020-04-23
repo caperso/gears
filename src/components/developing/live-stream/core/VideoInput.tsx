@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { RecordControls } from '../components/RecordControls';
 import { getUserMedia } from '../methods';
 import { MediaInputProps } from '../typings/interfaces';
 
@@ -9,10 +10,25 @@ export interface VideoInputProps extends MediaInputProps {
 }
 
 export const VideoInput = (props: VideoInputProps) => {
-  const { audio = true, onSelfie = false, getMediaStream, onStreaming } = props;
+  const { audio = true, onSelfie = false, recordControls = true, getMediaStream, onStreaming } = props;
+
+  const [stream, setStream] = useState<MediaStream | null>(null);
   const videoEle = useRef<HTMLVideoElement>(null);
 
-  /* on streaming,giving video port */
+  /* load stream */
+  useEffect(() => {
+    onStreaming ? getUserMedia({ audio }).then(s => setStream(s)) : setStream(null);
+  }, [getUserMedia, onStreaming]);
+
+  /* on selfie,reflect to ref => video  */
+  useEffect(() => {
+    if (!videoEle.current) {
+      return;
+    }
+    videoEle.current.srcObject = stream;
+  }, [stream, videoEle.current]);
+
+  /* need transport stream? */
   useEffect(() => {
     if (!getMediaStream) {
       return;
@@ -20,18 +36,12 @@ export const VideoInput = (props: VideoInputProps) => {
     onStreaming ? getUserMedia({ audio }).then(s => getMediaStream(s)) : getMediaStream(null);
   }, [onStreaming, getMediaStream]);
 
-  useEffect(() => {
-    getUserMedia({ audio }).then(s => {
-      if (!videoEle.current) {
-        return;
-      }
-      onStreaming ? (videoEle.current.srcObject = s) : (videoEle.current.srcObject = null);
-    });
-  }, [onStreaming, videoEle.current]);
+  const renderSelfieVideo = () => <video ref={videoEle} controls={true} autoPlay={true}></video>;
 
   return (
     <>
-      RecorderControls onSelfie ? <video ref={videoEle} controls={true} autoPlay={true}></video> : <></>;
+      {onSelfie && renderSelfieVideo()}
+      {recordControls && <RecordControls stream={stream} />}
     </>
   );
 };

@@ -4,4 +4,6 @@ export interface MediaInputProps {
   deviceSelectable?: boolean;
 }
 
-interface MediaControls {}
+export interface RecorderControlsProps {
+  stream?: MediaStream | null;
+}

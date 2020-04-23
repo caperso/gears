@@ -31,7 +31,6 @@ export const AudioInput: React.FC<AudioInputProps> = ({ onStreaming = false, rec
     <div>
       {deviceSelectable && <AudioDeviceSelector />}
       {recordControls && <AudioControls stream={stream} />}
-      recordControls
       <audio ref={audioEle}></audio>
     </div>
   );

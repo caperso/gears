@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
-export interface AudioControlsProps {
-  stream?: MediaStream;
-}
+import { RecorderControlsProps } from '../typings/interfaces';
 
 let defaultMIMEType = 'video/webm;codecs=h264';
 
-export const AudioControls: React.FC<AudioControlsProps> = ({ stream = null }) => {
+export const AudioControls: React.FC<RecorderControlsProps> = ({ stream = null }) => {
   const [recorder, setRecorder] = useState<Recorder>();
   const [paused, setPaused] = useState<boolean>(false);
 

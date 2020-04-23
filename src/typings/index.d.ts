@@ -5,4 +5,5 @@ declare type Recorder = {
   pause: () => any;
   resume: () => any;
   stop: () => any;
+  requestData: () => any;
 };
