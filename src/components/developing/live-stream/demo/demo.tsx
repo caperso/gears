@@ -6,9 +6,13 @@ import './demo.less';
 const LiveSteamDemo = () => {
   return (
     <div className="live-stream-demo-wrapper">
+      <br />
       使用系统麦克风
+      <br />
       <AudioInput />
+      <br />
       使用系统摄像头
+      <br />
       <VideoInput />
     </div>
   );
