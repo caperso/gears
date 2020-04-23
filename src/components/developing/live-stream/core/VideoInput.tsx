@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { getUserMedia } from '../methods';
+import { MediaInputProps } from '../typings/interfaces';
 
-export interface VideoInputProps {
+export interface VideoInputProps extends MediaInputProps {
   audio?: boolean; // audio input is optional
   onSelfie?: boolean; // return a video element showing selfie
-  onStreaming?: boolean;
   getMediaStream?: (stream: MediaStream | null) => any;
 }
 
@@ -29,5 +29,9 @@ export const VideoInput = (props: VideoInputProps) => {
     });
   }, [onStreaming, videoEle.current]);
 
-  return onSelfie ? <video ref={videoEle} controls={true} autoPlay={true}></video> : <></>;
+  return (
+    <>
+      RecorderControls onSelfie ? <video ref={videoEle} controls={true} autoPlay={true}></video> : <></>;
+    </>
+  );
 };
