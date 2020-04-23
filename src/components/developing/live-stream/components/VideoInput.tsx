@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { getUserMedia } from '../methods';
 
-interface VideoInputProps {
+export interface VideoInputProps {
+  audio?: boolean; // audio input is optional
   onSelfie?: boolean; // return a video element showing selfie
   onStreaming?: boolean;
   getMediaStream?: (stream: MediaStream) => any;
@@ -10,21 +11,21 @@ interface VideoInputProps {
 export const VideoInput = (props: VideoInputProps) => {
   //   const [stream, setStream] = useState<MediaStream | undefined>();
 
-  const { onSelfie = false, getMediaStream, onStreaming } = props;
-
-  if (!onStreaming) {
-    return <></>; // TODO: NOT ON STREAMING ALERT
-  }
-
+  const { audio = true, onSelfie = false, getMediaStream, onStreaming } = props;
   const videoEle = useRef<HTMLVideoElement>(null);
 
+  /* on streaming */
   useEffect(() => {
-    getUserMedia({ audio: false }).then(s => {
-      getMediaStream && getMediaStream(s);
-      /* on selfie, giving video port */
-      if (onSelfie && videoEle.current) {
-        videoEle.current.srcObject = s;
+    onStreaming && getMediaStream ? getUserMedia({ audio }).then(s => getMediaStream(s)) : void 0;
+  }, [onStreaming, getMediaStream]);
+
+  /* on selfie, giving video port */
+  useEffect(() => {
+    getUserMedia({ audio }).then(s => {
+      if (!videoEle.current) {
+        return;
       }
+      onSelfie ? (videoEle.current.srcObject = s) : (videoEle.current.srcObject = null);
     });
   }, [onSelfie]);
 

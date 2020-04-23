@@ -21,3 +21,9 @@ export async function getUserMedia(props?: MediaProps) {
   let stream = await navigator.mediaDevices.getUserMedia(constraints);
   return stream;
 }
+
+// deprecate
+export async function closeUserMedia() {
+  let stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: false });
+  return stream;
+}

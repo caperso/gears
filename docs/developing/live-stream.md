@@ -7,6 +7,12 @@ nav:
 
 ## 演示
 
+音频直播
+
+<code src="@/components/developing/live-stream/demo/demo-audio.tsx" />
+
+视频直播
+
 <code src="@/components/developing/live-stream/demo/demo.tsx" />
 
 ## API
