@@ -13,6 +13,7 @@ export const VideoInput = (props: VideoInputProps) => {
   const { audio = true, onSelfie = false, recordControls = true, getMediaStream, onStreaming } = props;
 
   const [stream, setStream] = useState<MediaStream | null>(null);
+
   const videoEle = useRef<HTMLVideoElement>(null);
 
   /* load stream */

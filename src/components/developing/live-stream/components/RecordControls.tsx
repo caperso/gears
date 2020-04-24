@@ -70,8 +70,6 @@ export const RecordControls: React.FC<RecorderControlsProps> = ({ stream = null 
       <button onClick={startRecording}> start</button>
       <button onClick={stopRecording}> stop</button>
       <button onClick={paused ? resumeRecording : pauseRecording}> pause/resume</button>
-      falsy button
-      <button onClick={requestRecordedData}> get data</button>
     </div>
   );
 };
