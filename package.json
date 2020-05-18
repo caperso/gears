@@ -24,13 +24,15 @@
   "module": "esm/index.js",
   "typings": "lib/index.d.ts",
   "main": "lib/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "react": "^16.13.1"
+  },
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
-    "antd": "^4.1.0",
+    "antd": "^4.2.4",
     "dumi": "^1.0.15",
     "eslint-plugin-react-hooks": "^3.0.0",
     "gulp": "^4.0.2",
