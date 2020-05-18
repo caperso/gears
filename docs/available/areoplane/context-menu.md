@@ -41,6 +41,10 @@ const menuNode = (
 
 <code src="@/components/maintaining/context-menu/demo/demo-custom-menu.tsx" />
 
+
+
+<code src="@/components/maintaining/context-menu/demo/demo-list-menu-param.tsx" />
+
 ## API
 
 | 参数     | 必须 | 类型                                       | 默认值 | 说明             |
