@@ -1,4 +1,6 @@
-function useContextStore(children: React.ReactChildren, statesAndSetters: any, alias?: string) {
+import React from 'react';
+
+function useContextStore(children: React.ReactElement, statesAndSetters: any, alias?: string) {
   const context = React.createContext(null);
 
   if (alias) {
@@ -7,3 +9,5 @@ function useContextStore(children: React.ReactChildren, statesAndSetters: any, a
 
   return <context.Provider value={statesAndSetters}>{children}</context.Provider>;
 }
+
+export default useContextStore;

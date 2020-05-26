@@ -5,7 +5,6 @@ import './index.less';
 interface Props extends DefaultHTMLElementProps {
   menu: MenuItem[] | React.ReactElement;
   children: React.ReactElement | React.ReactElement[];
-  rest: { [propsName: string]: any };
 }
 
 const ContextMenu = (props: Props) => {

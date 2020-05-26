@@ -23,7 +23,7 @@ const BasicContextMenuSample = () => {
   return (
     <>
       {people.map(person => {
-        <ContextMenu menu={menuList} key={person.id}  rest={{ age: person.age, name: person.name }}>
+        <ContextMenu menu={menuList} key={person.id}>
           <div className="test-block bgc-brown" data-name="list context menu">
             List context menu
           </div>
