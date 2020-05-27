@@ -30,7 +30,7 @@ export interface BaseImageProps {
  * url: 图片地址
  * visible:  组件可视状态
  * onClose:  关闭回调
- * simpleMode: 简单模式, 当为 true 时, 不接受 operatorBar 和 fixedOnScreen
+ * simpleMode(弃用): 简单模式, 当为 true 时, 不接受 operatorBar 和 fixedOnScreen
  * operatorBar:  控制条, null 则生成简易模式, 'default' 则生成默认操作栏
  * fixedOnScreen: 是否在整个全屏遮罩固定, 简易模式下(operatorBar = null) 必定为true
  * getImageLoadedSize: 图片加载成功后返回图片的加载尺寸
@@ -40,7 +40,6 @@ interface ImagePreviewProps {
   url: string;
   visible: boolean;
   onClose: () => void;
-  simpleMode?: boolean;
   fixedOnScreen?: boolean;
   operatorBar?: 'default' | OperatorBarProps | null;
   getImageLoadedSize?: (state: BaseImageProps) => void;
@@ -60,11 +59,11 @@ const emptyImageProps: BaseImageProps = {
 const defaultOperator: OperatorBarProps = ['zoom-in', 'zoom-out', 'free-rotate', 'free-drag', 'reset'];
 
 function ImagePreview(props: ImagePreviewProps) {
-  let { url, onClose, visible, simpleMode = false, getImageLoadedSize = undefined } = props;
+  let { url, onClose, visible, getImageLoadedSize = undefined } = props;
 
-  let operatorBar = simpleMode ? null : props.operatorBar === 'default' ? defaultOperator : props.operatorBar;
+  let operatorBar = props.operatorBar === 'default' ? defaultOperator : props.operatorBar;
 
-  let fixedOnScreen = simpleMode ? true : props.fixedOnScreen !== undefined ? props.fixedOnScreen : true;
+  let fixedOnScreen = props.fixedOnScreen !== undefined ? props.fixedOnScreen : true;
 
   const Operator = ImagePreviewOperator;
 
@@ -95,13 +94,13 @@ function ImagePreview(props: ImagePreviewProps) {
     const prevent = (e: any) => e.preventDefault();
     const disablePassiveWheelEvent = () => document.addEventListener('wheel', prevent, { passive: false });
     const enablePassiveWheelEvent = () => document.removeEventListener('wheel', prevent);
-    if (!simpleMode && visible && fixedOnScreen) {
+    if (visible && fixedOnScreen) {
       disablePassiveWheelEvent();
     } else {
       enablePassiveWheelEvent();
     }
     return enablePassiveWheelEvent;
-  }, [visible, fixedOnScreen, simpleMode]);
+  }, [visible, fixedOnScreen]);
 
   /**
    * @param {HTMLImageElement} node
@@ -353,26 +352,6 @@ function ImagePreview(props: ImagePreviewProps) {
 
   if (!visible) {
     return <></>;
-  }
-
-  if (simpleMode) {
-    return (
-      <div className={`g-image-preview-wrapper g-fixed`} onClick={close}>
-        <div className="g-image-preview-icon-close" onClick={close}>
-          X
-        </div>
-        <img
-          className={`g-image-preview-image`}
-          onContextMenu={disableActions}
-          onClick={toggleFullScreen}
-          style={{ ...imageStyle, ...easyCursorStyle }}
-          onLoad={handleImageLoaded}
-          ref={image}
-          src={url}
-          alt="图片"
-        />
-      </div>
-    );
   }
 
   const interceptOperatorClick = (e: React.MouseEvent<HTMLElement>) => {
