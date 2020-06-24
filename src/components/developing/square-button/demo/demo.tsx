@@ -14,7 +14,7 @@ const SquareButtonDemo = () => {
   ];
 
   return (
-    <div className="g-demo-wrapper">
+    <div className="demo-square-button-wrapper">
       {data.map(item => (
         <SquareButton key={item.name} {...item} />
       ))}

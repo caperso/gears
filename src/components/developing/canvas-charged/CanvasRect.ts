@@ -1,6 +1,7 @@
 import { Point2D, Size } from './canvas';
 
 export default class CanvasRect {
+  private id: number;
   private originPoint: Point2D;
   private crossPoint: Point2D;
   private color: string;
@@ -9,6 +10,7 @@ export default class CanvasRect {
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
     this.color = color;
+    this.id = +new Date();
   }
 
   public draw(ctx: CanvasRenderingContext2D) {

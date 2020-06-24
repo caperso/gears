@@ -4,6 +4,7 @@ import CanvasRect from './CanvasRect';
 
 interface Props {
   size: Size;
+  forwardRef?: React.RefObject<any>;
 }
 
 export const CanvasCharged = ({ size }: Props) => {
@@ -23,7 +24,7 @@ export const CanvasCharged = ({ size }: Props) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // if user accidentally missed up method,here need re fire up method
+    // if user accidentally missed mouseup method,re-fire it.
     if (originPoint) {
       handleUp(e);
     } else {
@@ -43,7 +44,7 @@ export const CanvasCharged = ({ size }: Props) => {
   const handleUp = (e: React.MouseEvent) => {
     if (originPoint && ctx && wrapperRef.current) {
       function action(instance: CanvasRect) {
-        console.log('clicked time::', +new Date());
+        console.log('clicked time::', instance);
       }
       let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), '#f11');
       rect.draw(ctx);
@@ -62,7 +63,7 @@ export const CanvasCharged = ({ size }: Props) => {
       const h = canvasRef.current.height;
 
       const data = ctx.getImageData(0, 0, w, h);
-      console.log('画布:保存数据::', { data, w, h });
+      console.log('CanvasCharged:save data::', { data, w, h });
       setDrawingsData(data);
     }
   }
@@ -82,6 +83,7 @@ export const CanvasCharged = ({ size }: Props) => {
         onMouseDown={handleDown}
         onMouseMove={handleMove}
         onMouseUp={handleUp}
+        onClick={e => e.preventDefault()}
         className="g-canvas"
       />
     </div>

@@ -10,7 +10,7 @@ const HamButtonDemo = () => {
   };
 
   return (
-    <div className="demo-wrapper" style={{ width: viewportWidth }}>
+    <div className="demo-ham-button-wrapper" style={{ width: viewportWidth }}>
       <button onClick={toggleViewportWidth}>changeWidth</button>
       <HamButton />
     </div>

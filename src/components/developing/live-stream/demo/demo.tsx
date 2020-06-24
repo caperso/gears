@@ -15,7 +15,7 @@ const LiveSteamDemo = () => {
   };
 
   return (
-    <div className="live-stream-demo-wrapper">
+    <div className="demo-live-stream-wrapper">
       使用系统摄像头
       <br />
       <br />
