@@ -8,13 +8,13 @@ export interface Size {
   h: number;
 }
 
-export function drawCanvas(ctx: CanvasRenderingContext2D, origin: Point2D, { x, y }: Point2D, color: string) {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2;
+// export function drawCanvas(ctx: CanvasRenderingContext2D, origin: Point2D, { x, y }: Point2D, color: string) {
+//   ctx.strokeStyle = color;
+//   ctx.lineWidth = 2;
 
-  ctx.save();
-  ctx.beginPath();
-  ctx.strokeRect(origin.x, origin.y, x - origin.x, y - origin.y);
-  ctx.stroke();
-  ctx.restore();
-}
+//   ctx.save();
+//   ctx.beginPath();
+//   ctx.strokeRect(origin.x, origin.y, x - origin.x, y - origin.y);
+//   ctx.stroke();
+//   ctx.restore();
+// }

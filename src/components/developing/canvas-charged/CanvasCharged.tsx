@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { drawCanvas, Point2D, Size } from './canvas';
+import { Point2D, Size } from './canvas';
+import CanvasRect from './CanvasRect';
 
 interface Props {
   size: Size;
@@ -7,36 +8,52 @@ interface Props {
 
 export const CanvasCharged = ({ size }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
   const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
   const [originPoint, setOriginPoint] = useState<Point2D>();
   const [drawingsData, setDrawingsData] = useState<ImageData>();
-
-  const getXY = (e: React.MouseEvent): Point2D => ({
-    x: e.nativeEvent.offsetX,
-    y: e.nativeEvent.offsetY,
-  });
+  const [dataStack, setDataStack] = useState<CanvasRect[]>([]);
 
   useLayoutEffect(() => {
     setCtx(canvasRef.current?.getContext('2d')!);
   });
 
-  const startDraw = (e: React.MouseEvent) => {
+  const handleDown = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setOriginPoint(getXY(e));
-    saveDrawings();
-  };
 
-  const moveDraw = (e: React.MouseEvent) => {
-    if (originPoint && ctx) {
-      restoreDrawings();
-      drawCanvas(ctx, originPoint, getXY(e), '#f11');
+    // if user accidentally missed up method,here need re fire up method
+    if (originPoint) {
+      handleUp(e);
+    } else {
+      setOriginPoint(CanvasRect.getCoordinates2D(e));
+      saveDrawings();
     }
   };
 
-  const endDraw = (e: React.MouseEvent) => {
+  const handleMove = (e: React.MouseEvent) => {
+    if (originPoint && ctx && canvasRef.current) {
+      restoreDrawings();
+      let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), '#f11');
+      rect.draw(ctx);
+    }
+  };
+
+  const handleUp = (e: React.MouseEvent) => {
+    if (originPoint && ctx && wrapperRef.current) {
+      function action(instance: CanvasRect) {
+        console.log('clicked time::', +new Date());
+      }
+      let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), '#f11');
+      rect.draw(ctx);
+      const instance = rect.createDiv(wrapperRef.current, action, true);
+      console.log(instance);
+      setDataStack(s => [...s, instance]);
+
+      ctx && ctx.save();
+    }
     setOriginPoint(undefined);
-    ctx && ctx.save();
   };
 
   function saveDrawings() {
@@ -57,14 +74,14 @@ export const CanvasCharged = ({ size }: Props) => {
   }
 
   return (
-    <div className="g-canvas-wrapper">
+    <div className="g-canvas-wrapper" ref={wrapperRef}>
       <canvas
         width={size?.w}
         height={size?.h}
         ref={canvasRef}
-        onMouseDown={startDraw}
-        onMouseMove={moveDraw}
-        onMouseUp={endDraw}
+        onMouseDown={handleDown}
+        onMouseMove={handleMove}
+        onMouseUp={handleUp}
         className="g-canvas"
       />
     </div>
