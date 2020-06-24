@@ -7,3 +7,5 @@ export interface Size {
   w: number;
   h: number;
 }
+
+export type CanvasMode = 'draw' | 'select';
