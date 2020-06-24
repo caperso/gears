@@ -22,7 +22,7 @@ export default class CanvasRect {
   }
 
   public draw(ctx: CanvasRenderingContext2D) {
-    const { w, h } = this.getSize();
+    const { w, h } = this.getSize(false);
     ctx.strokeStyle = this.color;
     ctx.lineWidth = 2;
 
@@ -112,6 +112,4 @@ export default class CanvasRect {
     }
     return selectedNodes;
   }
-
-  static removeInstance() {}
 }

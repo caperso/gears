@@ -6,12 +6,14 @@ interface Props {
   size: Size;
   color: string;
   blockVisible: boolean;
+  rects: CanvasRect[];
+  setRects: (rects: CanvasRect[]) => any;
   mode?: CanvasMode;
   onClick?: (instance: CanvasRect, rects: CanvasRect[]) => any;
-  onSelect?: () => any;
+  onSelect?: (ids: number[]) => any;
 }
 
-export const CanvasCharged = ({ size, color = '#f11', onClick, blockVisible = false, mode = 'draw' }: Props) => {
+export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVisible = false, mode = 'draw' }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +82,6 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, blockVisible = fa
 
   // handle select mode
   const [selectingData, setSelectingData] = useState<ImageData>();
-  const [selectedRects, setSelectedRects] = useState<CanvasRect[]>([]);
 
   function beginSelect(e: React.MouseEvent) {
     //? is it safe to use ORIGIN POINT?
@@ -113,8 +114,7 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, blockVisible = fa
       let nodes = rect.getRangeRects();
       if (nodes) {
         const ids = nodes.map(item => +item.id);
-        const selects = rects.filter(item => ids.filter(id => item.id === id));
-        setSelectedRects(selects);
+        onSelect && onSelect(ids);
       }
       setOriginPoint(undefined);
     }

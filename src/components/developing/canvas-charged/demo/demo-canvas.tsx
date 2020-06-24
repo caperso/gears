@@ -13,10 +13,8 @@ const CanvasDemo = () => {
   const [size, setSize] = useState<Size>({ w: 780, h: 480 });
   const [color, setColor] = useState<string>('#f11');
   const [blockVisible, setBlockVisible] = useState<boolean>(false);
-
-  function getNaturalSize(e: any) {
-    setSize({ w: e.target.naturalWidth, h: e.target.naturalHeight });
-  }
+  const [rects, setRects] = useState<CanvasRect[]>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const imageStyle: CSSProperties = {
     width: size?.w,
@@ -24,17 +22,27 @@ const CanvasDemo = () => {
     position: 'absolute',
   };
 
-  const getData = (instance: CanvasRect, stack: CanvasRect[]) => {
-    console.log(instance, stack);
+  function getNaturalSize(e: any) {
+    setSize({ w: e.target.naturalWidth, h: e.target.naturalHeight });
+  }
+
+  const getData = (rect: CanvasRect, rects: CanvasRect[]) => {
+    console.log(rect, rects);
   };
 
   const [mode, setMode] = useState<CanvasMode>('draw');
 
   const [selectedData, setSelectedData] = useState();
 
-  const handleSelect = () => {};
+  const removeSelection = () => {
+    const unSelected = rects.filter(item => !selectedIds.filter(id => id === item.id).length);
+    console.log(unSelected);
+    setRects(unSelected);
+  };
 
-  const removeSelection = () => {};
+  const handleSelect = (ids: number[]) => {
+    setSelectedIds(ids);
+  };
 
   return (
     <div className="demo-canvas-test-wrapper">
@@ -49,18 +57,21 @@ const CanvasDemo = () => {
       <br />
       <ButtonGroup>
         <Button type="primary" onClick={() => setBlockVisible(true)}>
-          block-visible
+          Block-visible
         </Button>
         <Button type="primary" onClick={() => setBlockVisible(false)}>
-          block-invisible
+          Block-invisible
         </Button>
         <br />
         <ButtonGroup>
+          <Button type="primary" onClick={() => setMode('draw')}>
+            Draw
+          </Button>
           <Button type="primary" onClick={() => setMode('select')}>
             Select
           </Button>
-          <Button type="primary" onClick={() => setMode('draw')}>
-            draw
+          <Button type="primary" onClick={removeSelection}>
+            Remove
           </Button>
         </ButtonGroup>
         <br />
@@ -77,7 +88,16 @@ const CanvasDemo = () => {
             onMouseDown={e => e.preventDefault()}
           />
         )}
-        <CanvasCharged size={size} color={color} onClick={getData} blockVisible={blockVisible} mode={mode} />
+        <CanvasCharged
+          size={size}
+          color={color}
+          rects={rects}
+          setRects={setRects}
+          onSelect={handleSelect}
+          onClick={getData}
+          blockVisible={blockVisible}
+          mode={mode}
+        />
       </div>
     </div>
   );
