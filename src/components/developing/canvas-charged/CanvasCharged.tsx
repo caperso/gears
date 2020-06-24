@@ -9,7 +9,7 @@ interface Props {
   rects: CanvasRect[];
   setRects: (rects: CanvasRect[]) => any;
   mode?: CanvasMode;
-  onClick?: (instance: CanvasRect, rects: CanvasRect[]) => any;
+  onClick?: (instance: CanvasRect) => any;
   onSelect?: (ids: number[]) => any;
 }
 
@@ -70,7 +70,7 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVi
       let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
       rect.draw(ctx);
       function handleClick(instance: CanvasRect) {
-        onClick && onClick(instance, [...rects, instance]);
+        onClick && onClick(instance);
       }
       const instance = rect.createDiv(wrapperRef.current, handleClick, blockVisible, color);
       const newStack = [...rects, instance];

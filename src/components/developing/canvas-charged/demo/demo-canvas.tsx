@@ -26,8 +26,8 @@ const CanvasDemo = () => {
     setSize({ w: e.target.naturalWidth, h: e.target.naturalHeight });
   }
 
-  const getData = (rect: CanvasRect, rects: CanvasRect[]) => {
-    console.log(rect, rects);
+  const getData = (rect: CanvasRect) => {
+    console.log(rect);
   };
 
   const [mode, setMode] = useState<CanvasMode>('draw');

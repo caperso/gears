@@ -1,13 +1,14 @@
 import { Point2D, Size } from './canvas';
 
+const defaultClassName = 'g-canvas-ghost-div';
+const selectedClassName = `${defaultClassName} selected`;
+
 export default class CanvasRect {
   public readonly id: number;
   private originPoint: Point2D;
   private crossPoint: Point2D;
   private color: string;
   private dom: HTMLDivElement | null;
-  public readonly defaultClassName = 'g-canvas-ghost-div';
-  public readonly selectedClassName = `${this.defaultClassName} selected`;
 
   constructor(originPoint: Point2D, crossPoint: Point2D, color: string) {
     this.originPoint = originPoint;
@@ -66,13 +67,14 @@ export default class CanvasRect {
 
     const { l, t } = this.getPosition();
     const { w, h } = this.getSize();
+    // const defaultStyle: string = `position: absolute;z-index:-1;left:${l}px;top:${t}px;width:${w}px;height:${h}px;`;
     const defaultStyle: string = `position: absolute;left:${l}px;top:${t}px;width:${w}px;height:${h}px;`;
     const visibleStyle: string = `${defaultStyle}; background: ${color}`;
 
     div.setAttribute('style', visible ? visibleStyle : defaultStyle);
-    div.setAttribute('class', this.defaultClassName);
+    div.setAttribute('class', defaultClassName);
     div.setAttribute('data-id', this.id.toString());
-    parent.appendChild(div);
+    parent.insertBefore(div, parent.firstChild);
     this.dom = div;
     return this;
   }
@@ -99,7 +101,7 @@ export default class CanvasRect {
     }
     const { l, t } = this.getPosition();
     const { w, h } = this.getSize();
-    let nodes = document.getElementsByClassName(this.defaultClassName);
+    let nodes = document.getElementsByClassName(defaultClassName);
     const selectedNodes = [];
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i] as HTMLDivElement;
@@ -107,7 +109,7 @@ export default class CanvasRect {
       let farTop = node.offsetHeight + node.offsetTop;
       // farLeft and farTop make a rect, return instance it encounters
       const inRange = farLeft > l && farTop > t && node.offsetLeft < l + w && node.offsetTop < t + h;
-      node.className = inRange ? this.selectedClassName : this.defaultClassName;
+      node.className = inRange ? selectedClassName : defaultClassName;
       selectedNodes.push(node);
     }
     return selectedNodes;
