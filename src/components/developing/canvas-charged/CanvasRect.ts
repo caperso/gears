@@ -93,6 +93,9 @@ export default class CanvasRect {
     return div;
   }
 
+  // remove all instances and canvas items
+  static removeAll() {}
+
   // get Instance of a selection div
   public getRangeRects() {
     if (!this.dom) {

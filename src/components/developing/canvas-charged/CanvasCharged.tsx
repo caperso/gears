@@ -3,12 +3,12 @@ import { CanvasMode, Point2D, Size } from './canvas';
 import CanvasRect from './CanvasRect';
 
 interface Props {
-  size: Size;
+  size: Size; // size of the canvas //! change will remove all canvas stroke
   color: string;
-  blockVisible: boolean;
-  rects: CanvasRect[];
-  setRects: (rects: CanvasRect[]) => any;
+  rects: CanvasRect[]; // canvas rect instances
+  setRects: (rects: CanvasRect[]) => any; // canvas rect setter
   mode?: CanvasMode;
+  blockVisible?: boolean;
   onClick?: (instance: CanvasRect) => any;
   onSelect?: (ids: number[]) => any;
 }

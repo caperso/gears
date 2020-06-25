@@ -35,7 +35,6 @@ export interface BaseImageProps {
  * fixedOnScreen: 是否在整个全屏遮罩固定, 简易模式下(operatorBar = null) 必定为true
  * getImageLoadedSize: 图片加载成功后返回图片的加载尺寸
  */
-
 interface ImagePreviewProps {
   url: string;
   visible: boolean;
