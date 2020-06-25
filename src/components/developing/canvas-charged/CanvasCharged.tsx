@@ -1,9 +1,9 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CanvasMode, Point2D, Size } from './canvas';
 import CanvasRect from './CanvasRect';
 
 interface Props {
-  size: Size; // size of the canvas //! change will remove all canvas stroke
+  size: Size | null; // size of the canvas //! change will remove all canvas stroke
   color: string;
   rects: CanvasRect[]; // canvas rect instances
   setRects: (rects: CanvasRect[]) => any; // canvas rect setter
@@ -13,14 +13,13 @@ interface Props {
   onSelect?: (ids: number[]) => any;
 }
 
-export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVisible = false, mode = 'draw' }: Props) => {
+export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, onSelect, blockVisible = false, mode = 'draw' }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const ghostRef = useRef<HTMLDivElement>(null);
 
   const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
   const [originPoint, setOriginPoint] = useState<Point2D>();
   const [drawingsData, setDrawingsData] = useState<ImageData>();
-  const [rects, setRects] = useState<CanvasRect[]>([]);
 
   useLayoutEffect(() => {
     setCtx(canvasRef.current?.getContext('2d')!);
@@ -41,6 +40,12 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVi
     mode === 'draw' ? endDraw(e) : endSelect(e);
   };
 
+  // draw data
+  useEffect(() => {
+    size && rects.forEach(item => item.draw(ctx!));
+  }, [rects, size]);
+
+  // handle draw mode
   function beginDraw(e: React.MouseEvent) {
     // if user accidentally missed mouseup method,re-fire it.
     if (originPoint) {
@@ -66,13 +71,12 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVi
   }
 
   function endDraw(e: React.MouseEvent) {
-    if (originPoint && ctx && wrapperRef.current) {
+    if (originPoint && ctx && ghostRef.current) {
       let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
-      rect.draw(ctx);
       function handleClick(instance: CanvasRect) {
         onClick && onClick(instance);
       }
-      const instance = rect.createDiv(wrapperRef.current, handleClick, blockVisible, color);
+      const instance = rect.createDiv(ghostRef.current, handleClick, blockVisible, color);
       const newStack = [...rects, instance];
       setRects(newStack);
       ctx && ctx.save();
@@ -108,9 +112,9 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVi
   }
 
   function endSelect(e: React.MouseEvent) {
-    if (originPoint && wrapperRef.current) {
+    if (originPoint && ghostRef.current) {
       let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), 'white');
-      rect.createSelection(wrapperRef.current, false, color);
+      rect.createSelection(ghostRef.current, false, color);
       let nodes = rect.getRangeRects();
       if (nodes) {
         const ids = nodes.map(item => +item.id);
@@ -120,15 +124,23 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, onSelect, blockVi
     }
   }
 
+  const wrapperStyle: CSSProperties = {
+    width: size?.w,
+    height: size?.h,
+  };
+
+  const ghostStyle: CSSProperties = mode === 'select' ? { zIndex: 1 } : {};
+
   return (
-    <div className="g-canvas-wrapper" ref={wrapperRef}>
+    <div className="g-canvas-wrapper" style={wrapperStyle}>
+      <div style={ghostStyle} className="g-canvas-ghost-collection" ref={ghostRef}></div>
       <canvas
-        width={size?.w}
-        height={size?.h}
-        ref={canvasRef}
         onMouseDown={handleDown}
         onMouseMove={handleMove}
         onMouseUp={handleUp}
+        width={size?.w}
+        height={size?.h}
+        ref={canvasRef}
         onClick={e => e.preventDefault()}
         className="g-canvas"
       />
