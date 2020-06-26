@@ -8,8 +8,8 @@ import './index.less';
 
 const url = 'https://cdn.pixabay.com/photo/2020/06/18/09/25/waterfall-5312692_1280.jpg';
 const fakeData = [
-  new CanvasRect({ x: 50, y: 50 }, { x: 70, y: 70 }, 'orange'),
-  new CanvasRect({ x: 80, y: 80 }, { x: 90, y: 90 }, 'orange'),
+  new CanvasRect({ x: 50, y: 50 }, { x: 70, y: 70 }, 'orange', 0),
+  new CanvasRect({ x: 80, y: 80 }, { x: 90, y: 90 }, 'orange', 1),
 ];
 
 const CanvasDemo = () => {

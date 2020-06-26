@@ -10,12 +10,12 @@ export default class CanvasRect {
   private color: string;
   private dom: HTMLDivElement | null;
 
-  constructor(originPoint: Point2D, crossPoint: Point2D, color: string) {
+  constructor(originPoint: Point2D, crossPoint: Point2D, color: string, id?: number) {
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
     this.color = color;
     this.dom = null;
-    this.id = +new Date();
+    this.id = typeof id === 'number' ? id : +new Date();
   }
 
   static getInstance() {
@@ -92,6 +92,8 @@ export default class CanvasRect {
     this.dom = div;
     return div;
   }
+
+  public selectInstance() {}
 
   // remove all instances and canvas items
   static removeAll() {}

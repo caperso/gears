@@ -22,7 +22,7 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
   const [drawingsData, setDrawingsData] = useState<ImageData>();
 
   useLayoutEffect(() => {
-    setCtx(canvasRef.current?.getContext('2d')!);
+    canvasRef.current && setCtx(canvasRef.current.getContext('2d')!);
   });
 
   // handle draw mode
@@ -42,8 +42,16 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
 
   // draw data
   useEffect(() => {
-    size && rects.forEach(item => item.draw(ctx!));
-  }, [rects, size]);
+    if (ghostRef.current && size) {
+      rects.forEach(item => {
+        function handleClick(instance: CanvasRect) {
+          onClick && onClick(instance);
+        }
+        ghostRef.current && item.createDiv(ghostRef.current, handleClick, blockVisible, color);
+        item.draw(ctx!);
+      });
+    }
+  }, [rects, size, ghostRef.current]);
 
   // handle draw mode
   function beginDraw(e: React.MouseEvent) {
