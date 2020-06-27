@@ -8,7 +8,7 @@ export default class CanvasRect {
   private originPoint: Point2D;
   private crossPoint: Point2D;
   private color: string;
-  private dom: HTMLDivElement | null;
+  public dom: HTMLDivElement | null;
 
   constructor(originPoint: Point2D, crossPoint: Point2D, color: string, id?: number) {
     this.originPoint = originPoint;
@@ -62,6 +62,9 @@ export default class CanvasRect {
 
   // create a div instance for interaction
   public createDiv(parent: HTMLElement, onClick: (obj: this) => any, visible: boolean = false, color = 'red') {
+    if (this.dom) {
+      console.error("CanvasCharged: can not create div while it's div already exists");
+    }
     const div = document.createElement('div');
     div.onclick = () => onClick(this);
 
@@ -98,7 +101,7 @@ export default class CanvasRect {
   // remove all instances and canvas items
   static removeAll() {}
 
-  // get Instance of a selection div
+  // get Instance of a selected div
   public getRangeRects() {
     if (!this.dom) {
       console.log('instance dom does not exist');

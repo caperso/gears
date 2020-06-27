@@ -13,7 +13,10 @@ interface Props {
   onSelect?: (ids: number[]) => any;
 }
 
-export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, onSelect, blockVisible = false, mode = 'draw' }: Props) => {
+const defaultClassName = 'g-canvas-ghost-div';
+const selectedClassName = `${defaultClassName} selected`;
+
+export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, blockVisible = false, mode = 'draw' }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
 
@@ -40,14 +43,22 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
     mode === 'draw' ? endDraw(e) : endSelect(e);
   };
 
+  function handleInstanceClick(instance: CanvasRect) {
+    const nodes = document.getElementsByClassName(defaultClassName);
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      node.className = defaultClassName;
+    }
+    const node = instance.dom;
+    node && (node.className = selectedClassName);
+    onClick && onClick(instance);
+  }
+
   // draw data
   useEffect(() => {
     if (ghostRef.current && size) {
       rects.forEach(item => {
-        function handleClick(instance: CanvasRect) {
-          onClick && onClick(instance);
-        }
-        ghostRef.current && item.createDiv(ghostRef.current, handleClick, blockVisible, color);
+        ghostRef.current && item.createDiv(ghostRef.current, handleInstanceClick, blockVisible, color);
         item.draw(ctx!);
       });
     }
@@ -81,10 +92,7 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
   function endDraw(e: React.MouseEvent) {
     if (originPoint && ctx && ghostRef.current) {
       let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
-      function handleClick(instance: CanvasRect) {
-        onClick && onClick(instance);
-      }
-      const instance = rect.createDiv(ghostRef.current, handleClick, blockVisible, color);
+      const instance = rect.createDiv(ghostRef.current, handleInstanceClick, blockVisible, color);
       const newStack = [...rects, instance];
       setRects(newStack);
       ctx && ctx.save();
@@ -97,40 +105,11 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
 
   function beginSelect(e: React.MouseEvent) {
     //? is it safe to use ORIGIN POINT?
-    if (originPoint) {
-      endSelect(e);
-    } else {
-      setOriginPoint(CanvasRect.getCoordinates2D(e));
-      if (canvasRef.current && ctx) {
-        const w = canvasRef.current.width;
-        const h = canvasRef.current.height;
-        const data = ctx.getImageData(0, 0, w, h);
-        console.log('CanvasCharged:save selection data::', { data, w, h });
-        setSelectingData(data);
-      }
-    }
   }
 
-  function selecting(e: React.MouseEvent) {
-    if (originPoint && ctx && canvasRef.current && selectingData) {
-      ctx.putImageData(selectingData, 0, 0);
-      let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
-      rect.draw(ctx);
-    }
-  }
+  function selecting(e: React.MouseEvent) {}
 
-  function endSelect(e: React.MouseEvent) {
-    if (originPoint && ghostRef.current) {
-      let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), 'white');
-      rect.createSelection(ghostRef.current, false, color);
-      let nodes = rect.getRangeRects();
-      if (nodes) {
-        const ids = nodes.map(item => +item.id);
-        onSelect && onSelect(ids);
-      }
-      setOriginPoint(undefined);
-    }
-  }
+  function endSelect(e: React.MouseEvent) {}
 
   const wrapperStyle: CSSProperties = {
     width: size?.w,
