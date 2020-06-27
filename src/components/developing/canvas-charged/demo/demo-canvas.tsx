@@ -6,7 +6,7 @@ import { CanvasMode, Size } from '../canvas';
 import CanvasRect from '../CanvasRect';
 import './index.less';
 
-const url = 'https://cdn.pixabay.com/photo/2020/06/18/09/25/waterfall-5312692_1280.jpg';
+const url = 'https://wx1.sinaimg.cn/large/006nW6YZly1gg7429j7glj30j60y379b.jpg';
 const fakeData = [
   new CanvasRect({ x: 50, y: 50 }, { x: 70, y: 70 }, 'orange', 0),
   new CanvasRect({ x: 80, y: 80 }, { x: 90, y: 90 }, 'orange', 1),
@@ -92,7 +92,7 @@ const CanvasDemo = () => {
         <img
           src={url}
           style={imageStyle}
-          alt="turbine defects"
+          alt="fail to load image"
           onLoad={getLoadedSize}
           className="g-canvas-image"
           onClick={e => e.preventDefault()}
