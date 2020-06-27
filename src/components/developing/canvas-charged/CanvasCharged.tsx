@@ -4,10 +4,10 @@ import CanvasRect from './CanvasRect';
 
 interface Props {
   size: Size | null; // size of the canvas //! change will remove all canvas stroke
-  color: string;
+  mode: CanvasMode;
   rects: CanvasRect[]; // canvas rect instances
   setRects: (rects: CanvasRect[]) => any; // canvas rect setter
-  mode?: CanvasMode;
+  color?: string;
   blockVisible?: boolean;
   onClick?: (instance: CanvasRect) => any;
 }
@@ -59,8 +59,7 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
   useEffect(() => {
     if (size && ghostRef.current) {
       ctx?.clearRect(0, 0, size.w, size.h);
-      console.log('Canvas Drawing D', rects);
-
+      console.log('CanvasCharged: Drawing: ', rects);
       while (ghostRef.current.childNodes.length) {
         ghostRef.current?.removeChild(ghostRef.current.childNodes[0]);
       }
@@ -84,7 +83,6 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
         const w = canvasRef.current.width;
         const h = canvasRef.current.height;
         const data = ctx.getImageData(0, 0, w, h);
-        console.log('CanvasCharged:save data::', { data, w, h });
         setDrawingsData(data);
       }
     }

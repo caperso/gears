@@ -50,37 +50,44 @@ const CanvasDemo = () => {
         return updatedState;
       });
       setSelected(null);
-      setTimeout(() => console.log('rect', rects), 0);
+      message.success('Removed !');
     }
   };
 
   return (
     <div className="demo-canvas-wrapper">
-      <ButtonGroup>
-        <Button type="ghost" onClick={() => setColor('#f11')}>
-          Red
-        </Button>
-        <Button type="ghost" onClick={() => setColor('#0fe')}>
-          Blue
-        </Button>
-        <Button type="ghost" onClick={() => setBlockVisible(true)}>
-          Block-visible
-        </Button>
-        <Button type="ghost" onClick={() => setBlockVisible(false)}>
-          Block-invisible
-        </Button>
-        <ButtonGroup>
-          <Button type="ghost" onClick={() => setMode('draw')}>
-            Draw
+      <div className="canvas-header">
+        <ButtonGroup className="button-group">
+          <Button type={mode === 'draw' ? 'primary' : 'ghost'} onClick={() => setMode('draw')}>
+            drawing-mode
           </Button>
-          <Button type="ghost" onClick={() => setMode('select')}>
-            Select
-          </Button>
-          <Button type="ghost" onClick={removeItem}>
-            Remove
+          <Button type={mode === 'select' ? 'primary' : 'ghost'} onClick={() => setMode('select')}>
+            selecting-mode
           </Button>
         </ButtonGroup>
-      </ButtonGroup>
+        <ButtonGroup className="button-group">
+          <Button type="danger" onClick={removeItem}>
+            remove-selected
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup className="button-group">
+          <Button type={color === '#f11' ? 'danger' : 'ghost'} onClick={() => setColor('#f11')}>
+            color:red
+          </Button>
+          <Button type={color === '#0fe' ? 'primary' : 'ghost'} onClick={() => setColor('#0fe')}>
+            color:blue
+          </Button>
+        </ButtonGroup>
+
+        <ButtonGroup className="button-group">
+          <Button type={blockVisible ? 'primary' : 'ghost'} onClick={() => setBlockVisible(true)}>
+            block:visible
+          </Button>
+          <Button type={!blockVisible ? 'primary' : 'ghost'} onClick={() => setBlockVisible(false)}>
+            block:invisible
+          </Button>
+        </ButtonGroup>
+      </div>
       <div className="demo-canvas-wrapper" style={{ width: size?.w, height: size?.h }}>
         <img
           src={url}
