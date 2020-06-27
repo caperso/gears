@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
 import React, { CSSProperties, useState } from 'react';
 import CanvasCharged from '../';
@@ -20,7 +20,6 @@ const CanvasDemo = () => {
 
   // const [naturalSize, setNaturalSize] = useState<Size>();
   const [rects, setRects] = useState<CanvasRect[]>(fakeData);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const imageStyle: CSSProperties = {
     width: size?.w,
@@ -31,18 +30,26 @@ const CanvasDemo = () => {
     setSize({ w: e.target.naturalWidth, h: e.target.naturalHeight });
   }
 
+  // standard remove action
+  const [selectId, setSelectId] = useState<number | null>(null);
+
   const getData = (rect: CanvasRect) => {
+    message.info(`Selected item's id: ${rect.id}`);
+    setSelectId(rect.id);
     console.log(rect);
   };
 
-  const removeSelection = () => {
-    const unSelected = rects.filter(item => !selectedIds.filter(id => id === item.id).length);
-    console.log(unSelected);
-    setRects(unSelected);
-  };
-
-  const handleSelect = (ids: number[]) => {
-    setSelectedIds(ids);
+  const removeItem = () => {
+    if (mode === 'draw') {
+      return;
+    }
+    selectId !== null &&
+      setRects(s => {
+        const updatedState = [...s];
+        const newState = updatedState.filter(item => item.id !== selectId);
+        return newState;
+      });
+    setSelectId(null);
   };
 
   return (
@@ -67,7 +74,7 @@ const CanvasDemo = () => {
           <Button type="ghost" onClick={() => setMode('select')}>
             Select
           </Button>
-          <Button type="ghost" onClick={removeSelection}>
+          <Button type="ghost" onClick={removeItem}>
             Remove
           </Button>
         </ButtonGroup>
@@ -87,7 +94,6 @@ const CanvasDemo = () => {
           color={color}
           rects={rects}
           setRects={setRects}
-          onSelect={handleSelect}
           onClick={getData}
           blockVisible={blockVisible}
           mode={mode}

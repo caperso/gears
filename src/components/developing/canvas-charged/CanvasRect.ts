@@ -18,10 +18,6 @@ export default class CanvasRect {
     this.id = typeof id === 'number' ? id : +new Date();
   }
 
-  static getInstance() {
-    return this;
-  }
-
   public draw(ctx: CanvasRenderingContext2D) {
     const { w, h } = this.getSize(false);
     ctx.strokeStyle = this.color;
@@ -61,25 +57,30 @@ export default class CanvasRect {
   }
 
   // create a div instance for interaction
-  public createDiv(parent: HTMLElement, onClick: (obj: this) => any, visible: boolean = false, color = 'red') {
+  public createDiv(onClick: (obj: this) => any, visible: boolean = false, color = 'red'): this {
     if (this.dom) {
-      console.error("CanvasCharged: can not create div while it's div already exists");
+      throw console.error('CanvasCharged: DIV ALREADY EXISTS');
     }
     const div = document.createElement('div');
     div.onclick = () => onClick(this);
-
     const { l, t } = this.getPosition();
     const { w, h } = this.getSize();
     // const defaultStyle: string = `position: absolute;z-index:-1;left:${l}px;top:${t}px;width:${w}px;height:${h}px;`;
     const defaultStyle: string = `position: absolute;left:${l}px;top:${t}px;width:${w}px;height:${h}px;`;
-    const visibleStyle: string = `${defaultStyle}; background: ${color}`;
+    const visibleStyle: string = `${defaultStyle}; background: ${color || ''}`;
 
     div.setAttribute('style', visible ? visibleStyle : defaultStyle);
     div.setAttribute('class', defaultClassName);
     div.setAttribute('data-id', this.id.toString());
-    parent.insertBefore(div, parent.firstChild);
     this.dom = div;
     return this;
+  }
+
+  public insertDiv(parent: HTMLElement) {
+    if (!this.dom) {
+      throw console.error('CanvasCharged: DOM IS NOT CREATED');
+    }
+    parent.insertBefore(this.dom, parent.firstChild);
   }
 
   // create a selection div
