@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties, RefObject } from 'react';
+import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CanvasMode, Point2D, Size } from './canvas';
 import CanvasRect from './CanvasRect';
 
@@ -12,57 +12,38 @@ interface Props {
   onClick?: (instance: CanvasRect) => any;
 }
 
-interface State {
-  ctx: CanvasRenderingContext2D | null;
-  originPoint: Point2D | null;
-  drawingsData: ImageData | null;
-  rects: CanvasRect[];
-  selected: CanvasRect | null;
-}
-
 const defaultClassName = 'g-canvas-ghost-div';
 const selectedClassName = `${defaultClassName} selected`;
 
-export class CanvasCharged extends Component<Props, State> {
-  private ghostRef: RefObject<HTMLDivElement> | null;
-  private canvasRef: RefObject<HTMLCanvasElement> | null;
+export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, blockVisible = false, mode = 'draw' }: Props) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ghostRef = useRef<HTMLDivElement>(null);
 
-  private wrapperStyle: CSSProperties = {
-    width: this.props.size?.w,
-    height: this.props.size?.h,
-  };
+  const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
+  const [originPoint, setOriginPoint] = useState<Point2D>();
+  const [drawingsData, setDrawingsData] = useState<ImageData>();
 
-  private ghostStyle: CSSProperties = this.props.mode === 'select' ? { zIndex: 1 } : {};
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      ctx: null,
-      rects: [],
-      selected: null,
-      originPoint: null,
-      drawingsData: null,
-    };
-    this.ghostRef = React.createRef<HTMLDivElement>();
-    this.canvasRef = React.createRef<HTMLCanvasElement>();
-  }
+  useLayoutEffect(() => {
+    canvasRef.current && setCtx(canvasRef.current.getContext('2d')!);
+  });
 
   // handle draw mode
-  handleDown = (e: React.MouseEvent) => {
+  const handleDown = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.mode === 'draw' && this.beginDraw(e);
+    mode === 'draw' && beginDraw(e);
   };
 
-  handleMove = (e: React.MouseEvent) => {
-    this.props.mode === 'draw' && this.drawing(e);
+  const handleMove = (e: React.MouseEvent) => {
+    mode === 'draw' && onDrawing(e);
   };
 
-  handleUp = (e: React.MouseEvent) => {
-    this.props.mode === 'draw' && this.endDraw(e);
+  const handleUp = (e: React.MouseEvent) => {
+    mode === 'draw' && endDraw(e);
   };
 
   // handle instance clicked
-  handleInstanceClick = (instance: CanvasRect) => {
+  function handleInstanceClick(instance: CanvasRect) {
     const nodes = document.getElementsByClassName(defaultClassName);
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
@@ -71,101 +52,88 @@ export class CanvasCharged extends Component<Props, State> {
     const node = instance.dom;
     node && (node.className = selectedClassName);
     // setSelectId(instance.id)
-    this.props.onClick && this.props.onClick(instance);
-  };
+    onClick && onClick(instance);
+  }
 
-  // select
+  // draw data
+  useEffect(() => {
+    if (size && ghostRef.current) {
+      ctx?.clearRect(0, 0, size.w, size.h);
+      console.log('Canvas Drawing D', rects);
 
-  // remove instance
-  removeItem = () => {
-    if (this.props.mode === 'draw') {
-      return;
-    }
-    if (this.state.selected !== null) {
-      const updatedRects = [...this.state.rects].filter(item => item.id !== this.state.selected?.id);
-      this.setState({ selected: null, rects: updatedRects });
-    }
-  };
-
-  componentWillUpdate(props: Props) {
-    if (props.size && this.ghostRef?.current) {
-      const { size } = props;
-
-      this.state.ctx?.clearRect(0, 0, size.w, size.h);
-      for (let i = 0; i < this.ghostRef.current.childNodes.length; i++) {
-        const element = this.ghostRef.current.childNodes[i];
-        this.ghostRef.current.removeChild(element);
+      while (ghostRef.current.childNodes.length) {
+        ghostRef.current?.removeChild(ghostRef.current.childNodes[0]);
       }
 
-      this.state.rects.forEach(item => {
-        item.dom === null && item.createDiv(this.handleInstanceClick, this.props.blockVisible, this.props.color);
-        item.insertDiv(this.ghostRef!.current!);
-        item.draw(this.state.ctx!);
+      rects.forEach(item => {
+        item.dom === null && item.createDiv(handleInstanceClick, blockVisible, color);
+        item.insertDiv(ghostRef.current!);
+        item.draw(ctx!);
       });
+    }
+  }, [rects, size, ghostRef.current]);
+
+  // handle draw mode
+  function beginDraw(e: React.MouseEvent) {
+    // if user accidentally missed mouseup method,re-fire it.
+    if (originPoint) {
+      endDraw(e);
+    } else {
+      setOriginPoint(CanvasRect.getCoordinates2D(e));
+      if (canvasRef.current && ctx) {
+        const w = canvasRef.current.width;
+        const h = canvasRef.current.height;
+        const data = ctx.getImageData(0, 0, w, h);
+        console.log('CanvasCharged:save data::', { data, w, h });
+        setDrawingsData(data);
+      }
     }
   }
 
-  // handle draw mode
-  beginDraw = (e: React.MouseEvent) => {
-    // if user accidentally missed mouseup method,re-fire it.
-    if (this.state.originPoint) {
-      this.endDraw(e);
-    } else if (this.canvasRef?.current) {
-      this.setState({ originPoint: CanvasRect.getCoordinates2D(e) });
-      if (this.canvasRef.current && this.state.ctx) {
-        const w = this.canvasRef.current.width;
-        const h = this.canvasRef.current.height;
-        const data = this.state.ctx.getImageData(0, 0, w, h);
-        console.log('CanvasCharged:save data::', { data, w, h });
-        this.setState({ drawingsData: data });
-      }
+  function onDrawing(e: React.MouseEvent) {
+    if (originPoint && ctx && canvasRef.current && drawingsData) {
+      ctx.putImageData(drawingsData, 0, 0);
+      let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
+      rect.draw(ctx);
     }
-  };
+  }
 
-  drawing = (e: React.MouseEvent) => {
-    if (this.state.originPoint && this.state.ctx && this.canvasRef?.current && this.state.drawingsData) {
-      this.state.ctx.putImageData(this.state.drawingsData, 0, 0);
-      let rect = new CanvasRect(this.state.originPoint, CanvasRect.getCoordinates2D(e), this.props.color);
-      rect.draw(this.state.ctx);
-    }
-  };
-
-  endDraw = (e: React.MouseEvent) => {
-    if (this.state.originPoint && this.state.ctx && this.ghostRef?.current) {
+  function endDraw(e: React.MouseEvent) {
+    if (originPoint && ctx && ghostRef.current) {
       const crossPoint = CanvasRect.getCoordinates2D(e);
-      const tooClose: boolean =
-        Math.abs(this.state.originPoint.x - crossPoint.x) < 3 || Math.abs(this.state.originPoint.y - crossPoint.y) < 3;
+      const tooClose: boolean = Math.abs(originPoint.x - crossPoint.x) < 3 || Math.abs(originPoint.y - crossPoint.y) < 3;
       if (tooClose) {
         return;
       }
-      let rect = new CanvasRect(this.state.originPoint, crossPoint, this.props.color);
-      const instance = rect.createDiv(this.handleInstanceClick, this.props.blockVisible, this.props.color);
-      const rects: CanvasRect[] = [...this.state.rects, instance];
-      this.setState({ rects });
-      this.state.ctx && this.state.ctx.save();
+      let rect = new CanvasRect(originPoint, crossPoint, color);
+      const instance = rect.createDiv(handleInstanceClick, blockVisible, color);
+      const newStack: CanvasRect[] = [...rects, instance];
+      setRects(newStack);
+      ctx && ctx.save();
     }
-    this.setState({ originPoint: null });
+    setOriginPoint(undefined);
+  }
+
+  const wrapperStyle: CSSProperties = {
+    width: size?.w,
+    height: size?.h,
   };
 
-  render() {
-    return (
-      <div className="g-canvas-wrapper" style={this.wrapperStyle}>
-        {console.log('render', this.props, this.state)}
+  const ghostStyle: CSSProperties = mode === 'select' ? { zIndex: 1 } : {};
 
-        <div style={this.ghostStyle} className="g-canvas-ghost-collection" ref={this.ghostRef}></div>
-        {this.props.size && (
-          <canvas
-            onMouseDown={this.handleDown}
-            onMouseMove={this.handleMove}
-            onMouseUp={this.handleUp}
-            width={this.props.size.w}
-            height={this.props.size.h}
-            ref={this.canvasRef}
-            onClick={e => e.preventDefault()}
-            className="g-canvas"
-          />
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="g-canvas-wrapper" style={wrapperStyle}>
+      <div style={ghostStyle} className="g-canvas-ghost-collection" ref={ghostRef}></div>
+      <canvas
+        onMouseDown={handleDown}
+        onMouseMove={handleMove}
+        onMouseUp={handleUp}
+        width={size?.w}
+        height={size?.h}
+        ref={canvasRef}
+        onClick={e => e.preventDefault()}
+        className="g-canvas"
+      />
+    </div>
+  );
+};

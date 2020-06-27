@@ -31,25 +31,27 @@ const CanvasDemo = () => {
   }
 
   // standard remove action
-  const [selectId, setSelectId] = useState<number | null>(null);
+  const [selected, setSelected] = useState<CanvasRect | null>(null);
 
-  const getData = (rect: CanvasRect) => {
+  const getInstance = (rect: CanvasRect) => {
     message.info(`Selected item's id: ${rect.id}`);
-    setSelectId(rect.id);
+    setSelected(rect);
     console.log(rect);
   };
 
   const removeItem = () => {
-    if (mode === 'draw') {
-      return;
-    }
-    selectId !== null &&
+    if (mode === 'select' && selected) {
       setRects(s => {
         const updatedState = [...s];
-        const newState = updatedState.filter(item => item.id !== selectId);
-        return newState;
+        const index = updatedState.findIndex(item => item.id === selected.id);
+        updatedState.splice(index, 1);
+        console.log('updatedState,', updatedState);
+
+        return updatedState;
       });
-    setSelectId(null);
+      setSelected(null);
+      setTimeout(() => console.log('rect', rects), 0);
+    }
   };
 
   return (
@@ -94,7 +96,7 @@ const CanvasDemo = () => {
           color={color}
           rects={rects}
           setRects={setRects}
-          onClick={getData}
+          onClick={getInstance}
           blockVisible={blockVisible}
           mode={mode}
         />
