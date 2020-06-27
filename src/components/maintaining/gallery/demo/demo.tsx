@@ -1,9 +1,8 @@
 import { ImagePreview } from '@/index';
 import React, { useState } from 'react';
-import { GalleryUnit } from '../Gallery';
 import Gallery from '../index';
 
-const fakeUnits: GalleryUnit[] = [
+const fakeUnits: any[] = [
   {
     name: 'namibia',
     url: 'https://cdn.pixabay.com/photo/2020/03/24/20/41/namibia-4965456__340.jpg',
@@ -54,7 +53,7 @@ const fakeUnits: GalleryUnit[] = [
 const GalleryDemo = () => {
   const [url, setUrl] = useState('');
   const [show, setShow] = useState(false);
-  const handleClick = (unit: GalleryUnit) => {
+  const handleClick = (unit: any) => {
     setUrl(unit.url);
     setShow(true);
   };

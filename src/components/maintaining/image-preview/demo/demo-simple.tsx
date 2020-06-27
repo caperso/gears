@@ -19,7 +19,7 @@ const ImagePreviewDemo = () => {
   return (
     <div className="g-table">
       <img alt="a lovely cat" src={sampleImage} className="g-sample-image" onClick={() => setShow(true)} />
-      <ImagePreview url={sampleImage} visible={show} onClose={close} simpleMode={true} />
+      <ImagePreview url={sampleImage} visible={show} onClose={close} />
     </div>
   );
 };

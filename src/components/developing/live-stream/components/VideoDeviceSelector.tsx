@@ -5,7 +5,7 @@ export interface AudioDeviceSelectorProps {
   //   setAudioInputs: (device: MediaDeviceInfo[]) => void;
 }
 
-export const AudioDeviceSelector = (props: AudioDeviceSelectorProps) => {
+export const AudioDeviceSelector = () => {
   //   const { setAudioInputs } = props;
   const [audioInputs, setAudioInputs] = useState<MediaDeviceInfo[]>([]);
   const [selectedDevice, setSelectedDevice] = useState<string>();
