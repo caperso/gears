@@ -84,23 +84,6 @@ export const CanvasCharged = ({
     }
   }, [rects, size, blockVisible, color, handleInstanceClick]);
 
-  // // draw data
-  // useEffect(() => {
-  //   if (size && ghostRef.current) {
-  //     ctx?.clearRect(0, 0, size.w, size.h);
-  //     console.log('CanvasCharged: Drawing: ', rects);
-  //     while (ghostRef.current.childNodes.length) {
-  //       ghostRef.current?.removeChild(ghostRef.current.childNodes[0]);
-  //     }
-
-  //     rects.forEach(item => {
-  //       item.dom === null && item.createDiv(handleInstanceClick, blockVisible, color);
-  //       item.insertDiv(ghostRef.current!);
-  //       item.draw(ctx!);
-  //     });
-  //   }
-  // }, [rects, size, ghostRef.current]);
-
   // handle draw mode
   function beginDraw(e: React.MouseEvent) {
     // if user accidentally missed mouseup method,re-fire it.
