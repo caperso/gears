@@ -8,6 +8,7 @@ interface Props {
   rects: CanvasRect[]; // canvas rect instances
   setRects: (rects: CanvasRect[]) => any; // canvas rect setter
   color?: string;
+  disabled?: boolean;
   blockVisible?: boolean;
   onClick?: (instance: CanvasRect) => any;
 }
@@ -15,7 +16,16 @@ interface Props {
 const defaultClassName = 'g-canvas-ghost-div';
 const selectedClassName = `${defaultClassName} selected`;
 
-export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, blockVisible = false, mode = 'draw' }: Props) => {
+export const CanvasCharged = ({
+  size,
+  color = '#f11',
+  onClick,
+  disabled = false,
+  rects,
+  setRects,
+  blockVisible = false,
+  mode = 'draw',
+}: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
 
@@ -31,15 +41,15 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
   const handleDown = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    mode === 'draw' && beginDraw(e);
+    mode === 'draw' && !disabled && beginDraw(e);
   };
 
   const handleMove = (e: React.MouseEvent) => {
-    mode === 'draw' && onDrawing(e);
+    mode === 'draw' && !disabled && onDrawing(e);
   };
 
   const handleUp = (e: React.MouseEvent) => {
-    mode === 'draw' && endDraw(e);
+    mode === 'draw' && !disabled && endDraw(e);
   };
 
   // handle instance clicked
@@ -55,13 +65,15 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
     onClick && onClick(instance);
   }
 
-  // draw data
+  // init canvas and draw data
   useEffect(() => {
     if (size && ghostRef.current) {
-      ctx?.clearRect(0, 0, size.w, size.h);
+      const ctx = canvasRef.current!.getContext('2d');
+      setCtx(ctx!);
+      ctx!.clearRect(0, 0, size.w, size.h);
       console.log('CanvasCharged: Drawing: ', rects);
       while (ghostRef.current.childNodes.length) {
-        ghostRef.current?.removeChild(ghostRef.current.childNodes[0]);
+        ghostRef.current.removeChild(ghostRef.current.childNodes[0]);
       }
 
       rects.forEach(item => {
@@ -70,7 +82,24 @@ export const CanvasCharged = ({ size, color = '#f11', onClick, rects, setRects, 
         item.draw(ctx!);
       });
     }
-  }, [rects, size, ghostRef.current]);
+  }, [rects, size, blockVisible, color, handleInstanceClick]);
+
+  // // draw data
+  // useEffect(() => {
+  //   if (size && ghostRef.current) {
+  //     ctx?.clearRect(0, 0, size.w, size.h);
+  //     console.log('CanvasCharged: Drawing: ', rects);
+  //     while (ghostRef.current.childNodes.length) {
+  //       ghostRef.current?.removeChild(ghostRef.current.childNodes[0]);
+  //     }
+
+  //     rects.forEach(item => {
+  //       item.dom === null && item.createDiv(handleInstanceClick, blockVisible, color);
+  //       item.insertDiv(ghostRef.current!);
+  //       item.draw(ctx!);
+  //     });
+  //   }
+  // }, [rects, size, ghostRef.current]);
 
   // handle draw mode
   function beginDraw(e: React.MouseEvent) {

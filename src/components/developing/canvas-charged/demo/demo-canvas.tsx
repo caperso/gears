@@ -17,9 +17,8 @@ const CanvasDemo = () => {
   const [blockVisible, setBlockVisible] = useState<boolean>(false);
   const [color, setColor] = useState<string>('#f11');
   const [mode, setMode] = useState<CanvasMode>('draw');
-
-  // const [naturalSize, setNaturalSize] = useState<Size>();
   const [rects, setRects] = useState<CanvasRect[]>(fakeData);
+  const [selected, setSelected] = useState<CanvasRect | null>(null);
 
   const imageStyle: CSSProperties = {
     width: size?.w,
@@ -29,9 +28,6 @@ const CanvasDemo = () => {
   function getLoadedSize(e: any) {
     setSize({ w: e.target.naturalWidth, h: e.target.naturalHeight });
   }
-
-  // standard remove action
-  const [selected, setSelected] = useState<CanvasRect | null>(null);
 
   const getInstance = (rect: CanvasRect) => {
     message.info(`Selected item's id: ${rect.id}`);
