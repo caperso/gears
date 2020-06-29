@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { CSSProperties, forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import { CanvasMode, Point2D, Size } from './canvas';
 import CanvasRect from './CanvasRect';
 
@@ -9,6 +9,7 @@ interface Props {
   setRects: (rects: CanvasRect[]) => any; // canvas rect setter
   color?: string;
   disabled?: boolean;
+  clearSelected?: boolean; // for clear style of ghost dives
   blockVisible?: boolean;
   onClick?: (instance: CanvasRect) => any;
 }
@@ -16,134 +17,138 @@ interface Props {
 const defaultClassName = 'g-canvas-ghost-div';
 const selectedClassName = `${defaultClassName} selected`;
 
-export const CanvasCharged = ({
-  size,
-  color = '#f11',
-  onClick,
-  disabled = false,
-  rects,
-  setRects,
-  blockVisible = false,
-  mode = 'draw',
-}: Props) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const ghostRef = useRef<HTMLDivElement>(null);
+export const CanvasCharged = forwardRef(
+  ({ size, color = '#f11', onClick, disabled = false, rects, setRects, blockVisible = false, mode = 'draw' }: Props, ref) => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const ghostRef = useRef<HTMLDivElement>(null);
 
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
-  const [originPoint, setOriginPoint] = useState<Point2D>();
-  const [drawingsData, setDrawingsData] = useState<ImageData>();
+    const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
+    const [originPoint, setOriginPoint] = useState<Point2D>();
+    const [drawingsData, setDrawingsData] = useState<ImageData>();
 
-  useLayoutEffect(() => {
-    canvasRef.current && setCtx(canvasRef.current.getContext('2d')!);
-  });
+    useLayoutEffect(() => {
+      canvasRef.current && setCtx(canvasRef.current.getContext('2d')!);
+    });
 
-  // handle draw mode
-  const handleDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    mode === 'draw' && !disabled && beginDraw(e);
-  };
+    // handle draw mode
+    const handleDown = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      mode === 'draw' && !disabled && beginDraw(e);
+    };
 
-  const handleMove = (e: React.MouseEvent) => {
-    mode === 'draw' && !disabled && onDrawing(e);
-  };
+    const handleMove = (e: React.MouseEvent) => {
+      mode === 'draw' && !disabled && onDrawing(e);
+    };
 
-  const handleUp = (e: React.MouseEvent) => {
-    mode === 'draw' && !disabled && endDraw(e);
-  };
+    const handleUp = (e: React.MouseEvent) => {
+      mode === 'draw' && !disabled && endDraw(e);
+    };
 
-  // handle instance clicked
-  function handleInstanceClick(instance: CanvasRect) {
-    const nodes = document.getElementsByClassName(defaultClassName);
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-      node.className = defaultClassName;
-    }
-    const node = instance.dom;
-    node && (node.className = selectedClassName);
-    // setSelectId(instance.id)
-    onClick && onClick(instance);
-  }
-
-  // init canvas and draw data
-  useEffect(() => {
-    if (size && ghostRef.current) {
-      const ctx = canvasRef.current!.getContext('2d');
-      setCtx(ctx!);
-      ctx!.clearRect(0, 0, size.w, size.h);
-      console.log('CanvasCharged: Drawing: ', rects);
-      while (ghostRef.current.childNodes.length) {
-        ghostRef.current.removeChild(ghostRef.current.childNodes[0]);
+    // handle instance clicked
+    function handleInstanceClick(instance: CanvasRect) {
+      const nodes = document.getElementsByClassName(defaultClassName);
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        node.className = defaultClassName;
       }
-
-      rects.forEach(item => {
-        item.dom === null && item.createDiv(handleInstanceClick, blockVisible, color);
-        item.insertDiv(ghostRef.current!);
-        item.draw(ctx!);
-      });
+      const node = instance.dom;
+      node && (node.className = selectedClassName);
+      // setSelectId(instance.id)
+      onClick && onClick(instance);
     }
-  }, [rects, size, blockVisible, color, handleInstanceClick]);
 
-  // handle draw mode
-  function beginDraw(e: React.MouseEvent) {
-    // if user accidentally missed mouseup method,re-fire it.
-    if (originPoint) {
-      endDraw(e);
-    } else {
-      setOriginPoint(CanvasRect.getCoordinates2D(e));
-      if (canvasRef.current && ctx) {
-        const w = canvasRef.current.width;
-        const h = canvasRef.current.height;
-        const data = ctx.getImageData(0, 0, w, h);
-        setDrawingsData(data);
+    useImperativeHandle(ref, () => ({
+      cleanSelected() {
+        let i = 0;
+        while (i < ghostRef.current!.childNodes.length) {
+          console.log('CanvasCharged:: cleaning style');
+          (ghostRef.current!.childNodes[i] as HTMLDivElement).className = defaultClassName;
+          ++i;
+        }
+      },
+    }));
+
+    // init canvas and draw data
+    useEffect(() => {
+      if (size && ghostRef.current) {
+        const ctx = canvasRef.current!.getContext('2d');
+        setCtx(ctx!);
+        ctx!.clearRect(0, 0, size.w, size.h);
+        console.log('CanvasCharged: Drawing: ', rects);
+        while (ghostRef.current.childNodes.length) {
+          ghostRef.current.removeChild(ghostRef.current.childNodes[0]);
+        }
+
+        rects.forEach(item => {
+          item.dom === null && item.createDiv(handleInstanceClick, blockVisible, color);
+          item.insertDiv(ghostRef.current!);
+          item.draw(ctx!);
+        });
+      }
+    }, [rects, size, blockVisible, color, handleInstanceClick]);
+
+    // handle draw mode
+    function beginDraw(e: React.MouseEvent) {
+      // if user accidentally missed mouseup method,re-fire it.
+      if (originPoint) {
+        endDraw(e);
+      } else {
+        setOriginPoint(CanvasRect.getCoordinates2D(e));
+        if (canvasRef.current && ctx) {
+          const w = canvasRef.current.width;
+          const h = canvasRef.current.height;
+          const data = ctx.getImageData(0, 0, w, h);
+          setDrawingsData(data);
+        }
       }
     }
-  }
 
-  function onDrawing(e: React.MouseEvent) {
-    if (originPoint && ctx && canvasRef.current && drawingsData) {
-      ctx.putImageData(drawingsData, 0, 0);
-      let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
-      rect.draw(ctx);
-    }
-  }
-
-  function endDraw(e: React.MouseEvent) {
-    if (originPoint && ctx && ghostRef.current) {
-      const crossPoint = CanvasRect.getCoordinates2D(e);
-      const tooClose: boolean = Math.abs(originPoint.x - crossPoint.x) < 3 || Math.abs(originPoint.y - crossPoint.y) < 3;
-      if (tooClose) {
-        return;
+    function onDrawing(e: React.MouseEvent) {
+      if (originPoint && ctx && canvasRef.current && drawingsData) {
+        ctx.putImageData(drawingsData, 0, 0);
+        let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
+        rect.draw(ctx);
       }
-      let rect = new CanvasRect(originPoint, crossPoint, color);
-      const instance = rect.createDiv(handleInstanceClick, blockVisible, color);
-      const newStack: CanvasRect[] = [...rects, instance];
-      setRects(newStack);
-      ctx && ctx.save();
     }
-    setOriginPoint(undefined);
-  }
 
-  const wrapperStyle: CSSProperties = {
-    width: size?.w,
-    height: size?.h,
-  };
+    function endDraw(e: React.MouseEvent) {
+      if (originPoint && ctx && ghostRef.current) {
+        const crossPoint = CanvasRect.getCoordinates2D(e);
+        const tooClose: boolean = Math.abs(originPoint.x - crossPoint.x) < 3 || Math.abs(originPoint.y - crossPoint.y) < 3;
+        if (tooClose) {
+          return;
+        }
+        let rect = new CanvasRect(originPoint, crossPoint, color);
+        const instance = rect.createDiv(handleInstanceClick, blockVisible, color);
+        const newStack: CanvasRect[] = [...rects, instance];
+        setRects(newStack);
+        ctx && ctx.save();
+      }
+      setOriginPoint(undefined);
+    }
 
-  const ghostStyle: CSSProperties = mode === 'select' ? { zIndex: 1 } : {};
+    const wrapperStyle: CSSProperties = {
+      width: size?.w,
+      height: size?.h,
+    };
 
-  return (
-    <div className="g-canvas-wrapper" style={wrapperStyle}>
-      <div style={ghostStyle} className="g-canvas-ghost-collection" ref={ghostRef}></div>
-      <canvas
-        onMouseDown={handleDown}
-        onMouseMove={handleMove}
-        onMouseUp={handleUp}
-        width={size?.w}
-        height={size?.h}
-        ref={canvasRef}
-        onClick={e => e.preventDefault()}
-        className="g-canvas"
-      />
-    </div>
-  );
-};
+    const ghostStyle: CSSProperties = mode === 'select' ? { zIndex: 1 } : {};
+
+    return (
+      <div className="g-canvas-wrapper" style={wrapperStyle}>
+        <div style={ghostStyle} className="g-canvas-ghost-collection" ref={ghostRef}></div>
+        <canvas
+          onMouseDown={handleDown}
+          onMouseMove={handleMove}
+          onMouseUp={handleUp}
+          width={size?.w}
+          height={size?.h}
+          ref={canvasRef}
+          onClick={e => e.preventDefault()}
+          className="g-canvas"
+        />
+      </div>
+    );
+  },
+);
