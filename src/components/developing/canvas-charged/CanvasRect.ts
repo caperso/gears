@@ -5,17 +5,19 @@ const selectedClassName = `${defaultClassName} selected`;
 
 export default class CanvasRect {
   public readonly id: number;
-  private originPoint: Point2D;
-  private crossPoint: Point2D;
-  private color: string;
+  public readonly originPoint: Point2D;
+  public readonly crossPoint: Point2D;
+  public color: string;
   public dom: HTMLDivElement | null;
+  public status: string | undefined; // status for custom symbol
 
-  constructor(originPoint: Point2D, crossPoint: Point2D, color: string, id?: number) {
+  constructor(originPoint: Point2D, crossPoint: Point2D, color: string, id?: number, status?: string) {
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
     this.color = color;
     this.dom = null;
     this.id = typeof id === 'number' ? id : +new Date();
+    this.status = status;
   }
 
   public draw(ctx: CanvasRenderingContext2D) {
