@@ -7,24 +7,29 @@ interface Props {
   id: number | string;
   originPoint: Point2D;
   crossPoint: Point2D;
-  color: string;
+  style: CanvasStyle;
   dom: HTMLDivElement | null;
   status: string | undefined; // status for custom symbol
+}
+
+interface CanvasStyle {
+  color: string;
+  lineWidth: number;
 }
 
 export default class CanvasRect {
   public readonly id: number | string;
   public readonly originPoint: Point2D;
   public readonly crossPoint: Point2D;
-  public color: string;
+  public style: CanvasStyle;
   public dom: HTMLDivElement | null;
   public status: string | undefined; // status for custom symbol
 
   constructor(props: Props) {
-    const { originPoint, crossPoint, color, id, status } = props;
+    const { originPoint, crossPoint, style, id, status } = props;
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
-    this.color = color;
+    this.style = style;
     this.dom = null;
     this.id = id;
     this.status = status;
@@ -32,7 +37,7 @@ export default class CanvasRect {
 
   public draw(ctx: CanvasRenderingContext2D) {
     const { w, h } = this.getSize(false);
-    ctx.strokeStyle = this.color;
+    ctx.strokeStyle = this.style.color;
     ctx.lineWidth = 2;
 
     ctx.save();
