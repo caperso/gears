@@ -3,19 +3,23 @@ import { Point2D, Size } from './canvas';
 const defaultClassName = 'g-canvas-ghost-div';
 const selectedClassName = `${defaultClassName} selected`;
 
-interface Props {
+export interface CanvasRectProps {
   id: number | string;
   originPoint: Point2D;
   crossPoint: Point2D;
-  style: CanvasStyle;
-  dom: HTMLDivElement | null;
-  status: string | undefined; // status for custom symbol
+  style?: CanvasStyle;
+  status?: string | number | Object; // status for custom symbol
 }
 
 interface CanvasStyle {
-  color: string;
-  lineWidth: number;
+  color?: string;
+  lineWidth?: number;
 }
+
+const DEFAULT_STYLE = {
+  color: '#f33',
+  lineWidth: 2,
+};
 
 export default class CanvasRect {
   public readonly id: number | string;
@@ -23,13 +27,13 @@ export default class CanvasRect {
   public readonly crossPoint: Point2D;
   public style: CanvasStyle;
   public dom: HTMLDivElement | null;
-  public status: string | undefined; // status for custom symbol
+  public status: string | number | Object | undefined; // status for custom symbol
 
-  constructor(props: Props) {
+  constructor(props: CanvasRectProps) {
     const { originPoint, crossPoint, style, id, status } = props;
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
-    this.style = style;
+    this.style = style || DEFAULT_STYLE;
     this.dom = null;
     this.id = id;
     this.status = status;
@@ -37,8 +41,9 @@ export default class CanvasRect {
 
   public draw(ctx: CanvasRenderingContext2D) {
     const { w, h } = this.getSize(false);
-    ctx.strokeStyle = this.style.color;
-    ctx.lineWidth = 2;
+    const { color, lineWidth } = this.style;
+    ctx.strokeStyle = color || DEFAULT_STYLE.color;
+    ctx.lineWidth = lineWidth || DEFAULT_STYLE.lineWidth;
 
     ctx.save();
     ctx.beginPath();
@@ -68,8 +73,8 @@ export default class CanvasRect {
   // get style property [left] and [top] of this div
   private getPosition() {
     return {
-      l: this.originPoint.x <= this.crossPoint.x ? this.originPoint.x : this.crossPoint.x,
-      t: this.originPoint.y <= this.crossPoint.y ? this.originPoint.y : this.crossPoint.y,
+      l: Math.min(this.originPoint.x, this.crossPoint.x),
+      t: Math.min(this.originPoint.y, this.crossPoint.y),
     };
   }
 

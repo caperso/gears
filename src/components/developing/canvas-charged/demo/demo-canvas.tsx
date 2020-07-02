@@ -7,10 +7,7 @@ import CanvasRect from '../CanvasRect';
 import './index.less';
 
 const url = 'https://wx1.sinaimg.cn/large/006nW6YZly1gg7429j7glj30j60y379b.jpg';
-const fakeData = [
-  new CanvasRect({ x: 50, y: 50 }, { x: 70, y: 70 }, 'orange', 0),
-  new CanvasRect({ x: 80, y: 80 }, { x: 90, y: 90 }, 'orange', 1),
-];
+const fakeData: CanvasRect[] = [];
 
 const CanvasDemo = () => {
   const [size, setSize] = useState<Size | null>(null);

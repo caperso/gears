@@ -1,6 +1,7 @@
 import React, { CSSProperties, forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { CanvasMode, Point2D, Size } from './canvas';
-import CanvasRect from './CanvasRect';
+import CanvasRect, { CanvasRectProps } from './CanvasRect';
 
 interface Props {
   size: Size | null; // size of the canvas //! change will remove all canvas stroke
@@ -107,7 +108,13 @@ export const CanvasCharged = forwardRef(
     function onDrawing(e: React.MouseEvent) {
       if (originPoint && ctx && canvasRef.current && drawingsData) {
         ctx.putImageData(drawingsData, 0, 0);
-        let rect = new CanvasRect(originPoint, CanvasRect.getCoordinates2D(e), color);
+        const config: CanvasRectProps = {
+          id: uuid(),
+          originPoint,
+          crossPoint: CanvasRect.getCoordinates2D(e),
+          style: { color },
+        };
+        let rect = new CanvasRect(config);
         rect.draw(ctx);
       }
     }
@@ -119,9 +126,15 @@ export const CanvasCharged = forwardRef(
         if (tooClose) {
           return;
         }
-        let rect = new CanvasRect(originPoint, crossPoint, color);
+        const config: CanvasRectProps = {
+          id: uuid(),
+          originPoint,
+          crossPoint,
+          style: { color },
+        };
+        let rect = new CanvasRect(config);
         const instance = rect.createDiv(handleInstanceClick, blockVisible, color);
-        const newStack: CanvasRect[] = [...rects, instance];
+        const newStack: CanvasRect<any>[] = [...rects, instance];
         setRects(newStack);
         ctx && ctx.save();
       }
