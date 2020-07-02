@@ -3,20 +3,30 @@ import { Point2D, Size } from './canvas';
 const defaultClassName = 'g-canvas-ghost-div';
 const selectedClassName = `${defaultClassName} selected`;
 
+interface Props {
+  id: number | string;
+  originPoint: Point2D;
+  crossPoint: Point2D;
+  color: string;
+  dom: HTMLDivElement | null;
+  status: string | undefined; // status for custom symbol
+}
+
 export default class CanvasRect {
-  public readonly id: number;
+  public readonly id: number | string;
   public readonly originPoint: Point2D;
   public readonly crossPoint: Point2D;
   public color: string;
   public dom: HTMLDivElement | null;
   public status: string | undefined; // status for custom symbol
 
-  constructor(originPoint: Point2D, crossPoint: Point2D, color: string, id?: number, status?: string) {
+  constructor(props: Props) {
+    const { originPoint, crossPoint, color, id, status } = props;
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
     this.color = color;
     this.dom = null;
-    this.id = typeof id === 'number' ? id : +new Date();
+    this.id = id;
     this.status = status;
   }
 
