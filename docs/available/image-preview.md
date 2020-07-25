@@ -2,7 +2,6 @@
 title: 图片预览(ImagePreview)
 toc: menu
 group:
-  title: 整体组件
   order: 2
 ---
 
@@ -20,15 +19,15 @@ group:
 
 ### 基础演示
 
-<code src="@/components/maintaining/image-preview/demo/demo-simple.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-simple.tsx" />
 
 ### 自定义功能
 
-<code src="@/components/maintaining/image-preview/demo/demo-custom-operation.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-custom-operation.tsx" />
 
 ### 自定义功能栏
 
-<code src="@/components/maintaining/image-preview/demo/demo-custom-toolbar.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-custom-toolbar.tsx" />
 
 ### 无遮罩
 
@@ -40,7 +39,7 @@ group:
 
 > 目前对于滚轮的默认行为不进行限制,滚轮缩放会带动页面下移,需要自定容器限制
 
-<code src="@/components/maintaining/image-preview/demo/demo-unfixed.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-unfixed.tsx" />
 
 ## API
 

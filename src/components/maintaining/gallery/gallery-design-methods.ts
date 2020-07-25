@@ -1,6 +1,6 @@
 /* default area = 4 , it can be customized */
 
-import { AxisPointString } from '@/typings/types';
+import { AxisPointString } from '../../typings/types';
 import { FixedUnit, GalleryUnit } from './types';
 
 // prettier-ignore

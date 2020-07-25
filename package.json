@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/uuid": "^8.0.0",
     "antd": "^4.1.0",
-    "dumi": "^1.0.26",
+    "dumi": "^1.1.0-beta.2",
     "eslint-plugin-react-hooks": "^3.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",

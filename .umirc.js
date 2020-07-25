@@ -1,7 +1,7 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  alias: {},
+  alias: { '@': 'src' },
   title: 'Gearware',
   mode: 'site',
   logo: 'https://www.easyicon.net/api/resizeApi.php?id=1180534&size=72',

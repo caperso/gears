@@ -15,13 +15,13 @@ toc: menu
 
 ## Demo
 
-<code src="@/components/maintaining/image-preview/demo/demo-simple.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-simple.tsx" />
 
-<code src="@/components/maintaining/image-preview/demo/demo-custom-operation.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-custom-operation.tsx" />
 
-<code src="@/components/maintaining/image-preview/demo/demo-custom-toolbar.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-custom-toolbar.tsx" />
 
-<code src="@/components/maintaining/image-preview/demo/demo-unfixed.tsx" />
+<code src="../../src/components/maintaining/image-preview/demo/demo-unfixed.tsx" />
 
 ## API
 

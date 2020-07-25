@@ -9,11 +9,11 @@ nav:
 
 音频直播
 
-<code src="@/components/developing/live-stream/demo/demo-audio.tsx" />
+<code src="../../src/components/developing/live-stream/demo/demo-audio.tsx" />
 
 视频直播
 
-<code src="@/components/developing/live-stream/demo/demo.tsx" />
+<code src="../../src/components/developing/live-stream/demo/demo.tsx" />
 
 ## API
 

@@ -7,7 +7,7 @@ nav:
 
 ## demo
 
-<code src="@/components/developing/waterfall/demo/demo.tsx" />
+<code src="../../src/components/developing/waterfall/demo/demo.tsx" />
 
 ## API
 

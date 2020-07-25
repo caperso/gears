@@ -2,7 +2,6 @@
 title: 层级导航(Levels)
 toc: menu
 group:
-  title: 整体组件
   order: 3
 ---
 
@@ -10,7 +9,7 @@ group:
 
 ## 演示
 
-<code src="@/components/maintaining/levels/demo/demo-simple.tsx" />
+<code src="../../src/components/maintaining/levels/demo/demo-simple.tsx" />
 
 ## API
 

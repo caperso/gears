@@ -7,7 +7,7 @@ nav:
 
 ## 演示
 
-<code src="@/components/developing/code-paper/demo/demo.tsx" />
+<code src="../../src/components/developing/code-paper/demo/demo.tsx" />
 
 ## API
 

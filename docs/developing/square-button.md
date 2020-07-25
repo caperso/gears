@@ -24,7 +24,7 @@ const data = [
 ];
 ```
 
-<code src="@/components/developing/square-button/demo/demo.tsx" />
+<code src="../../src/components/developing/square-button/demo/demo.tsx" />
 
 ## API
 

@@ -1,4 +1,4 @@
-import { DefaultHTMLElementProps } from '@/typings/types';
+import { DefaultHTMLElementProps } from '../../typings/types';
 import React from 'react';
 import { RenderLevel } from './Levels';
 

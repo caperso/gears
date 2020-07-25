@@ -1,5 +1,5 @@
-import { ImagePreview } from '@/index';
 import React, { useState } from 'react';
+import ImagePreview from '../../image-preview';
 import Gallery from '../index';
 
 const fakeUnits: any[] = [

@@ -12,7 +12,7 @@ group:
 
 自定义 StoreHook，用于存储 context 值，提升管理 state
 
-<code src="@/components/developing/use-store/demo/context-hook-demo.tsx" />
+<code src="../../src/components/developing/use-store/demo/context-hook-demo.tsx" />
 
 ## API
 

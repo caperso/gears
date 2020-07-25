@@ -11,7 +11,7 @@ still developing
 
 ## 演示
 
-<code src="@/components/developing/multi-viewport/demo/demo.tsx" />
+<code src="../../src/components/developing/multi-viewport/demo/demo.tsx" />
 
 ## API
 

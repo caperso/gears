@@ -1,4 +1,4 @@
-import { AxisPointString, DefaultHTMLElementProps } from '@/typings/types';
+import { AxisPointString, DefaultHTMLElementProps } from '../../typings/types';
 
 export type FixedUnit = GalleryUnit & AxisPointString;
 export type GalleryMode = 'random' | 'annular';

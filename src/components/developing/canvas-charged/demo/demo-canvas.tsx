@@ -59,15 +59,15 @@ const CanvasDemo = () => {
           </Button>
         </ButtonGroup>
         <ButtonGroup className="button-group">
-          <Button type="danger" onClick={removeItem}>
+          <Button danger onClick={removeItem}>
             remove-selected
           </Button>
         </ButtonGroup>
         <ButtonGroup className="button-group">
-          <Button type={color === '#f11' ? 'danger' : 'ghost'} onClick={() => setColor('#f11')}>
+          <Button type="ghost" danger={color === '#f11'} onClick={() => setColor('#f11')}>
             color:red
           </Button>
-          <Button type={color === '#0fe' ? 'primary' : 'ghost'} onClick={() => setColor('#0fe')}>
+          <Button type="ghost" danger={color === '#0fe'} onClick={() => setColor('#0fe')}>
             color:blue
           </Button>
         </ButtonGroup>

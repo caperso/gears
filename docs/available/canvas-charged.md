@@ -1,13 +1,11 @@
 ---
 title: 加强画布(CanvasCharged)
 toc: menu
-nav:
-  title: 可用组件
 ---
 
 ## 演示
 
-<code src="@/components/developing/canvas-charged/demo/demo-canvas.tsx" />
+<code src="../../src/components/developing/canvas-charged/demo/demo-canvas.tsx" />
 
 ## API
 

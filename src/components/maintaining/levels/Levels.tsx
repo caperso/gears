@@ -1,4 +1,4 @@
-import { DefaultHTMLElementProps } from '@/typings/types';
+import { DefaultHTMLElementProps } from '../../typings/types';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Level } from './Level';
