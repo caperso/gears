@@ -134,7 +134,7 @@ export const CanvasCharged = forwardRef(
         };
         let rect = new CanvasRect(config);
         const instance = rect.createDiv(handleInstanceClick, blockVisible, color);
-        const newStack: CanvasRect<any>[] = [...rects, instance];
+        const newStack: CanvasRect[] = [...rects, instance];
         setRects(newStack);
         ctx && ctx.save();
       }

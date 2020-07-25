@@ -1,4 +1,4 @@
-import { DefaultHTMLElementProps } from '../../typings/types';
+import { DefaultHTMLElementProps } from '@/typings/types';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 import { Level } from './Level';
@@ -27,6 +27,7 @@ export interface RenderLevel extends Level {
 interface LevelsProps extends DefaultHTMLElementProps {
   /* data receives array of Level */
   data: Level[];
+
   /* all deep levels expended when loaded */
   defaultExpanded?: boolean;
   /* indent of every deep level */

@@ -1,4 +1,4 @@
-import { MenuItem } from '../../typings/types';
+import { MenuItem } from '@/typings/types';
 import React from 'react';
 import { ImageOperationMap, OperatorBarProps } from './ImagePreview';
 import './index.less';
