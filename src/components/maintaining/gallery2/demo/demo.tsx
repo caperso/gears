@@ -61,7 +61,7 @@ const GalleryDemo = () => {
 
   return (
     <>
-      <Gallery2 images={demoUnits} style={{ height: `70vh` }} />
+      <Gallery2 images={demoUnits} style={{ height: '100vh' }} />
       <ImagePreview url={url} visible={show} onClose={() => setShow(false)} operatorBar="default" />
     </>
   );

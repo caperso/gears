@@ -125,11 +125,8 @@ export const Gallery2 = ({ images = [], style = {}, className = '' }: Gallery2Pr
       <div className="g-gallery-current">
         {currentPhoto ? (
           <div className="g-gallery-current-content">
-            <div onClick={() => to(-1)} className="g-gallery-slider-action g-gallery-slider-left">
-              ←
-            </div>
-
-            <div className="g-gallery-current-viewer">
+            <div onClick={() => to(-1)} className="g-gallery-slider-action g-arrow-left" />
+            <div className="g-gallery-image">
               <img
                 style={imageStyle}
                 onLoad={handleImageLoaded}
@@ -144,9 +141,7 @@ export const Gallery2 = ({ images = [], style = {}, className = '' }: Gallery2Pr
                 onClick={e => e.stopPropagation()}
               />
             </div>
-            <div onClick={() => to(+1)} className="g-gallery-slider-action g-gallery-slider-right">
-              →
-            </div>
+            <div onClick={() => to(+1)} className="g-gallery-slider-action g-arrow-right" />
           </div>
         ) : (
           <PlaceHolder />
