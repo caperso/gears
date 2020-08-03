@@ -1,0 +1,121 @@
+.g-gallery2-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  // background: #f5f5f5;
+
+  & > .g-gallery-current {
+    flex: 1 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .g-gallery-current-title {
+      position: absolute;
+      line-height: 76px;
+      height: 76px;
+      font-size: 20px;
+      color: #535353;
+      padding: 0 93px;
+      background: rgba(99, 99, 99, 0.3);
+      width: 100%;
+
+      & > span {
+        font-size: 14px;
+      }
+    }
+
+    .g-gallery-current-content {
+      flex: 1 1;
+      display: flex;
+      padding: 76px 0 27px;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+
+      .g-gallery-slider-left,
+      .g-gallery-slider-right {
+        flex: 1 0;
+        width: 8%;
+        max-width: 90px;
+        font-size: 74px;
+        position: relative;
+      }
+
+      .g-gallery-current-viewer {
+        position: relative;
+        overflow: hidden;
+        height: calc(100vh - 56px - 140px - 78px - 27px);
+        flex: 1;
+        width: 84%;
+        & > img {
+          left: 50%;
+          top: 50%;
+          width: 100%;
+          transform: translate(-50%, -50%) scale(1);
+          position: absolute;
+          cursor: all-scroll;
+        }
+      }
+    }
+  }
+
+  & > .g-gallery-slider {
+    display: flex;
+    flex: 0 0 210px;
+    flex-flow: row nowrap;
+    width: 100%;
+    box-shadow: 0px -2px 3px 1px #cacaca;
+
+    .g-gallery-array-left,
+    .g-gallery-array-right {
+      width: 85px;
+      line-height: 100%;
+      font-size: 25px;
+      text-align: center;
+      height: 140px;
+      line-height: 140px;
+    }
+
+    & > .g-gallery-slider-content {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      overflow: hidden;
+      overflow-x: auto;
+
+      img {
+        width: 145px;
+        height: 109px;
+        margin-right: 24px;
+        cursor: pointer;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.g-gallery-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+}
+
+.g-gallery-slider-item.selected {
+  border: gold 2px solid;
+}
+
+.g-gallery-slider-action {
+  cursor: pointer;
+  &:hover {
+    color: rgb(226, 186, 55);
+  }
+  user-select: none;
+}

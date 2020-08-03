@@ -4,6 +4,7 @@ export type FixedUnit = GalleryUnit & AxisPointString;
 export type GalleryMode = 'random' | 'annular';
 
 export interface GalleryUnit {
+  id?: any;
   name: string;
   url: string;
   description: string;
