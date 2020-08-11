@@ -29,7 +29,7 @@
     "react-dom": ">=16.13.1"
   },
   "devDependencies": {
-    "@types/uuid": "^8.0.0",
+    "@types/uuid": "^8.0.1",
     "antd": "^4.1.0",
     "dumi": "^1.1.0-beta.2",
     "eslint-plugin-react-hooks": "^3.0.0",
