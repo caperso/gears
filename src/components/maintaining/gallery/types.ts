@@ -18,3 +18,12 @@ export interface GalleryProps extends DefaultHTMLElementProps {
   centralized?: boolean;
   onClick?: (unit: GalleryUnit) => any;
 }
+
+export interface Gallery2Props extends DefaultHTMLElementProps {
+  units: GalleryUnit[];
+  limit?: number;
+  mode?: GalleryMode;
+  defaultGray?: number;
+  centralized?: boolean;
+  onClick?: (unit: GalleryUnit) => any;
+}
