@@ -1,6 +1,6 @@
 import React, { CSSProperties, forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { CanvasMode, Point2D, Size } from './canvas';
+import { CanvasMode, Point2D, Size } from './canvas.interfaces';
 import CanvasRect, { CanvasRectProps } from './CanvasRect';
 
 interface Props {

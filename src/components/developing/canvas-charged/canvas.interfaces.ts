@@ -9,3 +9,8 @@ export interface Size {
 }
 
 export type CanvasMode = 'draw' | 'select';
+
+export interface CanvasStyle {
+  color?: string;
+  lineWidth?: number;
+}

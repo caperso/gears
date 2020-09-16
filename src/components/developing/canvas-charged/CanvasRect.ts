@@ -1,4 +1,4 @@
-import { Point2D, Size } from './canvas';
+import { CanvasStyle, Point2D, Size } from './canvas.interfaces';
 
 const defaultClassName = 'g-canvas-ghost-div';
 const selectedClassName = `${defaultClassName} selected`;
@@ -9,11 +9,6 @@ export interface CanvasRectProps {
   crossPoint: Point2D;
   style?: CanvasStyle;
   status?: string | number | Object; // status for custom symbol
-}
-
-interface CanvasStyle {
-  color?: string;
-  lineWidth?: number;
 }
 
 const DEFAULT_STYLE = {
