@@ -2,7 +2,7 @@ import { Button, message } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
 import React, { CSSProperties, useState } from 'react';
 import CanvasCharged from '../';
-import { CanvasMode, Size } from '../canvas';
+import { CanvasMode, Size } from '../canvas.interfaces';
 import CanvasRect from '../CanvasRect';
 import './index.less';
 
