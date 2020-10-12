@@ -1,5 +1,5 @@
 ---
-title: 加强画布(CanvasCharged)
+title: 加强画布(CanvasCharged2)
 toc: menu
 ---
 
