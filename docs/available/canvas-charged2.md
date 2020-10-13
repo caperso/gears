@@ -5,7 +5,7 @@ toc: menu
 
 ## 演示
 
-<code src="../../src/components/developing/canvas-charged/demo/demo-canvas.tsx" />
+<code src="../../src/components/developing/canvas-charged/demo/demo-canvas2.tsx" />
 
 ## API
 

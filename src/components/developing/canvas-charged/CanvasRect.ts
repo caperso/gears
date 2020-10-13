@@ -1,7 +1,5 @@
 import { CanvasStyle, Point2D, Size } from './canvas.interfaces';
-
-const defaultClassName = 'g-canvas-ghost-div';
-const selectedClassName = `${defaultClassName} selected`;
+import { DEFAULT_CANVAS_RECT_CLASS_NAME, DEFAULT_CANVAS_RECT_SELECTED_CLASS_NAME, DEFAULT_CANVAS_RECT_STYLE } from './constants';
 
 export interface CanvasRectProps {
   id: number | string;
@@ -10,11 +8,6 @@ export interface CanvasRectProps {
   style?: CanvasStyle;
   status?: string | number | Object; // status for custom symbol
 }
-
-const DEFAULT_STYLE = {
-  color: '#f33',
-  lineWidth: 2,
-};
 
 export default class CanvasRect {
   public readonly id: number | string;
@@ -28,7 +21,7 @@ export default class CanvasRect {
     const { originPoint, crossPoint, style, id, status } = props;
     this.originPoint = originPoint;
     this.crossPoint = crossPoint;
-    this.style = style || DEFAULT_STYLE;
+    this.style = style || DEFAULT_CANVAS_RECT_STYLE;
     this.dom = null;
     this.id = id;
     this.status = status;
@@ -37,8 +30,8 @@ export default class CanvasRect {
   public draw(ctx: CanvasRenderingContext2D) {
     const { w, h } = this.getSize(false);
     const { color, lineWidth } = this.style;
-    ctx.strokeStyle = color || DEFAULT_STYLE.color;
-    ctx.lineWidth = lineWidth || DEFAULT_STYLE.lineWidth;
+    ctx.strokeStyle = color || DEFAULT_CANVAS_RECT_STYLE.color;
+    ctx.lineWidth = lineWidth || DEFAULT_CANVAS_RECT_STYLE.lineWidth;
 
     ctx.save();
     ctx.beginPath();
@@ -55,7 +48,7 @@ export default class CanvasRect {
   }
 
   // get style property [width] and [height] of this div
-  private getSize(absolute: boolean = true): Size {
+  public getSize(absolute: boolean = true): Size {
     const deltaX = this.crossPoint.x - this.originPoint.x;
     const deltaY = this.crossPoint.y - this.originPoint.y;
 
@@ -87,7 +80,7 @@ export default class CanvasRect {
     const visibleStyle: string = `${defaultStyle}; background: ${color || ''}`;
 
     div.setAttribute('style', visible ? visibleStyle : defaultStyle);
-    div.setAttribute('class', defaultClassName);
+    div.setAttribute('class', DEFAULT_CANVAS_RECT_CLASS_NAME);
     div.setAttribute('data-id', this.id.toString());
     this.dom = div;
     return this;
@@ -116,8 +109,22 @@ export default class CanvasRect {
 
   public selectInstance() {}
 
-  // remove all instances and canvas items
-  static removeAll() {}
+  /**
+   * remove all instances and canvas items
+   * 1.remove ctx strokes
+   * 2.remove any ghost div element
+   * @static
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {HTMLCanvasElement} canvasRef
+   * @param {HTMLDivElement} divRef
+   * @memberof CanvasRect
+   */
+  static removeAll(ctx: CanvasRenderingContext2D, canvasRef: HTMLCanvasElement, divRef: HTMLDivElement) {
+    ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
+    while (divRef.childNodes.length) {
+      divRef.removeChild(divRef.childNodes[0]); //? maybe able to optimize
+    }
+  }
 
   // get Instance of a selected div
   public getRangeRects() {
@@ -127,7 +134,7 @@ export default class CanvasRect {
     }
     const { l, t } = this.getPosition();
     const { w, h } = this.getSize();
-    let nodes = document.getElementsByClassName(defaultClassName);
+    let nodes = document.getElementsByClassName(DEFAULT_CANVAS_RECT_SELECTED_CLASS_NAME);
     const selectedNodes = [];
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i] as HTMLDivElement;
@@ -135,7 +142,7 @@ export default class CanvasRect {
       let farTop = node.offsetHeight + node.offsetTop;
       // farLeft and farTop make a rect, return instance it encounters
       const inRange = farLeft > l && farTop > t && node.offsetLeft < l + w && node.offsetTop < t + h;
-      node.className = inRange ? selectedClassName : defaultClassName;
+      node.className = inRange ? DEFAULT_CANVAS_RECT_SELECTED_CLASS_NAME : DEFAULT_CANVAS_RECT_CLASS_NAME;
       selectedNodes.push(node);
     }
     return selectedNodes;
