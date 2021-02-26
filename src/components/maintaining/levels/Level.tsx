@@ -81,7 +81,7 @@ export const Level: React.FC<LevelProps> = ({
     console.log('%croute:', 'color:#0fe;', route);
   };
 
-  const fontSize: number = typeof style.fontSize === 'number' ? style.fontSize : 45;
+  const fontSize: number = typeof style.fontSize === 'number' ? (style.fontSize as number) : 45;
   const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;
   const paddingLeft = `${indent * depth}px`;
   const activeColor = activeStyle['color'] || '#0fe';

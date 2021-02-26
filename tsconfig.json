@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "es6",
+    "module": "es6",
     "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "importHelpers": true,
@@ -17,7 +17,7 @@
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },
-    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -30,5 +30,7 @@
     "theme": "default",
     "isolatedModules": false //将每个文件作为单独的模块。
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  // "exclude": ["src/components/**/demo/*.tsx", "src/components/developing/**/*.tsx"]
+  "exclude": ["node_modules", "dist", "typings", "src/components/**/demo/*.tsx"]
 }
