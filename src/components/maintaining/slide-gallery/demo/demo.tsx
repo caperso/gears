@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ImagePreview from '../../image-preview';
-import Gallery2 from '../index';
+import SlideGallery from '../index';
 import { GalleryUnit } from '../types';
 
 const demoUnits: GalleryUnit[] = [
@@ -9,21 +9,13 @@ const demoUnits: GalleryUnit[] = [
     url: 'https://cdn.pixabay.com/photo/2020/03/24/20/41/namibia-4965456__340.jpg',
     description: 'namibianamibianamibia',
   },
-  {
-    name: 'sitting',
-    url: 'https://cdn.pixabay.com/photo/2020/03/24/08/18/sitting-4963159__340.jpg',
-    description: 'sittingsittingsitting',
-  },
+
   {
     name: 'home',
     url: 'https://cdn.pixabay.com/photo/2015/06/24/16/36/home-820389__340.jpg',
     description: 'homehomehome',
   },
-  {
-    name: 'summer',
-    url: 'https://cdn.pixabay.com/photo/2020/02/06/09/39/summer-4823612__340.jpg',
-    description: 'summersummersummer',
-  },
+
   {
     name: 'coronavirus',
     url: 'https://cdn.pixabay.com/photo/2020/03/29/15/35/coronavirus-4981176__340.png',
@@ -61,7 +53,7 @@ const GalleryDemo = () => {
 
   return (
     <>
-      <Gallery2 images={demoUnits} style={{ height: '100vh' }} />
+      <SlideGallery images={demoUnits} style={{ height: '100vh' }} />
       <ImagePreview url={url} visible={show} onClose={() => setShow(false)} operatorBar="default" />
     </>
   );

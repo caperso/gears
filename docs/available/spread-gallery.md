@@ -1,5 +1,5 @@
 ---
-title: 展厅(Gallery)
+title: 分散图展(SpreadGallery)
 toc: menu
 nav:
   title: 可用组件
@@ -8,13 +8,14 @@ nav:
 ## 概览
 
 图片展示组件，开放若干种图片排列模式，图片数组随机（可选）排列，按堆栈方式从底层排列到顶。
-(部分能力努力迭代中)
 
 设计原则：图片最大程度不重叠，图片播散在各个象限中(未来象限数量也可定)
 
+(部分能力努力迭代中)
+
 ## 演示
 
-<code src="../../src/components/maintaining/gallery/demo/demo.tsx" />
+<code src="../../src/components/maintaining/spread-gallery/demo/demo.tsx" />
 
 ## API
 

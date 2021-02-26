@@ -3,6 +3,7 @@ title: 画板(Blackboard)
 toc: menu
 nav:
   title: 开发中组件
+  order: 2
 ---
 
 ## 演示

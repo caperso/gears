@@ -1,4 +1,4 @@
-import { Button, message } from 'antd';
+import { Button, message, notification } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
 import React, { useState } from 'react';
 import { CanvasMode, Size } from '../canvas.interfaces';
@@ -22,9 +22,8 @@ const CanvasDemo = () => {
   }
 
   const getInstance = (rect: CanvasRect) => {
-    message.info(`Selected item's id: ${rect.id}`);
+    notification.info({ message: `Item's id: ${rect.id}` });
     setSelected(rect);
-    console.log(rect);
   };
 
   const removeItem = () => {
@@ -41,8 +40,6 @@ const CanvasDemo = () => {
       message.success('Removed !');
     }
   };
-
-  const scaleImage = () => {};
 
   return (
     <div className="demo-canvas-wrapper">

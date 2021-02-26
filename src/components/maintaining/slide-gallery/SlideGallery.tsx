@@ -1,6 +1,6 @@
 import React, { useRef, useState, WheelEvent } from 'react';
-import './Gallery2.less';
-import { Gallery2Props, GalleryUnit } from './types';
+import './SlideGallery.less';
+import { GalleryUnit, SlideGalleryProps } from './types';
 
 interface ImageProps {
   w: number;
@@ -18,8 +18,8 @@ const emptyImageProps: ImageProps = {
   s: 1,
 };
 
-export const Gallery2 = ({ images = [], style = {}, className = '' }: Gallery2Props) => {
-  const [photos, setPhotos] = useState<GalleryUnit[]>(images);
+export const SlideGallery = ({ images = [], style = {}, className = '' }: SlideGalleryProps) => {
+  const [photos] = useState<GalleryUnit[]>(images);
   const [currentPhoto, setCurrentPhoto] = useState<GalleryUnit>();
   const [imageState, setImageState] = useState(emptyImageProps);
   const slider = useRef<HTMLDivElement>(null);
@@ -121,7 +121,7 @@ export const Gallery2 = ({ images = [], style = {}, className = '' }: Gallery2Pr
   );
 
   return (
-    <div className={`g-gallery2-wrapper ${className}`} style={style}>
+    <div className={`g-slide-gallery-wrapper ${className}`} style={style}>
       <div className="g-gallery-current">
         {currentPhoto ? (
           <div className="g-gallery-current-content">

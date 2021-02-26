@@ -3,7 +3,7 @@ import { annularSpread, randomSpread } from './gallery-design-methods';
 import './index.less';
 import { FixedUnit, GalleryProps, GalleryUnit } from './types';
 
-const Gallery: React.FC<GalleryProps> = ({
+const SpreadGallery: React.FC<GalleryProps> = ({
   units = [],
   limit = 9,
   mode = 'annular',
@@ -65,4 +65,4 @@ const Gallery: React.FC<GalleryProps> = ({
   );
 };
 
-export default Gallery;
+export default SpreadGallery;

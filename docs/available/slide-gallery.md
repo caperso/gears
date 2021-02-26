@@ -1,5 +1,5 @@
 ---
-title: 展厅2(Gallery2)
+title: 滑动图展(SlideGallery)
 toc: menu
 nav:
   title: 可用组件
@@ -11,7 +11,7 @@ nav:
 
 ## 演示
 
-<code src="../../src/components/maintaining/gallery2/demo/demo.tsx" />
+<code src="../../src/components/maintaining/slide-gallery/demo/demo.tsx" />
 
 ## API
 

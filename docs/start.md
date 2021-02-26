@@ -5,10 +5,6 @@ nav:
   order: 1
 ---
 
-快速上手制作中.
-
-请在导航栏查看已开发, 开发中的组件
-
 ## 安装
 
 `npm install gearware`
@@ -33,7 +29,7 @@ es6(推荐):
 import { ImagePreview } from 'gearware';
 ```
 
-cmd:
+cmd/amd 模块暂不支持
 
 ## 示例
 

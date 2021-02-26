@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import ImagePreview from '../../image-preview';
 import Gallery from '../index';
 
-const fakeUnits: any[] = [];
 const GalleryDemo = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<any>();
 
   useEffect(() => {
-    const data = require('./data.json');
+    async function getJson() {
+      const data = await import('./data.json');
+      setData(data.default.data);
+    }
+    getJson();
   }, []);
 
   const [url, setUrl] = useState('');
@@ -19,7 +22,7 @@ const GalleryDemo = () => {
 
   return (
     <>
-      <Gallery units={fakeUnits} limit={9} onClick={handleClick} defaultGray={0.3} style={{ height: `70vh` }} />
+      <Gallery units={data} limit={9} onClick={handleClick} defaultGray={0.3} style={{ height: `70vh` }} />
       <ImagePreview url={url} visible={show} onClose={() => setShow(false)} operatorBar="default" />
     </>
   );

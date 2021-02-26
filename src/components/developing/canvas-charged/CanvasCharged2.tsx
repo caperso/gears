@@ -37,10 +37,6 @@ const CanvasCharged = forwardRef((props: Props, ref) => {
   const [originPoint, setOriginPoint] = useState<Point2D>();
   const [drawingsData, setDrawingsData] = useState<ImageData>();
 
-  // useLayoutEffect(() => {
-  //   canvasRef.current && setCtx(canvasRef.current.getContext('2d')!);
-  // });
-
   // handle draw mode
   const handleDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -168,6 +164,7 @@ const CanvasCharged = forwardRef((props: Props, ref) => {
 
   // the outer-style of wrapper
   const wrapperStyle: CSSProperties = { width: size.w, height: size.h };
+
   // the union-style of image-ghostDIV-canvas
   const unionStyle: CSSProperties = { width: size.w, height: size.h, transform: `scaleX(${unionScaleX}) scaleY(${unionScaleY})` };
 

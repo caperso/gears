@@ -184,7 +184,6 @@ function ImagePreview(props: ImagePreviewProps) {
   };
 
   /* 特殊行为 */
-
   /* 滚轮缩放 */
   const toScale = (e: React.WheelEvent) => {
     let scaleDelta = e.deltaY < 0 ? +0.05 : -0.05;

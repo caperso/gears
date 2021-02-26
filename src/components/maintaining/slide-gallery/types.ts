@@ -7,6 +7,6 @@ export interface GalleryUnit {
   description: string;
 }
 
-export interface Gallery2Props extends DefaultHTMLElementProps {
+export interface SlideGalleryProps extends DefaultHTMLElementProps {
   images: GalleryUnit[];
 }

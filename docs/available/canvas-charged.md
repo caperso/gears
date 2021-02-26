@@ -1,6 +1,9 @@
 ---
 title: 加强画布(CanvasCharged)
 toc: menu
+nav:
+  title: 可用组件
+  order: 1
 ---
 
 ## 演示

@@ -19,7 +19,7 @@ export interface GalleryProps extends DefaultHTMLElementProps {
   onClick?: (unit: GalleryUnit) => any;
 }
 
-export interface Gallery2Props extends DefaultHTMLElementProps {
+export interface SlideGalleryProps extends DefaultHTMLElementProps {
   units: GalleryUnit[];
   limit?: number;
   mode?: GalleryMode;
