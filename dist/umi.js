@@ -9319,7 +9319,7 @@
       a = n('q1tI'),
       o = n.n(a),
       i = (n('17x9'), n('YS25')),
-      l = n('Cp3V'),
+      l = n('ggmc'),
       c = n('9R94'),
       s = n('wx14'),
       u = n('vRGJ'),
@@ -11786,6 +11786,10 @@
     c.displayName = 'InfoCircleFilled';
     var s = o.forwardRef(c);
     t.default = s;
+  },
+  '8L3h': function(e, t, n) {
+    'use strict';
+    e.exports = n('f/k9');
   },
   '8OUc': function(e, t, n) {
     'use strict';
@@ -14286,122 +14290,6 @@
         },
       },
     );
-  },
-  Cp3V: function(e, t, n) {
-    'use strict';
-    (function(e) {
-      var r = n('q1tI'),
-        a = n.n(r),
-        o = n('dI71'),
-        i = n('17x9'),
-        l = n.n(i),
-        c = 1073741823,
-        s = 'undefined' !== typeof globalThis ? globalThis : 'undefined' !== typeof window ? window : 'undefined' !== typeof e ? e : {};
-      function u() {
-        var e = '__global_unique_id__';
-        return (s[e] = (s[e] || 0) + 1);
-      }
-      function d(e, t) {
-        return e === t ? 0 !== e || 1 / e === 1 / t : e !== e && t !== t;
-      }
-      function f(e) {
-        var t = [];
-        return {
-          on: function(e) {
-            t.push(e);
-          },
-          off: function(e) {
-            t = t.filter(function(t) {
-              return t !== e;
-            });
-          },
-          get: function() {
-            return e;
-          },
-          set: function(n, r) {
-            (e = n),
-              t.forEach(function(t) {
-                return t(e, r);
-              });
-          },
-        };
-      }
-      function p(e) {
-        return Array.isArray(e) ? e[0] : e;
-      }
-      function m(e, t) {
-        var n,
-          a,
-          i = '__create-react-context-' + u() + '__',
-          s = (function(e) {
-            function n() {
-              var t;
-              return (t = e.apply(this, arguments) || this), (t.emitter = f(t.props.value)), t;
-            }
-            Object(o['a'])(n, e);
-            var r = n.prototype;
-            return (
-              (r.getChildContext = function() {
-                var e;
-                return (e = {}), (e[i] = this.emitter), e;
-              }),
-              (r.componentWillReceiveProps = function(e) {
-                if (this.props.value !== e.value) {
-                  var n,
-                    r = this.props.value,
-                    a = e.value;
-                  d(r, a) ? (n = 0) : ((n = 'function' === typeof t ? t(r, a) : c), (n |= 0), 0 !== n && this.emitter.set(e.value, n));
-                }
-              }),
-              (r.render = function() {
-                return this.props.children;
-              }),
-              n
-            );
-          })(r['Component']);
-        s.childContextTypes = ((n = {}), (n[i] = l.a.object.isRequired), n);
-        var m = (function(t) {
-          function n() {
-            var e;
-            return (
-              (e = t.apply(this, arguments) || this),
-              (e.state = { value: e.getValue() }),
-              (e.onUpdate = function(t, n) {
-                var r = 0 | e.observedBits;
-                0 !== (r & n) && e.setState({ value: e.getValue() });
-              }),
-              e
-            );
-          }
-          Object(o['a'])(n, t);
-          var r = n.prototype;
-          return (
-            (r.componentWillReceiveProps = function(e) {
-              var t = e.observedBits;
-              this.observedBits = void 0 === t || null === t ? c : t;
-            }),
-            (r.componentDidMount = function() {
-              this.context[i] && this.context[i].on(this.onUpdate);
-              var e = this.props.observedBits;
-              this.observedBits = void 0 === e || null === e ? c : e;
-            }),
-            (r.componentWillUnmount = function() {
-              this.context[i] && this.context[i].off(this.onUpdate);
-            }),
-            (r.getValue = function() {
-              return this.context[i] ? this.context[i].get() : e;
-            }),
-            (r.render = function() {
-              return p(this.props.children)(this.state.value);
-            }),
-            n
-          );
-        })(r['Component']);
-        return (m.contextTypes = ((a = {}), (a[i] = l.a.object), a)), { Provider: s, Consumer: m };
-      }
-      var h = a.a.createContext || m;
-      t['a'] = h;
-    }.call(this, n('yLpj')));
   },
   CyXQ: function(e, t, n) {
     var r = n('ppGB'),
@@ -17324,7 +17212,7 @@
               'Level.tsx': {
                 import: './Level',
                 content:
-                  "import { DefaultHTMLElementProps } from '@/typings/types';\nimport React from 'react';\nimport { RenderLevel } from './Levels';\n\ninterface LevelProps extends DefaultHTMLElementProps {\n  item: RenderLevel;\n  depth: number;\n  route: string;\n  indent: number;\n  style: React.CSSProperties;\n  activeRoute: string;\n  activeStyle: React.CSSProperties;\n  onChangeRoute: (route: string) => any;\n  setActiveRoute: (param?: any) => any;\n  setCompiledData: (param?: any) => any;\n}\n\nexport const Level: React.FC<LevelProps> = ({\n  item,\n  depth,\n  route,\n  style,\n  indent,\n  activeRoute,\n  activeStyle,\n  onChangeRoute,\n  setActiveRoute,\n  setCompiledData,\n}) => {\n  const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;\n\n  const handleClickLevel = (item: RenderLevel, route: string) => {\n    /**\n     * change Level extended state\n     * @param {RenderLevel[]} looper\n     * @param {string[]} routes\n     * @param {number} routeIndex\n     * @returns\n     */\n    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {\n      let isTheRouteEnd = routeIndex + 1 >= routes.length;\n      let matchedIndex;\n      for (let j = 0; j < looper.length; j++) {\n        const ele = looper[j];\n        if (ele.route === routes[routeIndex]) {\n          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it\n          matchedIndex = j;\n        } else {\n          ele.extended = false;\n        }\n      }\n\n      if (matchedIndex === undefined) {\n        return console.warn(`no matched index!`);\n      }\n\n      if (isTheRouteEnd) {\n        return;\n      }\n\n      const nextLooper = looper[matchedIndex].deep;\n      if (nextLooper === undefined) {\n        return console.warn(`levels: loop chain broken!`);\n      }\n\n      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);\n    }\n\n    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {\n      const routes = route.split('/');\n      const isLastRoute = route === activeRoute;\n      changeLevelsExtended(levels, routes, 0, isLastRoute);\n      return levels;\n    }\n\n    item.extended !== null && setCompiledData((s: RenderLevel[]) => getUpdateLevels([...s]));\n    item.staticUrl && window.open(item.staticUrl);\n    item.action && item.action(route, route === activeRoute);\n    setActiveRoute(route);\n    onChangeRoute && onChangeRoute(route);\n    console.log('%croute:', 'color:#0fe;', route);\n  };\n\n  const fontSize: number = typeof style.fontSize === 'number' ? style.fontSize : 45;\n  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;\n  const paddingLeft = `${indent * depth}px`;\n  const activeColor = activeStyle['color'] || '#0fe';\n\n  const finalStyle: React.CSSProperties = {\n    ...style,\n    paddingLeft,\n    fontSize: actualFontSize,\n    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,\n  };\n\n  return (\n    /*if no actual route, use name instead */\n    <div>\n      <div\n        style={finalStyle}\n        key={item.name}\n        className=\"g-levels-one\"\n        data-hover={item.description}\n        onClick={() => handleClickLevel(item, currentRoute)}\n      >\n        {item.name}\n      </div>\n      {item.deep &&\n        item.extended &&\n        item.deep.map((deepItem: RenderLevel, index) => (\n          <Level\n            key={index}\n            item={deepItem}\n            indent={indent}\n            depth={depth + 1}\n            route={currentRoute}\n            style={finalStyle}\n            activeStyle={activeStyle}\n            activeRoute={activeRoute}\n            onChangeRoute={onChangeRoute}\n            setActiveRoute={setActiveRoute}\n            setCompiledData={setCompiledData}\n          />\n        ))}\n    </div>\n  );\n};\n",
+                  "import { DefaultHTMLElementProps } from '@/typings/types';\nimport React from 'react';\nimport { RenderLevel } from './Levels';\n\ninterface LevelProps extends DefaultHTMLElementProps {\n  item: RenderLevel;\n  depth: number;\n  route: string;\n  indent: number;\n  style: React.CSSProperties;\n  activeRoute: string;\n  activeStyle: React.CSSProperties;\n  onChangeRoute: (route: string) => any;\n  setActiveRoute: (param?: any) => any;\n  setCompiledData: (param?: any) => any;\n}\n\nexport const Level: React.FC<LevelProps> = ({\n  item,\n  depth,\n  route,\n  style,\n  indent,\n  activeRoute,\n  activeStyle,\n  onChangeRoute,\n  setActiveRoute,\n  setCompiledData,\n}) => {\n  const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;\n\n  const handleClickLevel = (item: RenderLevel, route: string) => {\n    /**\n     * change Level extended state\n     * @param {RenderLevel[]} looper\n     * @param {string[]} routes\n     * @param {number} routeIndex\n     * @returns\n     */\n    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {\n      let isTheRouteEnd = routeIndex + 1 >= routes.length;\n      let matchedIndex;\n      for (let j = 0; j < looper.length; j++) {\n        const ele = looper[j];\n        if (ele.route === routes[routeIndex]) {\n          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it\n          matchedIndex = j;\n        } else {\n          ele.extended = false;\n        }\n      }\n\n      if (matchedIndex === undefined) {\n        return console.warn(`no matched index!`);\n      }\n\n      if (isTheRouteEnd) {\n        return;\n      }\n\n      const nextLooper = looper[matchedIndex].deep;\n      if (nextLooper === undefined) {\n        return console.warn(`levels: loop chain broken!`);\n      }\n\n      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);\n    }\n\n    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {\n      const routes = route.split('/');\n      const isLastRoute = route === activeRoute;\n      changeLevelsExtended(levels, routes, 0, isLastRoute);\n      return levels;\n    }\n\n    item.extended !== null && setCompiledData((s: RenderLevel[]) => getUpdateLevels([...s]));\n    item.staticUrl && window.open(item.staticUrl);\n    item.action && item.action(route, route === activeRoute);\n    setActiveRoute(route);\n    onChangeRoute && onChangeRoute(route);\n    console.log('%croute:', 'color:#0fe;', route);\n  };\n\n  const fontSize: number = typeof style.fontSize === 'number' ? (style.fontSize as number) : 45;\n  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;\n  const paddingLeft = `${indent * depth}px`;\n  const activeColor = activeStyle['color'] || '#0fe';\n\n  const finalStyle: React.CSSProperties = {\n    ...style,\n    paddingLeft,\n    fontSize: actualFontSize,\n    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,\n  };\n\n  return (\n    /*if no actual route, use name instead */\n    <div>\n      <div\n        style={finalStyle}\n        key={item.name}\n        className=\"g-levels-one\"\n        data-hover={item.description}\n        onClick={() => handleClickLevel(item, currentRoute)}\n      >\n        {item.name}\n      </div>\n      {item.deep &&\n        item.extended &&\n        item.deep.map((deepItem: RenderLevel, index) => (\n          <Level\n            key={index}\n            item={deepItem}\n            indent={indent}\n            depth={depth + 1}\n            route={currentRoute}\n            style={finalStyle}\n            activeStyle={activeStyle}\n            activeRoute={activeRoute}\n            onChangeRoute={onChangeRoute}\n            setActiveRoute={setActiveRoute}\n            setCompiledData={setCompiledData}\n          />\n        ))}\n    </div>\n  );\n};\n",
               },
             },
             dependencies: { react: { version: '16.13.1' } },
@@ -17366,7 +17254,7 @@
               'Level.tsx': {
                 import: './Level',
                 content:
-                  "import { DefaultHTMLElementProps } from '@/typings/types';\nimport React from 'react';\nimport { RenderLevel } from './Levels';\n\ninterface LevelProps extends DefaultHTMLElementProps {\n  item: RenderLevel;\n  depth: number;\n  route: string;\n  indent: number;\n  style: React.CSSProperties;\n  activeRoute: string;\n  activeStyle: React.CSSProperties;\n  onChangeRoute: (route: string) => any;\n  setActiveRoute: (param?: any) => any;\n  setCompiledData: (param?: any) => any;\n}\n\nexport const Level: React.FC<LevelProps> = ({\n  item,\n  depth,\n  route,\n  style,\n  indent,\n  activeRoute,\n  activeStyle,\n  onChangeRoute,\n  setActiveRoute,\n  setCompiledData,\n}) => {\n  const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;\n\n  const handleClickLevel = (item: RenderLevel, route: string) => {\n    /**\n     * change Level extended state\n     * @param {RenderLevel[]} looper\n     * @param {string[]} routes\n     * @param {number} routeIndex\n     * @returns\n     */\n    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {\n      let isTheRouteEnd = routeIndex + 1 >= routes.length;\n      let matchedIndex;\n      for (let j = 0; j < looper.length; j++) {\n        const ele = looper[j];\n        if (ele.route === routes[routeIndex]) {\n          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it\n          matchedIndex = j;\n        } else {\n          ele.extended = false;\n        }\n      }\n\n      if (matchedIndex === undefined) {\n        return console.warn(`no matched index!`);\n      }\n\n      if (isTheRouteEnd) {\n        return;\n      }\n\n      const nextLooper = looper[matchedIndex].deep;\n      if (nextLooper === undefined) {\n        return console.warn(`levels: loop chain broken!`);\n      }\n\n      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);\n    }\n\n    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {\n      const routes = route.split('/');\n      const isLastRoute = route === activeRoute;\n      changeLevelsExtended(levels, routes, 0, isLastRoute);\n      return levels;\n    }\n\n    item.extended !== null && setCompiledData((s: RenderLevel[]) => getUpdateLevels([...s]));\n    item.staticUrl && window.open(item.staticUrl);\n    item.action && item.action(route, route === activeRoute);\n    setActiveRoute(route);\n    onChangeRoute && onChangeRoute(route);\n    console.log('%croute:', 'color:#0fe;', route);\n  };\n\n  const fontSize: number = typeof style.fontSize === 'number' ? style.fontSize : 45;\n  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;\n  const paddingLeft = `${indent * depth}px`;\n  const activeColor = activeStyle['color'] || '#0fe';\n\n  const finalStyle: React.CSSProperties = {\n    ...style,\n    paddingLeft,\n    fontSize: actualFontSize,\n    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,\n  };\n\n  return (\n    /*if no actual route, use name instead */\n    <div>\n      <div\n        style={finalStyle}\n        key={item.name}\n        className=\"g-levels-one\"\n        data-hover={item.description}\n        onClick={() => handleClickLevel(item, currentRoute)}\n      >\n        {item.name}\n      </div>\n      {item.deep &&\n        item.extended &&\n        item.deep.map((deepItem: RenderLevel, index) => (\n          <Level\n            key={index}\n            item={deepItem}\n            indent={indent}\n            depth={depth + 1}\n            route={currentRoute}\n            style={finalStyle}\n            activeStyle={activeStyle}\n            activeRoute={activeRoute}\n            onChangeRoute={onChangeRoute}\n            setActiveRoute={setActiveRoute}\n            setCompiledData={setCompiledData}\n          />\n        ))}\n    </div>\n  );\n};\n",
+                  "import { DefaultHTMLElementProps } from '@/typings/types';\nimport React from 'react';\nimport { RenderLevel } from './Levels';\n\ninterface LevelProps extends DefaultHTMLElementProps {\n  item: RenderLevel;\n  depth: number;\n  route: string;\n  indent: number;\n  style: React.CSSProperties;\n  activeRoute: string;\n  activeStyle: React.CSSProperties;\n  onChangeRoute: (route: string) => any;\n  setActiveRoute: (param?: any) => any;\n  setCompiledData: (param?: any) => any;\n}\n\nexport const Level: React.FC<LevelProps> = ({\n  item,\n  depth,\n  route,\n  style,\n  indent,\n  activeRoute,\n  activeStyle,\n  onChangeRoute,\n  setActiveRoute,\n  setCompiledData,\n}) => {\n  const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;\n\n  const handleClickLevel = (item: RenderLevel, route: string) => {\n    /**\n     * change Level extended state\n     * @param {RenderLevel[]} looper\n     * @param {string[]} routes\n     * @param {number} routeIndex\n     * @returns\n     */\n    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {\n      let isTheRouteEnd = routeIndex + 1 >= routes.length;\n      let matchedIndex;\n      for (let j = 0; j < looper.length; j++) {\n        const ele = looper[j];\n        if (ele.route === routes[routeIndex]) {\n          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it\n          matchedIndex = j;\n        } else {\n          ele.extended = false;\n        }\n      }\n\n      if (matchedIndex === undefined) {\n        return console.warn(`no matched index!`);\n      }\n\n      if (isTheRouteEnd) {\n        return;\n      }\n\n      const nextLooper = looper[matchedIndex].deep;\n      if (nextLooper === undefined) {\n        return console.warn(`levels: loop chain broken!`);\n      }\n\n      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);\n    }\n\n    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {\n      const routes = route.split('/');\n      const isLastRoute = route === activeRoute;\n      changeLevelsExtended(levels, routes, 0, isLastRoute);\n      return levels;\n    }\n\n    item.extended !== null && setCompiledData((s: RenderLevel[]) => getUpdateLevels([...s]));\n    item.staticUrl && window.open(item.staticUrl);\n    item.action && item.action(route, route === activeRoute);\n    setActiveRoute(route);\n    onChangeRoute && onChangeRoute(route);\n    console.log('%croute:', 'color:#0fe;', route);\n  };\n\n  const fontSize: number = typeof style.fontSize === 'number' ? (style.fontSize as number) : 45;\n  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;\n  const paddingLeft = `${indent * depth}px`;\n  const activeColor = activeStyle['color'] || '#0fe';\n\n  const finalStyle: React.CSSProperties = {\n    ...style,\n    paddingLeft,\n    fontSize: actualFontSize,\n    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,\n  };\n\n  return (\n    /*if no actual route, use name instead */\n    <div>\n      <div\n        style={finalStyle}\n        key={item.name}\n        className=\"g-levels-one\"\n        data-hover={item.description}\n        onClick={() => handleClickLevel(item, currentRoute)}\n      >\n        {item.name}\n      </div>\n      {item.deep &&\n        item.extended &&\n        item.deep.map((deepItem: RenderLevel, index) => (\n          <Level\n            key={index}\n            item={deepItem}\n            indent={indent}\n            depth={depth + 1}\n            route={currentRoute}\n            style={finalStyle}\n            activeStyle={activeStyle}\n            activeRoute={activeRoute}\n            onChangeRoute={onChangeRoute}\n            setActiveRoute={setActiveRoute}\n            setCompiledData={setCompiledData}\n          />\n        ))}\n    </div>\n  );\n};\n",
               },
             },
             dependencies: {
@@ -17408,7 +17296,7 @@
               'Level.tsx': {
                 import: './Level',
                 content:
-                  "import { DefaultHTMLElementProps } from '@/typings/types';\nimport React from 'react';\nimport { RenderLevel } from './Levels';\n\ninterface LevelProps extends DefaultHTMLElementProps {\n  item: RenderLevel;\n  depth: number;\n  route: string;\n  indent: number;\n  style: React.CSSProperties;\n  activeRoute: string;\n  activeStyle: React.CSSProperties;\n  onChangeRoute: (route: string) => any;\n  setActiveRoute: (param?: any) => any;\n  setCompiledData: (param?: any) => any;\n}\n\nexport const Level: React.FC<LevelProps> = ({\n  item,\n  depth,\n  route,\n  style,\n  indent,\n  activeRoute,\n  activeStyle,\n  onChangeRoute,\n  setActiveRoute,\n  setCompiledData,\n}) => {\n  const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;\n\n  const handleClickLevel = (item: RenderLevel, route: string) => {\n    /**\n     * change Level extended state\n     * @param {RenderLevel[]} looper\n     * @param {string[]} routes\n     * @param {number} routeIndex\n     * @returns\n     */\n    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {\n      let isTheRouteEnd = routeIndex + 1 >= routes.length;\n      let matchedIndex;\n      for (let j = 0; j < looper.length; j++) {\n        const ele = looper[j];\n        if (ele.route === routes[routeIndex]) {\n          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it\n          matchedIndex = j;\n        } else {\n          ele.extended = false;\n        }\n      }\n\n      if (matchedIndex === undefined) {\n        return console.warn(`no matched index!`);\n      }\n\n      if (isTheRouteEnd) {\n        return;\n      }\n\n      const nextLooper = looper[matchedIndex].deep;\n      if (nextLooper === undefined) {\n        return console.warn(`levels: loop chain broken!`);\n      }\n\n      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);\n    }\n\n    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {\n      const routes = route.split('/');\n      const isLastRoute = route === activeRoute;\n      changeLevelsExtended(levels, routes, 0, isLastRoute);\n      return levels;\n    }\n\n    item.extended !== null && setCompiledData((s: RenderLevel[]) => getUpdateLevels([...s]));\n    item.staticUrl && window.open(item.staticUrl);\n    item.action && item.action(route, route === activeRoute);\n    setActiveRoute(route);\n    onChangeRoute && onChangeRoute(route);\n    console.log('%croute:', 'color:#0fe;', route);\n  };\n\n  const fontSize: number = typeof style.fontSize === 'number' ? style.fontSize : 45;\n  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;\n  const paddingLeft = `${indent * depth}px`;\n  const activeColor = activeStyle['color'] || '#0fe';\n\n  const finalStyle: React.CSSProperties = {\n    ...style,\n    paddingLeft,\n    fontSize: actualFontSize,\n    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,\n  };\n\n  return (\n    /*if no actual route, use name instead */\n    <div>\n      <div\n        style={finalStyle}\n        key={item.name}\n        className=\"g-levels-one\"\n        data-hover={item.description}\n        onClick={() => handleClickLevel(item, currentRoute)}\n      >\n        {item.name}\n      </div>\n      {item.deep &&\n        item.extended &&\n        item.deep.map((deepItem: RenderLevel, index) => (\n          <Level\n            key={index}\n            item={deepItem}\n            indent={indent}\n            depth={depth + 1}\n            route={currentRoute}\n            style={finalStyle}\n            activeStyle={activeStyle}\n            activeRoute={activeRoute}\n            onChangeRoute={onChangeRoute}\n            setActiveRoute={setActiveRoute}\n            setCompiledData={setCompiledData}\n          />\n        ))}\n    </div>\n  );\n};\n",
+                  "import { DefaultHTMLElementProps } from '@/typings/types';\nimport React from 'react';\nimport { RenderLevel } from './Levels';\n\ninterface LevelProps extends DefaultHTMLElementProps {\n  item: RenderLevel;\n  depth: number;\n  route: string;\n  indent: number;\n  style: React.CSSProperties;\n  activeRoute: string;\n  activeStyle: React.CSSProperties;\n  onChangeRoute: (route: string) => any;\n  setActiveRoute: (param?: any) => any;\n  setCompiledData: (param?: any) => any;\n}\n\nexport const Level: React.FC<LevelProps> = ({\n  item,\n  depth,\n  route,\n  style,\n  indent,\n  activeRoute,\n  activeStyle,\n  onChangeRoute,\n  setActiveRoute,\n  setCompiledData,\n}) => {\n  const currentRoute = route ? `${route}/${item.route}` : `${item.route}`;\n\n  const handleClickLevel = (item: RenderLevel, route: string) => {\n    /**\n     * change Level extended state\n     * @param {RenderLevel[]} looper\n     * @param {string[]} routes\n     * @param {number} routeIndex\n     * @returns\n     */\n    function changeLevelsExtended(looper: RenderLevel[], routes: string[], routeIndex: number, isLastRoute: boolean) {\n      let isTheRouteEnd = routeIndex + 1 >= routes.length;\n      let matchedIndex;\n      for (let j = 0; j < looper.length; j++) {\n        const ele = looper[j];\n        if (ele.route === routes[routeIndex]) {\n          ele.extended = isTheRouteEnd ? !ele.extended : true; // if is the loop's end, re-click will fold it\n          matchedIndex = j;\n        } else {\n          ele.extended = false;\n        }\n      }\n\n      if (matchedIndex === undefined) {\n        return console.warn(`no matched index!`);\n      }\n\n      if (isTheRouteEnd) {\n        return;\n      }\n\n      const nextLooper = looper[matchedIndex].deep;\n      if (nextLooper === undefined) {\n        return console.warn(`levels: loop chain broken!`);\n      }\n\n      changeLevelsExtended(nextLooper, routes, routeIndex + 1, isLastRoute);\n    }\n\n    function getUpdateLevels(levels: RenderLevel[]): RenderLevel[] {\n      const routes = route.split('/');\n      const isLastRoute = route === activeRoute;\n      changeLevelsExtended(levels, routes, 0, isLastRoute);\n      return levels;\n    }\n\n    item.extended !== null && setCompiledData((s: RenderLevel[]) => getUpdateLevels([...s]));\n    item.staticUrl && window.open(item.staticUrl);\n    item.action && item.action(route, route === activeRoute);\n    setActiveRoute(route);\n    onChangeRoute && onChangeRoute(route);\n    console.log('%croute:', 'color:#0fe;', route);\n  };\n\n  const fontSize: number = typeof style.fontSize === 'number' ? (style.fontSize as number) : 45;\n  const actualFontSize = fontSize - 5 * depth > 24 ? fontSize - 5 * depth : 24;\n  const paddingLeft = `${indent * depth}px`;\n  const activeColor = activeStyle['color'] || '#0fe';\n\n  const finalStyle: React.CSSProperties = {\n    ...style,\n    paddingLeft,\n    fontSize: actualFontSize,\n    color: `${item.staticUrl ? '' : activeRoute === currentRoute ? activeColor : ''}`,\n  };\n\n  return (\n    /*if no actual route, use name instead */\n    <div>\n      <div\n        style={finalStyle}\n        key={item.name}\n        className=\"g-levels-one\"\n        data-hover={item.description}\n        onClick={() => handleClickLevel(item, currentRoute)}\n      >\n        {item.name}\n      </div>\n      {item.deep &&\n        item.extended &&\n        item.deep.map((deepItem: RenderLevel, index) => (\n          <Level\n            key={index}\n            item={deepItem}\n            indent={indent}\n            depth={depth + 1}\n            route={currentRoute}\n            style={finalStyle}\n            activeStyle={activeStyle}\n            activeRoute={activeRoute}\n            onChangeRoute={onChangeRoute}\n            setActiveRoute={setActiveRoute}\n            setCompiledData={setCompiledData}\n          />\n        ))}\n    </div>\n  );\n};\n",
               },
             },
             dependencies: { react: { version: '16.13.1' } },
@@ -17758,47 +17646,6 @@
           },
         },
       });
-  },
-  Jq2V: function(e, t, n) {
-    'use strict';
-    var r = n('MgzW'),
-      a = n('q1tI');
-    t.useSubscription = function(e) {
-      var t = e.getCurrentValue,
-        n = e.subscribe,
-        o = a.useState(function() {
-          return { getCurrentValue: t, subscribe: n, value: t() };
-        });
-      e = o[0];
-      var i = o[1];
-      return (
-        (o = e.value),
-        (e.getCurrentValue === t && e.subscribe === n) || ((o = t()), i({ getCurrentValue: t, subscribe: n, value: o })),
-        a.useDebugValue(o),
-        a.useEffect(
-          function() {
-            function e() {
-              if (!a) {
-                var e = t();
-                i(function(a) {
-                  return a.getCurrentValue !== t || a.subscribe !== n || a.value === e ? a : r({}, a, { value: e });
-                });
-              }
-            }
-            var a = !1,
-              o = n(e);
-            return (
-              e(),
-              function() {
-                (a = !0), o();
-              }
-            );
-          },
-          [t, n],
-        ),
-        o
-      );
-    };
   },
   Jrzw: function(e, t, n) {
     'use strict';
@@ -20134,7 +19981,7 @@
       });
     var i,
       l = n('q1tI'),
-      c = n('rDxl');
+      c = n('8L3h');
     function s(e) {
       return (
         (s =
@@ -23084,6 +22931,47 @@
     var r = n('I+eb'),
       a = n('P940');
     r({ target: 'WeakMap', stat: !0 }, { of: a });
+  },
+  TLyq: function(e, t, n) {
+    'use strict';
+    var r = n('MgzW'),
+      a = n('q1tI');
+    t.useSubscription = function(e) {
+      var t = e.getCurrentValue,
+        n = e.subscribe,
+        o = a.useState(function() {
+          return { getCurrentValue: t, subscribe: n, value: t() };
+        });
+      e = o[0];
+      var i = o[1];
+      return (
+        (o = e.value),
+        (e.getCurrentValue === t && e.subscribe === n) || ((o = t()), i({ getCurrentValue: t, subscribe: n, value: o })),
+        a.useDebugValue(o),
+        a.useEffect(
+          function() {
+            function e() {
+              if (!a) {
+                var e = t();
+                i(function(a) {
+                  return a.getCurrentValue !== t || a.subscribe !== n || a.value === e ? a : r({}, a, { value: e });
+                });
+              }
+            }
+            var a = !1,
+              o = n(e);
+            return (
+              e(),
+              function() {
+                (a = !0), o();
+              }
+            );
+          },
+          [t, n],
+        ),
+        o
+      );
+    };
   },
   TOwV: function(e, t, n) {
     'use strict';
@@ -29651,10 +29539,6 @@
       return ('function' == typeof this && s(this).source) || l(this);
     });
   },
-  bw0O: function(e, t, n) {
-    'use strict';
-    e.exports = n('mW11');
-  },
   bz9Y: function(e, t, n) {
     'use strict';
     var r = n('mBgD'),
@@ -31078,6 +30962,47 @@
     }
     (e.exports = o), (e.exports['default'] = e.exports), (e.exports.__esModule = !0);
   },
+  'f/k9': function(e, t, n) {
+    'use strict';
+    var r = n('MgzW'),
+      a = n('q1tI');
+    t.useSubscription = function(e) {
+      var t = e.getCurrentValue,
+        n = e.subscribe,
+        o = a.useState(function() {
+          return { getCurrentValue: t, subscribe: n, value: t() };
+        });
+      e = o[0];
+      var i = o[1];
+      return (
+        (o = e.value),
+        (e.getCurrentValue === t && e.subscribe === n) || ((o = t()), i({ getCurrentValue: t, subscribe: n, value: o })),
+        a.useDebugValue(o),
+        a.useEffect(
+          function() {
+            function e() {
+              if (!a) {
+                var e = t();
+                i(function(a) {
+                  return a.getCurrentValue !== t || a.subscribe !== n || a.value === e ? a : r({}, a, { value: e });
+                });
+              }
+            }
+            var a = !1,
+              o = n(e);
+            return (
+              e(),
+              function() {
+                (a = !0), o();
+              }
+            );
+          },
+          [t, n],
+        ),
+        o
+      );
+    };
+  },
   f3Sm: function(e, t, n) {
     'use strict';
     var r = n('ey9+'),
@@ -31513,6 +31438,122 @@
         },
       },
     );
+  },
+  ggmc: function(e, t, n) {
+    'use strict';
+    (function(e) {
+      var r = n('q1tI'),
+        a = n.n(r),
+        o = n('dI71'),
+        i = n('17x9'),
+        l = n.n(i),
+        c = 1073741823,
+        s = 'undefined' !== typeof globalThis ? globalThis : 'undefined' !== typeof window ? window : 'undefined' !== typeof e ? e : {};
+      function u() {
+        var e = '__global_unique_id__';
+        return (s[e] = (s[e] || 0) + 1);
+      }
+      function d(e, t) {
+        return e === t ? 0 !== e || 1 / e === 1 / t : e !== e && t !== t;
+      }
+      function f(e) {
+        var t = [];
+        return {
+          on: function(e) {
+            t.push(e);
+          },
+          off: function(e) {
+            t = t.filter(function(t) {
+              return t !== e;
+            });
+          },
+          get: function() {
+            return e;
+          },
+          set: function(n, r) {
+            (e = n),
+              t.forEach(function(t) {
+                return t(e, r);
+              });
+          },
+        };
+      }
+      function p(e) {
+        return Array.isArray(e) ? e[0] : e;
+      }
+      function m(e, t) {
+        var n,
+          a,
+          i = '__create-react-context-' + u() + '__',
+          s = (function(e) {
+            function n() {
+              var t;
+              return (t = e.apply(this, arguments) || this), (t.emitter = f(t.props.value)), t;
+            }
+            Object(o['a'])(n, e);
+            var r = n.prototype;
+            return (
+              (r.getChildContext = function() {
+                var e;
+                return (e = {}), (e[i] = this.emitter), e;
+              }),
+              (r.componentWillReceiveProps = function(e) {
+                if (this.props.value !== e.value) {
+                  var n,
+                    r = this.props.value,
+                    a = e.value;
+                  d(r, a) ? (n = 0) : ((n = 'function' === typeof t ? t(r, a) : c), (n |= 0), 0 !== n && this.emitter.set(e.value, n));
+                }
+              }),
+              (r.render = function() {
+                return this.props.children;
+              }),
+              n
+            );
+          })(r['Component']);
+        s.childContextTypes = ((n = {}), (n[i] = l.a.object.isRequired), n);
+        var m = (function(t) {
+          function n() {
+            var e;
+            return (
+              (e = t.apply(this, arguments) || this),
+              (e.state = { value: e.getValue() }),
+              (e.onUpdate = function(t, n) {
+                var r = 0 | e.observedBits;
+                0 !== (r & n) && e.setState({ value: e.getValue() });
+              }),
+              e
+            );
+          }
+          Object(o['a'])(n, t);
+          var r = n.prototype;
+          return (
+            (r.componentWillReceiveProps = function(e) {
+              var t = e.observedBits;
+              this.observedBits = void 0 === t || null === t ? c : t;
+            }),
+            (r.componentDidMount = function() {
+              this.context[i] && this.context[i].on(this.onUpdate);
+              var e = this.props.observedBits;
+              this.observedBits = void 0 === e || null === e ? c : e;
+            }),
+            (r.componentWillUnmount = function() {
+              this.context[i] && this.context[i].off(this.onUpdate);
+            }),
+            (r.getValue = function() {
+              return this.context[i] ? this.context[i].get() : e;
+            }),
+            (r.render = function() {
+              return p(this.props.children)(this.state.value);
+            }),
+            n
+          );
+        })(r['Component']);
+        return (m.contextTypes = ((a = {}), (a[i] = l.a.object), a)), { Provider: s, Consumer: m };
+      }
+      var h = a.a.createContext || m;
+      t['a'] = h;
+    }.call(this, n('yLpj')));
   },
   glrk: function(e, t, n) {
     var r = n('hh1v');
@@ -33774,47 +33815,6 @@
       }
     }
     e.exports = a;
-  },
-  mW11: function(e, t, n) {
-    'use strict';
-    var r = n('MgzW'),
-      a = n('q1tI');
-    t.useSubscription = function(e) {
-      var t = e.getCurrentValue,
-        n = e.subscribe,
-        o = a.useState(function() {
-          return { getCurrentValue: t, subscribe: n, value: t() };
-        });
-      e = o[0];
-      var i = o[1];
-      return (
-        (o = e.value),
-        (e.getCurrentValue === t && e.subscribe === n) || ((o = t()), i({ getCurrentValue: t, subscribe: n, value: o })),
-        a.useDebugValue(o),
-        a.useEffect(
-          function() {
-            function e() {
-              if (!a) {
-                var e = t();
-                i(function(a) {
-                  return a.getCurrentValue !== t || a.subscribe !== n || a.value === e ? a : r({}, a, { value: e });
-                });
-              }
-            }
-            var a = !1,
-              o = n(e);
-            return (
-              e(),
-              function() {
-                (a = !0), o();
-              }
-            );
-          },
-          [t, n],
-        ),
-        o
-      );
-    };
   },
   ma9I: function(e, t, n) {
     'use strict';
@@ -37500,10 +37500,6 @@
       a = n('kmMV');
     r({ target: 'RegExp', proto: !0, forced: /./.exec !== a }, { exec: a });
   },
-  rDxl: function(e, t, n) {
-    'use strict';
-    e.exports = n('Jq2V');
-  },
   rKzb: function(e, t, n) {
     'use strict';
     var r = n('4syw'),
@@ -38417,7 +38413,7 @@
       });
     var i,
       l = n('q1tI'),
-      c = n('bw0O');
+      c = n('wXlr');
     function s(e) {
       return (
         (s =
@@ -43557,6 +43553,10 @@
       return r;
     });
     var r = 'RC_SELECT_INTERNAL_PROPS_MARK';
+  },
+  wXlr: function(e, t, n) {
+    'use strict';
+    e.exports = n('TLyq');
   },
   wfmh: function(e, t, n) {
     var r = n('I+eb'),

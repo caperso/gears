@@ -19,7 +19,8 @@
     "build": "dumi build",
     "build:types": "tsc --emitDeclarationOnly",
     "build:package": "npm run clean && npm run build:types && gulp",
-    "publish:patch": "yarn build:package&&git add .&&git commit -m 'implement:patches'&&npm version patch&&git push && npm publish"
+    "publish:patch": "yarn build:package&&git add .&&git commit -m 'implement&patches'&&npm version patch&&git push && npm publish",
+    "publish:website": "git checkout production && git merge change-dumi && git push && git checkout change-dumi"
   },
   "module": "esm/index.js",
   "typings": "lib/index.d.ts",

@@ -31,6 +31,5 @@
     "isolatedModules": false //将每个文件作为单独的模块。
   },
   "include": ["src/**/*"],
-  // "exclude": ["src/components/**/demo/*.tsx", "src/components/developing/**/*.tsx"]
   "exclude": ["node_modules", "dist", "typings", "src/components/**/demo/*.tsx"]
 }
