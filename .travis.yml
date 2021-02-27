@@ -28,4 +28,4 @@ deploy:
     committer_from_gh: true
     on:
         branch: master
-        local_dir: build
+        local_dir: dist
