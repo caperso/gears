@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - 13.6.0
+    - 12.18.4
 before_script:
     - npm install yarn
 
@@ -28,4 +28,4 @@ deploy:
     committer_from_gh: true
     on:
         branch: master
-        local_dir: build
+        local_dir: dist
