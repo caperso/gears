@@ -6,7 +6,7 @@ import { CanvasMode, Size } from '../canvas.interfaces';
 import CanvasRect from '../CanvasRect';
 import './index.less';
 
-const url = 'https://wx1.sinaimg.cn/large/006nW6YZly1gg7429j7glj30j60y379b.jpg';
+const url = 'https://s3.ax1x.com/2021/02/27/6SgQpV.jpg';
 const fakeData: CanvasRect[] = [];
 
 const CanvasDemo = () => {
@@ -48,6 +48,7 @@ const CanvasDemo = () => {
 
   return (
     <div className="demo-canvas-wrapper">
+      尝试在图片上标记
       <div className="canvas-header">
         <ButtonGroup className="button-group">
           <Button type={mode === 'draw' ? 'primary' : 'ghost'} onClick={() => setMode('draw')}>

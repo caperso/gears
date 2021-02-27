@@ -6,7 +6,7 @@ import CanvasCharged from '../CanvasCharged2';
 import CanvasRect from '../CanvasRect';
 import './index.less';
 
-const url = 'https://wx1.sinaimg.cn/large/006nW6YZly1gg7429j7glj30j60y379b.jpg';
+const url = 'https://s3.ax1x.com/2021/02/27/6SgQpV.jpg';
 const fakeData: CanvasRect[] = [];
 
 const CanvasDemo = () => {
